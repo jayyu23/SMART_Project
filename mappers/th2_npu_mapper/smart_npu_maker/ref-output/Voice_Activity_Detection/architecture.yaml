@@ -1,0 +1,7 @@
+architecture:
+  name: phase2_TH_2608
+  version: 0.1
+  components:
+  - type: component
+    name: npu
+    class: npu

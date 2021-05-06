@@ -1,0 +1,26 @@
+architecture:
+  name: simple_architecture
+  version: 0.3
+  components:
+    - type: group
+      name: compound_components
+      components: # Defined in Compound Components Folder
+        - type: component
+          name: intmac
+          class: mac
+        - type: component
+          name: pe
+          class: processing_element
+
+    - type: group
+      name: primitive_components # Defined in Intelligent Primitive Component Library
+      components:
+        - type: component
+          name: simple_register
+          class: register
+          arguments:
+            datasize: 32
+        - type: component
+          name: simple_int_adder
+          class: adder
+

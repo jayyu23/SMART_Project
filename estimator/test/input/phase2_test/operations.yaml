@@ -1,0 +1,227 @@
+operations:
+- type: serial
+  operation: global_status_reg.write()
+  operation-times: 6
+- type: pipeline
+  stages:
+  - operation: data_sram.read()
+    count: 55
+  - operation: model_sram.read()
+    count: 3520
+    offset: 0
+  - operation: npu_pe.mac()
+    count: 3520
+  - operation: sgemm_sram.write()
+    count: 16
+    offset: 128
+    stride: 16
+- type: serial
+  operation: global_status_reg.write()
+  operation-times: 3
+- type: pipeline
+  stages:
+  - operation: data_sram.read()
+    count: 16
+  - operation: model_sram.read()
+    count: 256
+    offset: 0
+  - operation: npu_pe.mac()
+    count: 256
+  - operation: his_sram.write()
+    count: 4
+    offset: 32
+    stride: 4
+- type: pipeline
+  stages:
+  - operation: his_sram.read()
+    count: 44
+  - operation: model_sram.read()
+    count: 44
+  - operation: npu_pe.mac()
+    count: 352
+  - operation: his_sum_sram.write()
+    count: 352
+- type: pipeline
+  stages:
+  - operation: his_sum_sram.read()
+    count: 32
+  - operation: npu_ctrl.bitwise()
+    count: 32
+  - operation: his_sram.write()
+    count: 4
+- type: serial
+  operation: global_status_reg.write()
+  operation-times: 3
+- type: pipeline
+  stages:
+  - operation: data_sram.read()
+    count: 4
+  - operation: model_sram.read()
+    count: 256
+    offset: 0
+  - operation: npu_pe.mac()
+    count: 256
+  - operation: sgemm_sram.write()
+    count: 16
+    offset: 128
+    stride: 16
+- type: serial
+  operation: global_status_reg.write()
+  operation-times: 3
+- type: pipeline
+  stages:
+  - operation: data_sram.read()
+    count: 16
+  - operation: model_sram.read()
+    count: 256
+    offset: 0
+  - operation: npu_pe.mac()
+    count: 256
+  - operation: his_sram.write()
+    count: 4
+    offset: 32
+    stride: 4
+- type: pipeline
+  stages:
+  - operation: his_sram.read()
+    count: 44
+  - operation: model_sram.read()
+    count: 44
+  - operation: npu_pe.mac()
+    count: 352
+  - operation: his_sum_sram.write()
+    count: 352
+- type: pipeline
+  stages:
+  - operation: his_sum_sram.read()
+    count: 32
+  - operation: npu_ctrl.bitwise()
+    count: 32
+  - operation: his_sram.write()
+    count: 4
+- type: serial
+  operation: global_status_reg.write()
+  operation-times: 3
+- type: pipeline
+  stages:
+  - operation: data_sram.read()
+    count: 4
+  - operation: model_sram.read()
+    count: 256
+    offset: 0
+  - operation: npu_pe.mac()
+    count: 256
+  - operation: sgemm_sram.write()
+    count: 16
+    offset: 128
+    stride: 16
+- type: serial
+  operation: global_status_reg.write()
+  operation-times: 3
+- type: pipeline
+  stages:
+  - operation: data_sram.read()
+    count: 16
+  - operation: model_sram.read()
+    count: 256
+    offset: 0
+  - operation: npu_pe.mac()
+    count: 256
+  - operation: his_sram.write()
+    count: 4
+    offset: 32
+    stride: 4
+- type: pipeline
+  stages:
+  - operation: his_sram.read()
+    count: 44
+  - operation: model_sram.read()
+    count: 44
+  - operation: npu_pe.mac()
+    count: 352
+  - operation: his_sum_sram.write()
+    count: 352
+- type: pipeline
+  stages:
+  - operation: his_sum_sram.read()
+    count: 32
+  - operation: npu_ctrl.bitwise()
+    count: 32
+  - operation: his_sram.write()
+    count: 4
+- type: serial
+  operation: global_status_reg.write()
+  operation-times: 3
+- type: pipeline
+  stages:
+  - operation: data_sram.read()
+    count: 4
+  - operation: model_sram.read()
+    count: 256
+    offset: 0
+  - operation: npu_pe.mac()
+    count: 256
+  - operation: sgemm_sram.write()
+    count: 16
+    offset: 128
+    stride: 16
+- type: serial
+  operation: global_status_reg.write()
+  operation-times: 3
+- type: pipeline
+  stages:
+  - operation: data_sram.read()
+    count: 16
+  - operation: model_sram.read()
+    count: 256
+    offset: 0
+  - operation: npu_pe.mac()
+    count: 256
+  - operation: his_sram.write()
+    count: 4
+    offset: 32
+    stride: 4
+- type: pipeline
+  stages:
+  - operation: his_sram.read()
+    count: 44
+  - operation: model_sram.read()
+    count: 44
+  - operation: npu_pe.mac()
+    count: 352
+  - operation: his_sum_sram.write()
+    count: 352
+- type: pipeline
+  stages:
+  - operation: his_sum_sram.read()
+    count: 32
+  - operation: npu_ctrl.bitwise()
+    count: 32
+  - operation: his_sram.write()
+    count: 4
+- type: parallel
+  operations:
+  - his_sram.read()
+  - data_sram.write()
+  operation-times: 22
+- type: parallel
+  operations:
+  - data_sram.read()
+  - his_sram.write()
+  operation-times: 22
+- type: serial
+  operation: global_status_reg.write()
+  operation-times: 3
+- type: pipeline
+  stages:
+  - operation: data_sram.read()
+    count: 4
+  - operation: model_sram.read()
+    count: 32
+    offset: 0
+  - operation: npu_pe.mac()
+    count: 32
+  - operation: sgemm_sram.write()
+    count: 1
+    offset: 8
+    stride: 1

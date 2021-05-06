@@ -1,0 +1,15 @@
+compound_component:
+  name: pe
+  subcomponents:
+    - {name: mac_unit, class: intmac, arguments: {datasize: 32}}
+    - {name: pe_reg, class: register, arguments: {}}
+
+  operations:
+    - name: process # Two cycle PE process (Multiply -> Add -> Write)
+      definition:
+        - type: serial
+          operation: mac_unit.multiply()
+        - type: parallel
+          operations:
+            - mac_unit.add()
+            - pe_reg.write()

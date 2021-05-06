@@ -1,0 +1,54 @@
+compound_component:
+  name: npu
+  subcomponents:
+  - name: npu_pe
+    class: processing_element
+  - name: npu_psram
+    class: psram
+  - name: global_status_reg
+    class: register
+  - name: his_sram
+    class: sram
+  - name: data_sram
+    class: sram
+  operations:
+  - name: sgemm_data
+    definition:
+    - type: parallel
+      operations:
+      - npu_psram.read()
+      - npu_pe.sgemm_pe()
+      - data_sram.write()
+  - name: sgemm_his
+    definition:
+    - type: parallel
+      operations:
+      - npu_psram.read()
+      - npu_pe.sgemm_pe()
+      - his_sram.write()
+  - name: fsmn
+    definition:
+    - type: parallel
+      operations:
+      - npu_psram.read()
+      - his_sram.read()
+      - npu_pe.sgemm_pe()
+      - data_sram.write()
+  - name: update_gsr
+    definition:
+    - type: serial
+      operation: global_status_reg.write()
+  - name: copy_to_data
+    definition:
+    - type: parallel
+      operations:
+      - his_sram.read()
+      - data_sram.write()
+  - name: copy_to_his
+    definition:
+    - type: parallel
+      operations:
+      - data_sram.read()
+      - his_sram.write()
+  arguments:
+    num_macs: 8

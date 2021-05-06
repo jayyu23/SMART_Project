@@ -1,0 +1,15 @@
+architecture:
+    name: TH2608_NPU
+    version: 0.3
+    components: # components are of either 'component' or 'group' type
+      - type: group
+        name: NPU-TOP
+        components:
+          - { type: component, name: NPU_PE, class: pe, arguments: {datasize: 32} }
+
+      - type: group
+        name: NPU-SRAM
+        components:
+          - { type: component, name: data_sram, class: sram, arguments: { datasize: 32, KBsize: 32 } }
+          - { type: component, name: weight_sram, class: sram, arguments: { datasize: 32, KBsize: 256 } }
+          - { type: component, name: psram, class: psram, arguments: { } }

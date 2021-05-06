@@ -1,0 +1,29 @@
+compound_component:
+  name: processing_element
+  arguments:
+    latency: 10
+  subcomponents:
+    - class: mac
+      name: mac
+      arguments:
+        latency: latency
+    - class: register
+      name: pe_buffer
+      arguments:
+        latency: latency
+
+  operations:
+    -  name: pe_process
+       definition:
+        - type: serial
+          operation: pe_buffer.read()
+        - type: serial
+          operation: mac.mac()
+        - type: serial
+          operation: pe_buffer.write()
+    - name: test_process_parallel
+      definition:
+        - type: parallel
+          operations:
+            - mac.mac()
+            - pe_buffer.read()
