@@ -1,4 +1,4 @@
-# SMART Input Files README
+# SMART Estimator Input Files + Mapper Output Files README
 
 *Updated 2021-03-15 by Jay Yu*
 

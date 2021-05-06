@@ -1,4 +1,0 @@
-# Describes the order in which compound component files are initiated in
-# Is a simple list
-- mac.yaml
-- pe.yaml

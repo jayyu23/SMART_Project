@@ -55,22 +55,4 @@ class DatabaseHandler:
         return len(sql_results.fetchall()) != 0
 
 
-"""
-class YAMLHandler:
-    
-    Uses PyYAML and Yaml Ordered Dict Loader to read YAML inputs
-    
-    yaml_path = str()
-    dict_repr = OrderedDict()  # Representation of YAML as an ordered Dict()
-
-    def __init__(self, yaml_path):
-        with open(yaml_path) as f:
-            yaml_data = yaml.load(f, Loader=yamlordereddictloader.Loader)
-        self.yaml_path = yaml_path
-        self.dict_repr = yaml_data
-
-    def get_as_dict(self):
-        return self.dict_repr
-"""
-
 database_handler = DatabaseHandler()
