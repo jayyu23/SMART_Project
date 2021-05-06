@@ -93,7 +93,7 @@ class Architecture:
         """
         Sets the operations field of this architecture to a flattened version of the operation_dict.
         Flatten means that all the loops are removed, converted into either serial or parallel actions
-        :param operation_dict: Operaton dict data (YAML OrderedDict)
+        :param operation_dict: Operaton dict database (YAML OrderedDict)
         :return: None.
         """
         # Format check
@@ -104,7 +104,7 @@ class Architecture:
     def print_current_reference_table(self, table_type: str, print_data: bool = True):
         """
         Prints out the reference table, which DOES NOT involve operations dict()
-        :param print_data: Whether to print out this data on terminal
+        :param print_data: Whether to print out this database on terminal
         :param table_type: str indicating the type of table to be printed.
         Possibilities include 'energy' 'area' 'cycle'
         :return: None. Prints out on terminal.
@@ -136,7 +136,7 @@ class Architecture:
         :return: None
         """
         # Check if there is an operation dict available first
-        assert self.operation_list is not None, "No operation count data available to conduct estimation."
+        assert self.operation_list is not None, "No operation count database available to conduct estimation."
         assert feature in ('energy', 'area', 'cycle'), "Error in feature definition"
         out_dir = out_dir if out_dir else "test/output/%s_estimation.txt" % feature
         csv_dir = "test/output/%s_estimation_matrix.csv" % feature

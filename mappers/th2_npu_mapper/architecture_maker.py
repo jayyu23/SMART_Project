@@ -2,7 +2,7 @@
 Creates the TH NPU Architecture and compound components
 Helps to integrate TH NPU specifications
 """
-from smart_npu_maker.utils import *
+from utils import *
 
 
 class ArchitectureMaker:

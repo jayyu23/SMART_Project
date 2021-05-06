@@ -1,5 +1,5 @@
-from smart_npu_maker.architecture_maker import ArchitectureMaker
-from smart_npu_maker.utils import *
+from architecture_maker import ArchitectureMaker
+from utils import *
 from copy import deepcopy
 import math
 
@@ -124,6 +124,6 @@ class OperationMaker:
         if "-> his" in direction_str:
             # Means copy to history
             self.operations.append(deepcopy(parallel_op_dict(("data_sram.read()", "his_sram.write()"), length * 8 / 64)))
-        elif "data <-" in direction_str:
-            # Means copy to data
+        elif "database <-" in direction_str:
+            # Means copy to database
             self.operations.append(deepcopy(parallel_op_dict(("his_sram.read()", "data_sram.write()"), length * 8 / 64)))

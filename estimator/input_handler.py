@@ -3,7 +3,7 @@ from collections import OrderedDict
 from data_structures.feature_script import FeatureScript
 from utils import *
 
-DEFAULT_DB_PATH = "data/intelligent_primitive_component_library.db"
+DEFAULT_DB_PATH = "database/intelligent_primitive_component_library.db"
 
 
 class DatabaseHandler:
@@ -20,7 +20,7 @@ class DatabaseHandler:
 
     def set_ipcl_table(self, table_name: str):
         """
-        Set the table to read IPCL data from. This allows the user to have multiple configurations
+        Set the table to read IPCL database from. This allows the user to have multiple configurations
         :param table_name: table to be set to
         :return: None
         """

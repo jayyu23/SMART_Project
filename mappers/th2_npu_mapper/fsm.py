@@ -1,4 +1,4 @@
-from smart_npu_maker.operation_maker import OperationMaker
+from mappers.th2_npu_mapper.operation_maker import OperationMaker
 
 
 class FSM:
@@ -70,17 +70,17 @@ class FSM:
         print(f'output@ {out_addr.uint}')
 
     def copy(self, in_addr, out_addr, length, direction, reset=False):
-        """Copy data between data SRAM and history SRAM"""
+        """Copy database between database SRAM and history SRAM"""
         if direction:
             if reset:
                 direction_str = '0 -> his'
             else:
-                direction_str = 'data -> his'
+                direction_str = 'database -> his'
         else:
             if reset:
-                direction_str = 'data <- 0'
+                direction_str = 'database <- 0'
             else:
-                direction_str = 'data <- his'
+                direction_str = 'database <- his'
         print('COPY', direction_str)
         print(f'length: {length}')
         print(f'input @ {in_addr.uint}')
@@ -94,7 +94,7 @@ class FSM:
         print('REDIRECT')
         print(f'weight @ {target_addr.uint}')
 
-    # meta data management
+    # meta database management
     # SGEMM part
     # slot1: in_dim
     # slot2: out_dim
