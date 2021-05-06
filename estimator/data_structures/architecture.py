@@ -1,8 +1,8 @@
 from collections import OrderedDict
-from utils import get_SMART_logo, write_as_file, parse_method_notation
-from data_structures.primitive_component import PrimitiveComponent
-from data_structures.compound_component import compound_component_library
-from input_handler import database_handler
+from estimator.utils import get_SMART_logo, write_as_file, parse_method_notation
+from estimator.data_structures.primitive_component import PrimitiveComponent
+from estimator.data_structures.compound_component import compound_component_library
+from estimator.input_handler import database_handler
 from copy import deepcopy
 import pandas as pd
 import matplotlib.pyplot as plot

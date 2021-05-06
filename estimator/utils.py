@@ -2,6 +2,7 @@
 Utility functions, used for tasks such as string handling
 """
 from collections import OrderedDict
+import yaml, yamlordereddictloader
 
 
 def remove_brackets(string: str) -> str:
@@ -80,3 +81,9 @@ def parse_method_notation(method_string: str):
     else:
         out_dict['method'] = method_string
     return out_dict
+
+
+def read_yaml_file(yaml_path):
+    with open(yaml_path) as f:
+        yaml_data = yaml.load(f, Loader=yamlordereddictloader.Loader)
+    return yaml_data

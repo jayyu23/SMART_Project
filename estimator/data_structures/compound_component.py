@@ -1,8 +1,8 @@
 import os
 from collections import OrderedDict
-from input_handler import database_handler, YAMLHandler
-from data_structures.primitive_component import PrimitiveComponent
-from utils import parse_method_notation
+from estimator.input_handler import database_handler
+from estimator.data_structures.primitive_component import PrimitiveComponent
+from estimator.utils import parse_method_notation, read_yaml_file
 from copy import deepcopy
 
 compound_component_library = OrderedDict()  # Ordered Dict representing all Compound Components
@@ -126,7 +126,7 @@ def load_compound_components(path="test/input/components/", instance_order_file=
     cc_load_order = []
     # Detect the instance order YAML file
     if instance_order_file in os.listdir(path):
-        cc_load_order = YAMLHandler(path + instance_order_file).get_as_dict()  # Loaded as a list
+        cc_load_order = read_yaml_file(path + instance_order_file)
         print("Found instance order YAML, listing order as follows: %s" % cc_load_order)
     else:
         cc_load_order = sorted(os.listdir(path))
@@ -134,7 +134,7 @@ def load_compound_components(path="test/input/components/", instance_order_file=
 
     for file in cc_load_order:
         # We assume one file one Compound Component
-        yaml_data = YAMLHandler(os.path.join(path, file)).get_as_dict()
+        yaml_data = read_yaml_file(os.path.join(path, file))
         # Check is a compound component file
         if type(yaml_data) != OrderedDict or 'compound_component' not in yaml_data:
             print("Incorrect formatting of compound component! File %s: " % file)

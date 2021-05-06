@@ -1,6 +1,6 @@
 from functools import cache
 
-from input_handler import database_handler
+from estimator.input_handler import database_handler
 from collections import OrderedDict
 
 

@@ -1,9 +1,9 @@
 import sqlite3, yaml, yamlordereddictloader
 from collections import OrderedDict
-from data_structures.feature_script import FeatureScript
-from utils import *
+from estimator.data_structures.feature_script import FeatureScript
+from estimator.utils import *
 
-DEFAULT_DB_PATH = "database/intelligent_primitive_component_library.db"
+DEFAULT_DB_PATH = "estimator/database/intelligent_primitive_component_library.db"
 
 
 class DatabaseHandler:
@@ -55,10 +55,11 @@ class DatabaseHandler:
         return len(sql_results.fetchall()) != 0
 
 
+"""
 class YAMLHandler:
-    """
+    
     Uses PyYAML and Yaml Ordered Dict Loader to read YAML inputs
-    """
+    
     yaml_path = str()
     dict_repr = OrderedDict()  # Representation of YAML as an ordered Dict()
 
@@ -70,7 +71,6 @@ class YAMLHandler:
 
     def get_as_dict(self):
         return self.dict_repr
-
+"""
 
 database_handler = DatabaseHandler()
-
