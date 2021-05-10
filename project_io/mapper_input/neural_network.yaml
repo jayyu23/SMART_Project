@@ -1,10 +1,11 @@
 neural_network:
   - type: dnn
-    in_dim: 440
-    out_dim: 128
+    dimensions:
+      in: 440
+      out: 128
     start:
       input: data_sram
-      weights: weight_sram
+      weights: model_sram
     end:
       output: sgemm_sram
 

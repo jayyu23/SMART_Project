@@ -18,8 +18,8 @@ def run_smapper():
                         components_folder="project_io/mapper_input/components/",
                         database_table="TH2Components")
     sm.set_nn("project_io/mapper_input/neural_network.yaml")
-    return sm
+    sm.map_nn()
 
 
 if __name__ == "__main__":
-    sm = run_smapper()
+    run_smapper()

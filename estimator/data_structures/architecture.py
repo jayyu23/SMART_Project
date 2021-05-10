@@ -35,7 +35,6 @@ class Architecture:
     def __init__(self, yaml_data: OrderedDict):
         # Check is an architecture template
         assert "architecture" in yaml_data.keys(), "Not an architecture template!"
-        print(yaml_data['architecture'])
         self.name = yaml_data['architecture']['name']
         self.version = yaml_data['architecture']['version']
         self.component_dict = OrderedDict()  # Flattened Architecture, contains { Name : Component Object }

@@ -9,7 +9,7 @@ class PrimitiveComponent:
     Describes each individual primitive component.
     Scripts is a nested dict(), Feature (Energy) -> Operation (Read) -> FeatureScript
     """
-
+    # TODO: Get the default arguments for each component
     def __init__(self, name: str, comp_class: str, comp_arguments=None):
         """
         Constructor for a component object.
