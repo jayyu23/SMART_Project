@@ -15,7 +15,7 @@ def _get_in_out_addr(desc):
 class Descriptor:
     """A simple wrapper for NPU descriptor easier to access
 
-    Hardware designer perfer this type of addressing logic,
+    Hardware designer prefer this type of addressing logic,
     I don't know why.
 
     self(high, low) == self.bit_array[low, high+1].reverse()
@@ -171,7 +171,7 @@ class Disassembler:
 
 
 @click.command()
-@click.argument('binary-path', default='tdnn_binary.txt')
+@click.argument('binary-path', default='machine_code_input/vad_binary.txt')
 def main(binary_path):
     descriptors = [BitArray(hex=line.strip()) for line in open(binary_path)]
     for desc in descriptors:

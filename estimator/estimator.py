@@ -5,7 +5,6 @@ import matplotlib.pyplot as plot
 
 from estimator.data_structures.architecture import Architecture
 from estimator.data_structures.compound_component import load_compound_components
-from estimator.utils import *
 from estimator.input_handler import *
 
 # DEFAULT_DB_PATH = "estimator/database/intelligent_primitive_component_library.db"
@@ -25,11 +24,19 @@ class Estimator:
         self.architecture = Architecture(read_yaml_file(arch_path))
         self.operation_list = read_yaml_file(op_path)['operations']
 
+    def __init__(self, architecture: Architecture, operations: list):
+        """
+        The user parses in objects instead of filepaths
+        :param architecture: Architecture object to conduct estimation
+        :param operations: Operations list
+        """
+        self.architecture = architecture
+        self.operation_list = operations
+
     def estimate(self, features: list):
         print(database_handler.table)
         for f in set(features):
             self.__estimate_feature(f, OUT_DIR)
-
 
     def __estimate_feature(self, feature: str, out_dir):
         """

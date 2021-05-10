@@ -45,9 +45,10 @@ class Architecture:
         for item in flattened_arch:
             item_name = item['name']
             item_class = item['class']
+            item_arguments = item['arguments'] if 'arguments' in item else None
             # Check whether it is a primitive component or compound component
             if database_handler.is_primitive_component(item_class):
-                self.component_dict[item_name] = PrimitiveComponent(item_name, item_class)  # Create comp
+                self.component_dict[item_name] = PrimitiveComponent(item_name, item_class, item_arguments)  # Create PC
             else:
                 # Find item from compound component library
                 print("Not a primitive component", item)
