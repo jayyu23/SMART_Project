@@ -1,8 +1,10 @@
 neural_network:
-  - type: dnn
+  - name: dnn_1
+    nn_type: dnn
     dimensions:
       in: 440
       out: 128
+      weight_bit: 4
     start:
       input: data_sram
       weights: model_sram

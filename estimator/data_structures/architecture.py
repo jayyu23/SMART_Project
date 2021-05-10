@@ -53,6 +53,13 @@ class Architecture:
                 print("Not a primitive component", item)
                 self.component_dict[item_name] = deepcopy(compound_component_library[item_class])
 
+    def get_component_class(self, component_class):
+        """
+        TODO: Returns all components inside the architecture of this component class (eg. intmac) as a dict(name:comp)
+        :param component_class:
+        :return:
+        """
+        pass
 
     def print_current_reference_table(self, table_type: str, print_data: bool = True):
         """
