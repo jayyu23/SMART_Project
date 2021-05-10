@@ -24,6 +24,8 @@ def parse_as_list(string: str) -> []:
     :return:
     """
     array_string = remove_brackets(string)
+    if array_string == "": # Empty list
+        return []
     array = array_string.split(",")
     array = [x.strip() for x in array]
     return array

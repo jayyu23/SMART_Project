@@ -1,5 +1,7 @@
 import sqlite3, yaml, yamlordereddictloader
 from collections import OrderedDict
+from functools import cache
+
 from estimator.data_structures.feature_script import FeatureScript
 from estimator.utils import *
 
@@ -26,24 +28,23 @@ class DatabaseHandler:
         """
         self.table = table_name
 
-    def get_component_feature(self, component_name, feature):
+    def get_component_feature(self, component_name, feature, args, vals):
         """
         Executes SQL to get and parse parameters for the energy function
         :return: Dict of {action : FeatureScript}
         """
         features = {"energy": "EnergyFunction", "area": "AreaFunction", "cycle": "CycleFunction"}
-        sql_results = self.cursor.execute("SELECT ComponentName, Action, Arguments, DefaultValues, %s "
+        sql_results = self.cursor.execute("SELECT ComponentName, Action, %s "
                                           % features[feature] +
                                           "FROM \"%s\" WHERE ComponentName = \"%s\""
                                           % (self.table, component_name))
         results_array = sql_results.fetchall()
         action_dict = OrderedDict()
-        for (name, action, arguments, default_values, function) in results_array:
-            args = parse_as_list(arguments)
-            vals = parse_as_list(default_values)
+        for (name, action, function) in results_array:
             action_dict[action] = FeatureScript(function, args, vals)
         return action_dict
 
+    @cache
     def is_primitive_component(self, component_name: str):
         """
         Checks if component_name is a primitive component as defined in DB
@@ -53,6 +54,15 @@ class DatabaseHandler:
         sql_results = self.cursor.execute("SELECT ComponentName FROM %s " % self.table +
                                           "WHERE ComponentName = \"%s\"" % component_name)
         return len(sql_results.fetchall()) != 0
+
+    @cache
+    def get_default_arguments(self, component_name):
+        sql_results = self.cursor.execute(f"SELECT Arguments, DefaultValues FROM {self.table} "
+                                          f"WHERE ComponentName = \"{component_name}\"")
+
+        args, vals = sql_results.fetchone()
+        args_list, vals_list = parse_as_list(args), parse_as_list(vals)
+        return {args_list[i]: vals_list[i] for i in range(len(args_list))}
 
 
 database_handler = DatabaseHandler()

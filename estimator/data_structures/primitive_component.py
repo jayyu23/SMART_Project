@@ -9,7 +9,6 @@ class PrimitiveComponent:
     Describes each individual primitive component.
     Scripts is a nested dict(), Feature (Energy) -> Operation (Read) -> FeatureScript
     """
-    # TODO: Get the default arguments for each component
     def __init__(self, name: str, comp_class: str, comp_arguments=None):
         """
         Constructor for a component object.
@@ -19,9 +18,14 @@ class PrimitiveComponent:
         self.scripts = {"energy": OrderedDict(), "area": OrderedDict(), "cycle": OrderedDict()}
         self.name = name
         self.comp_class = comp_class
-        self.comp_arguments = comp_arguments if comp_arguments else OrderedDict()
+        # Get the default arguments, then override
+        user_args = comp_arguments if comp_arguments else OrderedDict()
+        self.comp_args = OrderedDict({**database_handler.get_default_arguments(self.comp_class), **user_args})
         for feature in self.scripts:
-            self.scripts[feature] = database_handler.get_component_feature(self.comp_class, feature)
+            self.scripts[feature] = database_handler.get_component_feature(self.comp_class, feature,
+                                                                           list(self.comp_args.keys()),
+                                                                           list(self.comp_args.values()))
+        print(self.name, self.comp_args)
 
     def get_feature_reference_table(self, feature: str):
         """
