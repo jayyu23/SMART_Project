@@ -1,9 +1,8 @@
-import math
-
 from estimator.data_structures.architecture import Architecture
 from estimator.data_structures.compound_component import load_compound_components
 from estimator.input_handler import *
-from mappers.smapper.nn_description import NeuralNetwork
+from mappers.smapper.wrappers import *
+from mappers.smapper.utils import *
 
 class Smapper:
 
@@ -45,10 +44,13 @@ class Smapper:
         for n in self.nn_list:
             nn = NeuralNetwork(n['name'], n['nn_type'], n['dimensions'], n['start'], n['end'])
             if nn.nn_type == "dnn":
-                result, message = self._map_dnn(nn)
-                if not result:
-                    print(result, message)
-                    break
+                result, data = self._map_dnn(nn)
+                print(result, data)
+                if result:
+                    out_operations_list += data
+                else:
+                    return False, data
+        return True, out_operations_list
 
     def _map_dnn(self, nn: NeuralNetwork):
         comp_dict = self.architecture.component_dict
@@ -62,11 +64,11 @@ class Smapper:
             return False, f"Network Dimensions of {nn.name} do not fit in starting memory units: " \
                           f"{tuple(nn.start.values())}."
         # Find the bus width of the two starting units
-        in_width, weight_width = input_start['width'], weight_start['width']
+        in_width, weight_width = int(input_start['width']), int(weight_start['width'])
         in_read_times = math.ceil(in_dim * in_bit / in_width)
         w_read_times = math.ceil(num_weights * w_bit / weight_width)
         # TODO: Get how many bits can the intmac do. 8, 16, etc from architecture. Right now using placeholders
-        mac_array_num, intmac_bits = 8, 8
+        mac_array_num, intmac_bits, pe_unit = 8, 8, "npu_pe"
         if in_bit % w_bit != 0 and w_bit % in_bit != 0:
             return False, f"Input bit ({in_bit}) and weight bit ({w_bit}) not integer multiples of each other"
         elif in_dim % mac_array_num != 0 and mac_array_num % in_dim != 0:
@@ -74,6 +76,13 @@ class Smapper:
                           f"not integer multiples of each other"
         pe_mac_ops = in_dim * out_dim / (mac_array_num * intmac_bits / w_bit)
         # Find the output destination
-
-
+        out_end = comp_dict[nn.end['output']]
+        out_width, out_bit = int(out_end.comp_args['width']), 8
+        out_write_times = out_dim * out_bit / out_width
+        dnn_pipeline = Pipeline()
+        dnn_pipeline.add_stage(f"{nn.start['input']}.read()", in_read_times, offset=0)
+        dnn_pipeline.add_stage(f"{nn.start['weights']}.read()", w_read_times, offset=0)
+        dnn_pipeline.add_stage(f"{pe_unit}.mac()", pe_mac_ops, offset=1)
+        dnn_pipeline.add_stage(f"{nn.end['output']}.write()", out_write_times, offset=out_dim, stride=out_dim)
+        out_op_list.append(dnn_pipeline.get_dict())
         return True, out_op_list

@@ -48,5 +48,5 @@ class PrimitiveComponent:
         :return: float value for the stat in question
         """
         runtime_arg = runtime_arg if runtime_arg else OrderedDict()
-        merged_args = OrderedDict({**self.comp_arguments, **runtime_arg})
+        merged_args = OrderedDict({**self.comp_args, **runtime_arg})
         return self.scripts[table_type][operation_name].execute(merged_args)
