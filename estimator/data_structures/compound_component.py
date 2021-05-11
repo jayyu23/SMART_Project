@@ -4,6 +4,7 @@ from estimator.input_handler import database_handler
 from estimator.data_structures.primitive_component import PrimitiveComponent
 from estimator.utils import parse_method_notation, read_yaml_file
 from copy import deepcopy
+from functools import cache
 
 compound_component_library = OrderedDict()  # Ordered Dict representing all Compound Components
 
@@ -57,7 +58,7 @@ class CompoundComponent:
         return values
 
     def calculate_operation_stat(self, operation_name: str, feature: str,
-                                 runtime_arg: OrderedDict = OrderedDict()) -> float:
+                                 runtime_arg: OrderedDict = None) -> float:
         """
         Gets the reference stats for one operation only
         :param runtime_arg: runtime args from current level
@@ -67,6 +68,7 @@ class CompoundComponent:
         """
         # Check that operation is valid
         assert operation_name in self.operations, "Invalid operation name %s" % operation_name
+        runtime_arg = runtime_arg if runtime_arg else OrderedDict()
         op_def = self.operations[operation_name]
         out_value = 0
         results_array = []
@@ -113,6 +115,21 @@ class CompoundComponent:
                 out_value = sum(results_array)
                 break
         return out_value
+
+    @cache
+    def get_component_class(self, component_class):
+        """
+        Searches for the primitive component 'component class' within the subcomponents of the compound component.
+        :param component_class: Primitive component to be searched for
+        :return: Dict (name:comp) of all occurrences of this primitive component inside this component
+        """
+        out_dict = OrderedDict()
+        for k, v in self.subcomponents.items():
+            if isinstance(v, PrimitiveComponent) and v.comp_class == component_class:
+                out_dict[self.name+"."+k] = v
+            elif isinstance(v, CompoundComponent):
+                out_dict.update(v.get_component_class(component_class))
+        return out_dict
 
 
 # Compound Component Loader

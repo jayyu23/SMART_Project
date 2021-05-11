@@ -67,8 +67,10 @@ class Smapper:
         in_width, weight_width = int(input_start['width']), int(weight_start['width'])
         in_read_times = math.ceil(in_dim * in_bit / in_width)
         w_read_times = math.ceil(num_weights * w_bit / weight_width)
-        # TODO: Get how many bits can the intmac do. 8, 16, etc from architecture. Right now using placeholders
-        mac_array_num, intmac_bits, pe_unit = 8, 8, "npu_pe"
+        # Get how many bits can the intmac do. 8, 16, etc from architecture, through searching for intmac units in arch
+        mac_info = self.architecture.get_component_class('intmac')
+        mac_array_num, intmac_bits = len(mac_info), tuple(mac_info.items())[0][1].comp_args['datasize']
+        pe_unit = tuple(mac_info.items())[0][0].split('.')[0]
         if in_bit % w_bit != 0 and w_bit % in_bit != 0:
             return False, f"Input bit ({in_bit}) and weight bit ({w_bit}) not integer multiples of each other"
         elif in_dim % mac_array_num != 0 and mac_array_num % in_dim != 0:

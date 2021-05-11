@@ -1,11 +1,10 @@
 from collections import OrderedDict
-from estimator.utils import get_SMART_logo, write_as_file, parse_method_notation
+from estimator.utils import write_as_file
 from estimator.data_structures.primitive_component import PrimitiveComponent
-from estimator.data_structures.compound_component import compound_component_library
+from estimator.data_structures.compound_component import compound_component_library, CompoundComponent
 from estimator.input_handler import database_handler
 from copy import deepcopy
-import pandas as pd
-import matplotlib.pyplot as plot
+from functools import cache
 
 
 def flatten_architecture(yaml_data):
@@ -53,13 +52,20 @@ class Architecture:
                 print("Not a primitive component", item)
                 self.component_dict[item_name] = deepcopy(compound_component_library[item_class])
 
+    @cache
     def get_component_class(self, component_class):
         """
-        TODO: Returns all components inside the architecture of this component class (eg. intmac) as a dict(name:comp)
-        :param component_class:
-        :return:
+        Returns all components inside the architecture of this component class (eg. intmac) as a dict(name:comp)
+        :param component_class: Class of the component to be searched (eg. intmac, sram). Needs to be Primitive.
+        :return: Dict (name:comp) of all occurrences of this primitive component inside the architecture
         """
-        pass
+        out_dict = OrderedDict()
+        for k, v in self.component_dict.items():
+            if isinstance(v, PrimitiveComponent) and v.comp_class == component_class:
+                out_dict[k] = v
+            elif isinstance(v, CompoundComponent):
+                out_dict.update(v.get_component_class(component_class))
+        return out_dict
 
     def print_current_reference_table(self, table_type: str, print_data: bool = True):
         """
