@@ -51,6 +51,7 @@ class Architecture:
                 # Find item from compound component library
                 print("Not a primitive component", item)
                 self.component_dict[item_name] = deepcopy(compound_component_library[item_class])
+                self.component_dict[item_name].name = item_name
 
     @cache
     def get_component_class(self, component_class):

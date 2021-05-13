@@ -2,7 +2,7 @@ from estimator.data_structures.architecture import Architecture
 from estimator.data_structures.compound_component import load_compound_components
 from estimator.input_handler import *
 from mappers.smapper.wrappers import *
-from mappers.smapper.utils import *
+
 
 class Smapper:
 
@@ -42,7 +42,7 @@ class Smapper:
         out_operations_list = list()
         # Outer for loop: for each NN in the NN_list
         for n in self.nn_list:
-            nn = NeuralNetwork(n['name'], n['nn_type'], n['dimensions'], n['start'], n['end'])
+            nn = NeuralNetwork(n['name'], n['nn_type'], n['dimensions'], n['start'], n['end'])  # Wrapper class
             if nn.nn_type == "dnn":
                 result, data = self._map_dnn(nn)
                 print(result, data)
@@ -70,7 +70,7 @@ class Smapper:
         # Get how many bits can the intmac do. 8, 16, etc from architecture, through searching for intmac units in arch
         mac_info = self.architecture.get_component_class('intmac')
         mac_array_num, intmac_bits = len(mac_info), tuple(mac_info.items())[0][1].comp_args['datasize']
-        pe_unit = tuple(mac_info.items())[0][0].split('.')[0]
+        pe_unit = tuple(mac_info.items())[0][0].split('.')[0]  # since the search result shows pe.mac_0
         if in_bit % w_bit != 0 and w_bit % in_bit != 0:
             return False, f"Input bit ({in_bit}) and weight bit ({w_bit}) not integer multiples of each other"
         elif in_dim % mac_array_num != 0 and mac_array_num % in_dim != 0:
@@ -80,7 +80,11 @@ class Smapper:
         # Find the output destination
         out_end = comp_dict[nn.end['output']]
         out_width, out_bit = int(out_end.comp_args['width']), 8
+        # Check the size against the output
+        if out_dim * out_bit > out_end.comp_args['KBsize'] * 1024 * 8:
+            return False, f"Network Dimensions of {nn.name} do not fit in end memory unit: {nn.end['output']}"
         out_write_times = out_dim * out_bit / out_width
+        # Construct the pipeline
         dnn_pipeline = Pipeline()
         dnn_pipeline.add_stage(f"{nn.start['input']}.read()", in_read_times, offset=0)
         dnn_pipeline.add_stage(f"{nn.start['weights']}.read()", w_read_times, offset=0)

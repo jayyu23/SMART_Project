@@ -1,6 +1,6 @@
 from estimator.estimator import Estimator
 from mappers.smapper.smapper_main import Smapper
-
+from mappers.smapper.wrappers import write_yaml
 
 def run_estimator():
     est = Estimator("project_io/mapper_output/architecture.yaml",
@@ -18,7 +18,9 @@ def run_smapper():
                         components_folder="project_io/mapper_input/components/",
                         database_table="TH2Components")
     sm.set_nn("project_io/mapper_input/neural_network.yaml")
-    sm.map_nn()
+    result, data = sm.map_nn()
+    if result:
+        write_yaml(data, "project_io/mapper_output/operations.yaml")
 
 
 if __name__ == "__main__":

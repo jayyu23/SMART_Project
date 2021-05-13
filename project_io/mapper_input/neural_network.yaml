@@ -10,4 +10,15 @@ neural_network:
       weights: model_sram
     end:
       output: sgemm_sram
+  - name: dnn_his_1
+    nn_type: dnn
+    dimensions:
+      in: 128
+      out: 32
+      weight_bit: 4
+    start:
+      input: data_sram
+      weights: model_sram
+    end:
+      output: his_sram
 

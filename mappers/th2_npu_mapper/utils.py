@@ -1,7 +1,9 @@
+from collections import OrderedDict
 from functools import cache
 
-import yaml, yamlordereddictloader, math
-from collections import OrderedDict
+import math
+import yaml
+import yamlordereddictloader
 
 
 @cache
