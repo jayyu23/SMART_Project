@@ -33,12 +33,14 @@ class Estimator:
         self.architecture = architecture
         self.operation_list = operations
 
-    def estimate(self, features: list):
-        print(database_handler.table)
-        for f in set(features):
-            self.__estimate_feature(f, OUT_DIR)
+    def estimate(self, features: list, analysis=True):
+        # print(database_handler.table)
+        out = []
+        for f in features:
+            out.append(self.__estimate_feature(f, OUT_DIR, analysis))
+        return tuple(out)
 
-    def __estimate_feature(self, feature: str, out_dir):
+    def __estimate_feature(self, feature: str, out_dir, analysis=True):
         """
         Prints out energy estimation according to ERT values and operation dict. Key algorithm for Phase 1
         :return: None
@@ -124,7 +126,6 @@ class Estimator:
                 elif feature == "area":
                     data_list = list(comp_op_matrix.loc[:][operation_index])
                     comp_op_matrix.loc[total_row][operation_index] = sum(data_list)
-
         # Component Breakdowns
         component_feature_dict = OrderedDict({k: v[0] for k, v in comp_op_matrix.iterrows()}) if feature == "area" \
             else OrderedDict({k: sum(v) for k, v in comp_op_matrix.iterrows()})
@@ -136,10 +137,12 @@ class Estimator:
         out_text += "\n" + ("=" * 20) + "\n"
         out_text += "Total %s Estimation: %s %s" % (feature.capitalize(),
                                                     round(arch_total_feature, 5), units[feature]) + "\n"
-        print(out_text)
-        plot.pie(x=component_feature_dict.values(), labels=component_feature_dict.keys(), autopct='%1.1f%%')
-        plot.title(f"Component Breakdown for {feature.capitalize()} (Unit: {units[feature]})")
-        plot.show()
+        if analysis:
+            print(out_text)
+            plot.pie(x=component_feature_dict.values(), labels=component_feature_dict.keys(), autopct='%1.1f%%')
+            plot.title(f"Component Breakdown for {feature.capitalize()} (Unit: {units[feature]})")
+            plot.show()
 
-        comp_op_matrix.to_csv(csv_dir)
-        write_as_file(out_text, out_file)
+            comp_op_matrix.to_csv(csv_dir)
+            write_as_file(out_text, out_file)
+        return arch_total_feature

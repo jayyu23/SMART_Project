@@ -1,9 +1,12 @@
 from estimator.data_structures.architecture import Architecture
 from estimator.data_structures.compound_component import load_compound_components
 from estimator.input_handler import *
+from estimator.estimator import Estimator
 from mappers.smapper.wrappers import *
 from mappers.smapper.solver import Solver
 from mappers.smapper.mapper import Operationalizer
+import matplotlib.pyplot as plt
+
 
 class Smapper:
 
@@ -11,6 +14,8 @@ class Smapper:
         self.architecture = None
         self.nn_list = None
         self.nn = None
+        self.param_cost_map = OrderedDict()
+        self.top_solutions = ()
 
     def set_architecture(self, arch_path, components_folder, database_table):
         """
@@ -39,65 +44,29 @@ class Smapper:
         solver = Solver(self.nn)
         op = Operationalizer(self.architecture, solver)
         op.create_operations()
+        param_operations_map = op.param_operations_map
+        for k, v in param_operations_map.items():
+            e = Estimator(architecture=self.architecture, operations=v)
+            self.param_cost_map[k] = e.estimate(["energy", "area", "cycle"], False)
+        for a, b in self.param_cost_map.items():
+            print("in_w, in_h, out_h, repeat:", a)
+            print("pJ, um^2, cycle:", b)
+            print()
+        print(len(self.param_cost_map), "combinations estimated")
 
+    def graph_energy_cycle(self):
+        energy_data = tuple(math.log10(v[0]) for v in self.param_cost_map.values())
+        cycle_data = tuple(math.log10(v[2]) for v in self.param_cost_map.values())
+        plt.scatter(energy_data, cycle_data, marker='.')
+        plt.title('Same Hardware, Different Firmware: Energy vs Cycle')
+        plt.xlabel('Energy (pJ) (log10)')
+        plt.ylabel('Cycles (log10)')
+        plt.show()
 
-    def map_nn(self):
-        """
-        Maps the NN according to the architecture given
-        :return: Tuple: (Valid, Message), eg. (True, OperationList) or (False, ErrorMessage)
-        """
-        # Check that both architecture and nn_list not none
-        assert self.architecture and self.nn_list, "Mapping requires both architecture and NN list!"
-        out_operations_list = list()
-        # Outer for loop: for each NN in the NN_list
-        for n in self.nn_list:
-            nn = NeuralNetwork(n['name'], n['nn_type'], n['dimensions'], n['start'], n['end'])  # Wrapper class
-            if nn.nn_type == "dnn":
-                result, data = self._map_dnn(nn)
-                print(result, data)
-                if result:
-                    out_operations_list += data
-                else:
-                    return False, data
-        return True, out_operations_list
+    def print_top_solutions(self, num=10):
+        # Calculated by multiplying metrics together
+        self.top_solutions = sorted(((math.prod(v),v, k) for k, v in self.param_cost_map.items()))
+        print('{:^25} | {:^35} | {:^20}'.format('Score', 'Metrics', 'Inputs'))
 
-    def _map_dnn(self, nn: NeuralNetwork):
-        comp_dict = self.architecture.component_dict
-        out_op_list = []
-        # Check the starting position: network dimensions fit in the start
-        input_start, weight_start = comp_dict[nn.start['input']].comp_args, comp_dict[nn.start['weights']].comp_args
-        in_dim, out_dim, in_bit, w_bit = nn.dimensions["in"], nn.dimensions["out"], 8, nn.dimensions['weight_bit']
-        num_weights = in_dim * out_dim  # Number of total weights
-        if in_dim * 8 > input_start['KBsize'] * 1024 * 8 or \
-                num_weights * w_bit > weight_start['KBsize'] * 1024 * 8:
-            return False, f"Network Dimensions of {nn.name} do not fit in starting memory units: " \
-                          f"{tuple(nn.start.values())}."
-        # Find the bus width of the two starting units
-        in_width, weight_width = int(input_start['width']), int(weight_start['width'])
-        in_read_times = math.ceil(in_dim * in_bit / in_width)
-        w_read_times = math.ceil(num_weights * w_bit / weight_width)
-        # Get how many bits can the intmac do. 8, 16, etc from architecture, through searching for intmac units in arch
-        mac_info = self.architecture.get_component_class('intmac')
-        mac_array_num, intmac_bits = len(mac_info), tuple(mac_info.items())[0][1].comp_args['datasize']
-        pe_unit = tuple(mac_info.items())[0][0].split('.')[0]  # since the search result shows pe.mac_0
-        if in_bit % w_bit != 0 and w_bit % in_bit != 0:
-            return False, f"Input bit ({in_bit}) and weight bit ({w_bit}) not integer multiples of each other"
-        elif in_dim % mac_array_num != 0 and mac_array_num % in_dim != 0:
-            return False, f"Input dimension ({in_dim}) and mac_array_num ({mac_array_num}) " \
-                          f"not integer multiples of each other"
-        pe_mac_ops = in_dim * out_dim / (mac_array_num * intmac_bits / w_bit)
-        # Find the output destination
-        out_end = comp_dict[nn.end['output']]
-        out_width, out_bit = int(out_end.comp_args['width']), 8
-        # Check the size against the output
-        if out_dim * out_bit > out_end.comp_args['KBsize'] * 1024 * 8:
-            return False, f"Network Dimensions of {nn.name} do not fit in end memory unit: {nn.end['output']}"
-        out_write_times = out_dim * out_bit / out_width
-        # Construct the pipeline
-        dnn_pipeline = Pipeline()
-        dnn_pipeline.add_stage(f"{nn.start['input']}.read()", in_read_times, offset=0)
-        dnn_pipeline.add_stage(f"{nn.start['weights']}.read()", w_read_times, offset=0)
-        dnn_pipeline.add_stage(f"{pe_unit}.mac()", pe_mac_ops, offset=1)
-        dnn_pipeline.add_stage(f"{nn.end['output']}.write()", out_write_times, offset=out_dim, stride=out_dim)
-        out_op_list.append(dnn_pipeline.get_dict())
-        return True, out_op_list
+        for i in range(num):
+            print(i, self.top_solutions[i])

@@ -14,7 +14,7 @@ class Operationalizer:
         self.operation_creation_map = {"dnn": self.__create_dnn_operations}
 
     def create_operations(self):
-        return self.operation_creation_map[self.solver.nn.nn_type]()
+        self.operation_creation_map[self.solver.nn.nn_type]()
 
     def __create_dnn_operations(self):
         nn = self.solver.nn
@@ -25,7 +25,7 @@ class Operationalizer:
             input_start = self.comp_dict[nn.start['input']].comp_args
             weight_start = self.comp_dict[nn.start['weights']].comp_args
             output_end = self.comp_dict[nn.end['output']].comp_args
-            # Check dimensions
+            # Check if the param is valid for the architecture. If it is not valid, then continue to next param set
             if in_w * in_h > input_start['size']:
                 print(f"Inputs: ({in_w}x{in_h}) greater than input buffer ({input_start['size']})")
                 continue
@@ -51,11 +51,11 @@ class Operationalizer:
             out_write_times = out_h * in_width / out_width
             # Construct the pipeline
             dnn_pipeline = Pipeline()
-            dnn_pipeline.add_stage(f"{nn.start['input']}.read()", in_read_times * repeat, offset=0)
-            dnn_pipeline.add_stage(f"{nn.start['weights']}.read()", w_read_times * repeat, offset=0)
+            dnn_pipeline.add_stage(f"{nn.start['input']}.read()", in_read_times * repeat, offset=1)
+            dnn_pipeline.add_stage(f"{nn.start['weights']}.read()", w_read_times * repeat, offset=1)
             dnn_pipeline.add_stage(f"{pe_unit}.mac()", pe_mac_ops * repeat, offset=1)
-            dnn_pipeline.add_stage(f"{nn.end['output']}.write()", out_write_times * repeat, offset=out_h, stride=out_h)
-            self.param_operations_map[tuple(params)] = dnn_pipeline.get_dict()
+            dnn_pipeline.add_stage(f"{nn.end['output']}.write()", out_write_times * repeat, offset=1, stride=1)
+            self.param_operations_map[tuple(params)] = [dnn_pipeline.get_dict()]
         for k, v in self.param_operations_map.items():
             print(k)
             print(v)

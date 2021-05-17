@@ -2,7 +2,7 @@ from estimator.estimator import Estimator
 from mappers.smapper.smapper import Smapper
 from mappers.smapper.solver import Solver
 from mappers.smapper.wrappers import write_yaml, NeuralNetwork
-
+import time
 
 def run_estimator():
     est = Estimator("project_io/mapper_output/architecture.yaml",
@@ -20,8 +20,12 @@ def run_smapper():
                         components_folder="project_io/mapper_input/components/",
                         database_table="TH2Components")
     sm.set_nn("project_io/mapper_input/neural_network.yaml")
+    start_time = time.time()
     sm.run_operationalizer()
-
+    sm.graph_energy_cycle()
+    sm.print_top_solutions()
+    end_time = time.time()
+    print("Execution time: ", end_time - start_time, "seconds")
 
 
 def run_solver():
