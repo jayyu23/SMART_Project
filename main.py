@@ -1,6 +1,8 @@
 from estimator.estimator import Estimator
-from mappers.smapper.smapper_main import Smapper
-from mappers.smapper.wrappers import write_yaml
+from mappers.smapper.smapper import Smapper
+from mappers.smapper.solver import Solver
+from mappers.smapper.wrappers import write_yaml, NeuralNetwork
+
 
 def run_estimator():
     est = Estimator("project_io/mapper_output/architecture.yaml",
@@ -18,9 +20,18 @@ def run_smapper():
                         components_folder="project_io/mapper_input/components/",
                         database_table="TH2Components")
     sm.set_nn("project_io/mapper_input/neural_network.yaml")
-    result, data = sm.map_nn()
-    if result:
-        write_yaml(data, "project_io/mapper_output/operations.yaml")
+    sm.run_operationalizer()
+
+
+
+def run_solver():
+    sm = Smapper()
+    sm.set_nn("project_io/mapper_input/neural_network.yaml")
+    n = sm.nn_list[0]
+    nn = NeuralNetwork(n['name'], n['nn_type'], n['dimensions'], n['start'], n['end'])
+    solver = Solver(nn)
+    solutions = solver.solve()
+    print(len(solutions))
 
 
 if __name__ == "__main__":

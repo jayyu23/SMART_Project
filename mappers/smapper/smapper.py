@@ -2,13 +2,15 @@ from estimator.data_structures.architecture import Architecture
 from estimator.data_structures.compound_component import load_compound_components
 from estimator.input_handler import *
 from mappers.smapper.wrappers import *
-
+from mappers.smapper.solver import Solver
+from mappers.smapper.mapper import Operationalizer
 
 class Smapper:
 
     def __init__(self):
         self.architecture = None
         self.nn_list = None
+        self.nn = None
 
     def set_architecture(self, arch_path, components_folder, database_table):
         """
@@ -30,7 +32,14 @@ class Smapper:
         :param nn_file: path of YAML file to be initialized as NN list
         :return: None
         """
-        self.nn_list = read_yaml_file(nn_file)['neural_network']
+        n = read_yaml_file(nn_file)['neural_network'][0]
+        self.nn = NeuralNetwork(n['name'], n['nn_type'], n['dimensions'], n['start'], n['end'])
+
+    def run_operationalizer(self):
+        solver = Solver(self.nn)
+        op = Operationalizer(self.architecture, solver)
+        op.create_operations()
+
 
     def map_nn(self):
         """
