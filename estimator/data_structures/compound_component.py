@@ -57,8 +57,9 @@ class CompoundComponent:
                 {op_name: self.calculate_operation_stat(op_name, table_type) for op_name in self.operations})
         return values
 
+    @cache
     def calculate_operation_stat(self, operation_name: str, feature: str,
-                                 runtime_arg: OrderedDict = None) -> float:
+                                 runtime_arg: tuple = None) -> float:
         """
         Gets the reference stats for one operation only
         :param runtime_arg: runtime args from current level
@@ -68,7 +69,7 @@ class CompoundComponent:
         """
         # Check that operation is valid
         assert operation_name in self.operations, "Invalid operation name %s" % operation_name
-        runtime_arg = runtime_arg if runtime_arg else OrderedDict()
+        runtime_arg = OrderedDict({*runtime_arg}) if runtime_arg else OrderedDict()
         op_def = self.operations[operation_name]
         out_value = 0
         results_array = []
@@ -103,7 +104,7 @@ class CompoundComponent:
                 result = 0
                 repeat = sub_operation['operation-count'] if 'operation-count' in sub_operation else 1
                 # Since both PC and CC have calculate_operation_stat
-                result = sc_obj.calculate_operation_stat(sc_dict["method"], feature, sc_dict["arguments"])
+                result = sc_obj.calculate_operation_stat(sc_dict["method"], feature,tuple(sc_dict["arguments"].items()))
                 # Store everything in results array
                 results_array.append(result * repeat)
             # If energy, sum. If cycle, max.

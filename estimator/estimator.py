@@ -92,9 +92,9 @@ class Estimator:
                 for stage in stages:
                     # Calculate operation stat + Get the stage cycles first
                     obj, method, arg = parse_method_notation(stage['operation']).values()
-                    data = component_dict[obj].calculate_operation_stat(method, feature, arg)
+                    data = component_dict[obj].calculate_operation_stat(method, feature, tuple(arg.items()))
                     stage_cycles = data if feature == 'cycle' else \
-                        component_dict[obj].calculate_operation_stat(method, 'cycle', arg)
+                        component_dict[obj].calculate_operation_stat(method, 'cycle', tuple(arg.items()))
                     # Unpack these parameters to calculate total cycle
                     stage_count = 1 if 'count' not in stage or feature == 'area' else stage['count']
                     stage_offset = 1 if 'offset' not in stage else stage['offset']

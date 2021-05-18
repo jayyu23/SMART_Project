@@ -4,6 +4,7 @@ from mappers.smapper.solver import Solver
 from mappers.smapper.wrappers import write_yaml, NeuralNetwork
 import time
 
+
 def run_estimator():
     est = Estimator("project_io/mapper_output/architecture.yaml",
                     "project_io/mapper_output/operations.yaml",

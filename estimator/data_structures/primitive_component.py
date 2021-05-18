@@ -37,8 +37,9 @@ class PrimitiveComponent:
         values = OrderedDict({op: self.calculate_operation_stat(op, feature) for op in self.scripts[feature]})
         return values
 
+    @cache
     def calculate_operation_stat(self, operation_name: str, table_type: str,
-                                      runtime_arg: OrderedDict = None) -> float:
+                                      runtime_arg: tuple = None) -> float:
         """
         Gets the reference stats for one operation only
         :param runtime_arg: runtime args
@@ -47,6 +48,6 @@ class PrimitiveComponent:
         Possibilities include 'energy' 'area' 'cycle'
         :return: float value for the stat in question
         """
-        runtime_arg = runtime_arg if runtime_arg else OrderedDict()
-        merged_args = OrderedDict({**self.comp_args, **runtime_arg})
+        runtime_arg = runtime_arg if runtime_arg else tuple()
+        merged_args = OrderedDict({**self.comp_args, **dict({*runtime_arg})})
         return self.scripts[table_type][operation_name].execute(merged_args)
