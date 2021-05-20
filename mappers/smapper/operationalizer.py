@@ -4,6 +4,7 @@ from collections import OrderedDict
 from mappers.smapper.wrappers import Pipeline
 import math
 
+
 class Operationalizer:
 
     def __init__(self, architecture: Architecture, solver: Solver):
@@ -38,8 +39,8 @@ class Operationalizer:
             # Now create the corresponding operations
             # Find the bus width of the two starting units
             in_width, weight_width = int(input_start['width']), int(weight_start['width'])
-            in_read_times = math.ceil(in_h * in_w / in_width)
-            w_read_times = math.ceil(in_h * out_h / weight_width)
+            in_read_times = math.ceil(in_h * in_w / (in_width))
+            w_read_times = math.ceil(in_h * out_h / (weight_width))
             # Get how many bits can the intmac do. 8, 16, etc from architecture,
             # through searching for intmac units in arch
             mac_info = self.architecture.get_component_class('intmac')
@@ -48,13 +49,13 @@ class Operationalizer:
             pe_mac_ops = in_h * out_h / (mac_array_num * intmac_bits / 8)
             # Find the output destination
             out_width, out_bit = int(output_end['width']), 8
-            out_write_times = out_h * in_width / out_width
+            out_write_times = out_h * in_width / (out_width)
             # Construct the pipeline
-            dnn_pipeline = Pipeline()
-            dnn_pipeline.add_stage(f"{nn.start['input']}.read()", in_read_times * repeat, offset=1)
-            dnn_pipeline.add_stage(f"{nn.start['weights']}.read()", w_read_times * repeat, offset=1)
-            dnn_pipeline.add_stage(f"{pe_unit}.mac()", pe_mac_ops * repeat, offset=1)
-            dnn_pipeline.add_stage(f"{nn.end['output']}.write()", out_write_times * repeat, offset=1, stride=1)
+            dnn_pipeline = Pipeline(operation_times=repeat)
+            dnn_pipeline.add_stage(f"{nn.start['input']}.read()", in_read_times, offset=1)
+            dnn_pipeline.add_stage(f"{nn.start['weights']}.read()", w_read_times, offset=1)
+            dnn_pipeline.add_stage(f"{pe_unit}.mac()", pe_mac_ops, offset=1)
+            dnn_pipeline.add_stage(f"{nn.end['output']}.write()", out_write_times, offset=1, stride=1)
             self.param_operations_map[tuple(params)] = [dnn_pipeline.get_dict()]
         for k, v in self.param_operations_map.items():
             print(k)

@@ -1,6 +1,6 @@
 # Shensilicon Microchip Architectural Reference Tool
 
-*Updated 2021-04-06 by Jay Yu*
+*Updated 2021-05-20 by Jay Yu*
 
 *Shensilicon Semiconductors*
 
@@ -16,6 +16,24 @@ The following packages are used outside of the default Python packages. These ne
 - `yamlordereddictloader`: to load YAML input files as `OrderedDict()`
 - `pandas`: In order to provide the Pandas Dataframe for the Component-Operation Matrix
 - `matplotlib`: To output the pie chart visuals on energy consumption breakdown
+
+## Quick Start
+
+### Smapper
+In the main `SMART_Project` directory, execute `main.py` with no runtime arguments to run the Smapper module, which is a firmware searcher.
+
+The Smapper module takes two inputs, defined in `main.py` code (`run_smapper()` method):
+- Neural Network Shape: `project_io/mapper_input/neural_network.yaml`. Currently only supports DNN model shape
+- Architecture Model: `project_io/mapper_input/architecture.yaml`. The compound components used in this architecture are defined in the `components` folder in the same directory
+
+Smapper will output onto terminal results of firmware combinations estimated, and a ranking of the firmware.
+
+### Estimator
+
+To run only the SMART Estimator from an `architecture` file and `operations` file, change the `__main__` method in`main.py` to run estimator, and enter the architecture/operations file paths
+Defaults:
+- Architecture Model: `project_io/mapper_output/architecture.yaml` The compound components used in this architecture are defined in the `components` folder in the same directory
+- Operations List: `project_io/mapper_output/operations.yaml`
 
 ## Project Timeline
 
@@ -53,13 +71,15 @@ As of 2021-04-06, SMART has completed the requirements for Part 1. It is able to
 
 ### Part 2: Mapping Phase (Assembler + Operation Maker)
 
-As of 2021-04-06, SMART has completed the following requirements for Part 2. It is able to:  
+As of 2021-05-20, SMART has completed the following requirements for Part 2. It is able to:  
 
 - [x] Given the binary descriptors (64 bit machine code), output relevant Assembly code through a disassembler
   
 - [x] Given this machine code, create corresponding Operations for VAD and ASR
   
 - [x] Create, from a set of parameters, operations and architecture templates as defined in Phase 1
+
+- [x] Given a Neural Network shape, generate different firmware solutions for the network, and rank these firmware solutions
 
 ### Sample Output: VAD Cycle Estimation
 

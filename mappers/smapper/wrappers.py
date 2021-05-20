@@ -21,8 +21,10 @@ class NeuralNetwork:
 
 
 class Pipeline:
-    def __init__(self, pipeline_dict=None):
+    def __init__(self, pipeline_dict=None, operation_times=1):
         self.pipeline_dict = pipeline_dict if pipeline_dict else OrderedDict({"type": "pipeline", "stages": []})
+        if operation_times != 1:
+            self.pipeline_dict['operation-times'] = operation_times
 
     def add_stage(self, operation, count, offset=1, stride=1):
         current_stage = OrderedDict({'operation': operation, 'count': math.ceil(count)})

@@ -16,7 +16,7 @@ class CompoundComponent:
     """
 
     def __init__(self, yaml_data: OrderedDict):
-        self.name = yaml_data['name']
+        self.name = yaml_data['name'] if 'name' in yaml_data else None
         self.comp_class = yaml_data['class'] if 'class' in yaml_data else yaml_data['name']
         self.component_arguments = yaml_data['arguments'] if 'arguments' in yaml_data else OrderedDict()
         self.subcomponents = OrderedDict()

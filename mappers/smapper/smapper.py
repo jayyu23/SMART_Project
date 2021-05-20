@@ -4,7 +4,7 @@ from estimator.input_handler import *
 from estimator.estimator import Estimator
 from mappers.smapper.wrappers import *
 from mappers.smapper.solver import Solver
-from mappers.smapper.mapper import Operationalizer
+from mappers.smapper.operationalizer import Operationalizer
 import matplotlib.pyplot as plt
 
 

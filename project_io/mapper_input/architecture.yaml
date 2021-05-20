@@ -21,13 +21,13 @@ architecture:
       name: sgemm_sram
       class: sram
       arguments:
-        size: 32
+        size: 32768
         width: 32
     - type: component
       name: data_sram
       class: sram
       arguments:
-        size: 256 # 256 Bytes Input SRAM
+        size: 65536 # 256 Bytes Input SRAM
         width: 64
     - type: component
       name: his_sram
@@ -43,5 +43,5 @@ architecture:
       name: model_sram
       class: sram
       arguments:
-        size: 8192 # 8KB Model SRAM
+        size: 262144 # 8KB Model SRAM
         width: 64

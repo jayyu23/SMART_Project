@@ -8,21 +8,24 @@ from estimator.data_structures.compound_component import load_compound_component
 from estimator.input_handler import *
 
 # DEFAULT_DB_PATH = "estimator/database/intelligent_primitive_component_library.db"
+
+
 OUT_DIR = "project_io/estimation_output/"
 
 
-class Estimator:
+def estimator_factory(arch_path: str, op_path: str, db_table, components_folder):
+    # Primitive Components in IPCL
+    if db_table:
+        database_handler.set_ipcl_table(db_table)
+    # Compound Components in CC Folder
+    if components_folder:
+        load_compound_components(components_folder)
+    # Architecture + Operations from two files
+    architecture = Architecture(read_yaml_file(arch_path))
+    operation_list = read_yaml_file(op_path)#['operations']
+    return Estimator(architecture, operation_list)
 
-    def __init__(self, arch_path, op_path, db_table=None, components_folder=None):
-        # Primitive Components in IPCL
-        if db_table:
-            database_handler.set_ipcl_table(db_table)
-        # Compound Components in CC Folder
-        if components_folder:
-            load_compound_components(components_folder)
-        # Architecture + Operations from two files
-        self.architecture = Architecture(read_yaml_file(arch_path))
-        self.operation_list = read_yaml_file(op_path)['operations']
+class Estimator:
 
     def __init__(self, architecture: Architecture, operations: list):
         """
@@ -72,7 +75,7 @@ class Estimator:
             op_type_map[operation_index] = op_type
             if op_type == "serial":
                 obj, method, arg = parse_method_notation(operation['operation']).values()
-                data = component_dict[obj].calculate_operation_stat(method, feature, arg)
+                data = component_dict[obj].calculate_operation_stat(method, feature, tuple(arg.items()))
                 comp_op_matrix.loc[obj][operation_index] = data * repeat
                 data_list = list(comp_op_matrix[:][operation_index])
                 comp_op_matrix.loc[total_row][operation_index] = \
@@ -80,7 +83,7 @@ class Estimator:
             elif op_type == "parallel":
                 for i in operation['operations']:
                     obj, method, arg = parse_method_notation(i).values()
-                    data = component_dict[obj].calculate_operation_stat(method, feature, arg)
+                    data = component_dict[obj].calculate_operation_stat(method, feature, tuple(arg.items()))
                     comp_op_matrix.loc[obj][operation_index] = data * repeat
                     data_list = list(comp_op_matrix[:][operation_index])
                     comp_op_matrix.loc[total_row][operation_index] = \
@@ -106,12 +109,12 @@ class Estimator:
                     # print(total_cycles)
                     # Update the active operations
                     if active_cycles[obj] == 0:  # Currently only has idle energy
-                        comp_op_matrix.loc[obj][operation_index] = int(data * stage_count)
+                        comp_op_matrix.loc[obj][operation_index] = int(data * stage_count) * repeat
                     else:
-                        comp_op_matrix.loc[obj][operation_index] += int(data * stage_count)
+                        comp_op_matrix.loc[obj][operation_index] += int(data * stage_count) * repeat
                     active_cycles[obj] += stage_cycles * stage_count
                 if feature == "cycle":
-                    comp_op_matrix.loc[total_row][operation_index] = total_cycles
+                    comp_op_matrix.loc[total_row][operation_index] = total_cycles * repeat
                 elif feature == "energy":
                     # Add on the idle energy
                     for k, v in comp_op_matrix.iterrows():
@@ -119,7 +122,7 @@ class Estimator:
                             continue
                         idle_cycles = total_cycles - active_cycles[k]
                         idle_energy = component_dict[k].calculate_operation_stat('idle', 'energy')
-                        comp_op_matrix.loc[k][operation_index] += idle_energy * idle_cycles
+                        comp_op_matrix.loc[k][operation_index] += idle_energy * idle_cycles * repeat
                     # Calculate the sum, and place it in the total row
                     data_list = list(comp_op_matrix.loc[:][operation_index])
                     comp_op_matrix.loc[total_row][operation_index] = sum(data_list)
