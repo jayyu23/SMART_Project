@@ -16,6 +16,7 @@ The following packages are used outside of the default Python packages. These ne
 - `yamlordereddictloader`: to load YAML input files as `OrderedDict()`
 - `pandas`: In order to provide the Pandas Dataframe for the Component-Operation Matrix
 - `matplotlib`: To output the pie chart visuals on energy consumption breakdown
+- `numpy`: In algorithm calculating different possible firmware solutions
 
 ## Quick Start
 

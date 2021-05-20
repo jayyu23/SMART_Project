@@ -15,6 +15,7 @@ class Smapper:
         self.nn_list = None
         self.nn = None
         self.param_cost_map = OrderedDict()
+        self.param_op_map = OrderedDict()
         self.top_solutions = ()
 
     def set_architecture(self, arch_path, components_folder, database_table):
@@ -44,8 +45,8 @@ class Smapper:
         solver = Solver(self.nn)
         op = Operationalizer(self.architecture, solver)
         op.create_operations()
-        param_operations_map = op.param_operations_map
-        for k, v in param_operations_map.items():
+        self.param_op_map = op.param_operations_map
+        for k, v in self.param_op_map.items():
             e = Estimator(architecture=self.architecture, operations=v)
             self.param_cost_map[k] = e.estimate(["energy", "area", "cycle"], False)
         for a, b in self.param_cost_map.items():
@@ -63,6 +64,10 @@ class Smapper:
         plt.ylabel('Cycles (log10)')
         plt.show()
 
+    def get_operations_from_param(self, param: tuple):
+        return self.param_op_map[param]
+
+    
     def print_top_solutions(self, num=10):
         # Calculated by multiplying metrics together
         self.top_solutions = sorted(((math.prod(v),v, k) for k, v in self.param_cost_map.items()))

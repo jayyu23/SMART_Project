@@ -24,6 +24,7 @@ def run_smapper():
     sm.graph_energy_cycle()
     sm.print_top_solutions()
     end_time = time.time()
+    # print(sm.get_operations_from_param((16, 440, 128, 1))) # Get operation set for this param
     print("Execution time: ", end_time - start_time, "seconds")
 
 
