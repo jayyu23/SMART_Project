@@ -6,17 +6,15 @@
 
 ## Overview
 
-The Shensilicon Microchip Architectural Reference Tool is a project designed to provide architecture-level feature estimations of Shensilicon TH-series microchips. The features included within the SMART project are **energy (pJ)**, **area (um^2)** and **cycle** data. 
+The Shensilicon Microchip Architectural Reference Tool is a project designed to provide architecture-level feature estimations of Shensilicon TH-series microchips. The features included within the SMART project are **energy (pJ)**, **area (um^2)** and **cycle** data.
 
 ## Dependencies
 
-The following packages are used outside of the default Python packages. These need to be installed via pip:
+The following packages are used outside of the default Python packages. These need to be installed via:
 
-- `PyYAML`: in order to read in YAML input files
-- `yamlordereddictloader`: to load YAML input files as `OrderedDict()`
-- `pandas`: In order to provide the Pandas Dataframe for the Component-Operation Matrix
-- `matplotlib`: To output the pie chart visuals on energy consumption breakdown
-- `numpy`: In algorithm calculating different possible firmware solutions
+```bash
+pip install -r requirements.txt
+```
 
 ## Quick Start
 
@@ -72,12 +70,12 @@ As of 2021-04-06, SMART has completed the requirements for Part 1. It is able to
 
 ### Part 2: Mapping Phase (Assembler + Operation Maker)
 
-As of 2021-05-20, SMART has completed the following requirements for Part 2. It is able to:  
+As of 2021-05-20, SMART has completed the following requirements for Part 2. It is able to:
 
 - [x] Given the binary descriptors (64 bit machine code), output relevant Assembly code through a disassembler
-  
+
 - [x] Given this machine code, create corresponding Operations for VAD and ASR
-  
+
 - [x] Create, from a set of parameters, operations and architecture templates as defined in Phase 1
 
 - [x] Given a Neural Network shape, generate different firmware solutions for the network, and rank these firmware solutions
