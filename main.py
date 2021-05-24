@@ -1,13 +1,17 @@
 from estimator.estimator import Estimator, estimator_factory
+from estimator.input_handler import database_handler
+from estimator.data_structures.primitive_component import PrimitiveComponent
 from mappers.smapper.smapper import Smapper
 import time
+from estimator.utils import read_yaml_file
+from searcher.meta_architecture import MetaArchitecture
 
 
 def run_estimator():
-    est = estimator_factory("project_io/mapper_output/architecture.yaml",
-                    "project_io/mapper_output/operations.yaml",
-                    components_folder="project_io/mapper_output/components/",
-                    db_table="TH2Components")
+    est = estimator_factory("project_io/estimator__input/architecture.yaml",
+                            "project_io/estimator__input/operations.yaml",
+                            components_folder="project_io/estimator__input/components/",
+                            db_table="TH2Components")
 
     print(est.operation_list)
     est.estimate(features=["cycle"])
@@ -28,5 +32,17 @@ def run_smapper():
     print("Execution time: ", end_time - start_time, "seconds")
 
 
+def run_arch_finder():
+    database_handler.set_ipcl_table("TH2Components")
+    meta_arch = read_yaml_file("project_io/searcher_input/meta_architecture.yaml")
+    start_time = time.time()
+    ma = MetaArchitecture(meta_arch)
+    ma.get_argument_combinations()
+    for c in ma.iter_architectures():
+        print(c)
+    end_time = time.time()
+    print("Execution time: ", end_time - start_time, "seconds")
+
+
 if __name__ == "__main__":
-    run_smapper()
+    run_arch_finder()

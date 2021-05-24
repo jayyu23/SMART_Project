@@ -3,7 +3,7 @@ from copy import deepcopy
 import pandas as pd
 import matplotlib.pyplot as plot
 
-from estimator.data_structures.architecture import Architecture
+from estimator.data_structures.architecture import yaml_arch_factory, Architecture
 from estimator.data_structures.compound_component import load_compound_components
 from estimator.input_handler import *
 
@@ -21,8 +21,8 @@ def estimator_factory(arch_path: str, op_path: str, db_table, components_folder)
     if components_folder:
         load_compound_components(components_folder)
     # Architecture + Operations from two files
-    architecture = Architecture(read_yaml_file(arch_path))
-    operation_list = read_yaml_file(op_path)#['operations']
+    architecture = yaml_arch_factory(read_yaml_file(arch_path))
+    operation_list = read_yaml_file(op_path)
     return Estimator(architecture, operation_list)
 
 class Estimator:

@@ -25,33 +25,45 @@ def flatten_architecture(yaml_data):
     return flattened_arch_array
 
 
+def yaml_arch_factory(yaml_data: OrderedDict):
+    """
+    Creates an architecture from YAML data
+    :return: Architecture object from yaml
+    """
+    assert "architecture" in yaml_data.keys(), "Not an architecture template!"
+    arch = Architecture()
+    arch.name = yaml_data['architecture']['name']
+    arch.version = yaml_data['architecture']['version']
+    arch.component_dict = OrderedDict()  # Flattened Architecture, contains { Name : Component Object }
+
+    # Expand subtrees
+    flattened_arch = flatten_architecture(yaml_data['architecture'])
+    for item in flattened_arch:
+        item_name = item['name']
+        item_class = item['class']
+        item_arguments = item['arguments'] if 'arguments' in item else None
+        # Check whether it is a primitive component or compound component
+        if database_handler.is_primitive_component(item_class):
+            arch.component_dict[item_name] = PrimitiveComponent(item_name, item_class, item_arguments)  # Create PC
+        else:
+            # Find item from compound component library
+            print("Not a primitive component", item)
+            arch.component_dict[item_name] = deepcopy(compound_component_library[item_class])
+            arch.component_dict[item_name].name = item_name
+    return arch
+
+
 class Architecture:
     """
     Describes the architecture plan
     component_list contains an array of Component objects
     """
 
-    def __init__(self, yaml_data: OrderedDict):
+    def __init__(self):
         # Check is an architecture template
-        assert "architecture" in yaml_data.keys(), "Not an architecture template!"
-        self.name = yaml_data['architecture']['name']
-        self.version = yaml_data['architecture']['version']
-        self.component_dict = OrderedDict()  # Flattened Architecture, contains { Name : Component Object }
-
-        # Expand subtrees
-        flattened_arch = flatten_architecture(yaml_data['architecture'])
-        for item in flattened_arch:
-            item_name = item['name']
-            item_class = item['class']
-            item_arguments = item['arguments'] if 'arguments' in item else None
-            # Check whether it is a primitive component or compound component
-            if database_handler.is_primitive_component(item_class):
-                self.component_dict[item_name] = PrimitiveComponent(item_name, item_class, item_arguments)  # Create PC
-            else:
-                # Find item from compound component library
-                print("Not a primitive component", item)
-                self.component_dict[item_name] = deepcopy(compound_component_library[item_class])
-                self.component_dict[item_name].name = item_name
+        self.name = str()
+        self.version = float()
+        self.component_dict = OrderedDict()
 
     @cache
     def get_component_class(self, component_class):
