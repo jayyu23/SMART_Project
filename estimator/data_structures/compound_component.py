@@ -4,7 +4,7 @@ from estimator.input_handler import database_handler
 from estimator.data_structures.primitive_component import PrimitiveComponent
 from estimator.utils import parse_method_notation, read_yaml_file
 from copy import deepcopy
-from functools import cache
+from functools import lru_cache as cache
 
 compound_component_library = OrderedDict()  # Ordered Dict representing all Compound Components
 

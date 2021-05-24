@@ -4,7 +4,7 @@ from estimator.data_structures.primitive_component import PrimitiveComponent
 from estimator.data_structures.compound_component import compound_component_library, CompoundComponent
 from estimator.input_handler import database_handler
 from copy import deepcopy
-from functools import cache
+from functools import lru_cache as cache
 
 
 def flatten_architecture(yaml_data):

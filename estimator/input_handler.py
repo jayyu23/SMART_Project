@@ -1,6 +1,6 @@
 import sqlite3, yaml, yamlordereddictloader
 from collections import OrderedDict
-from functools import cache
+from functools import lru_cache as cache
 
 from estimator.data_structures.feature_script import FeatureScript
 from estimator.utils import *

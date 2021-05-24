@@ -1,4 +1,4 @@
-from functools import cache
+from functools import lru_cache as cache
 
 from estimator.input_handler import database_handler
 from collections import OrderedDict
