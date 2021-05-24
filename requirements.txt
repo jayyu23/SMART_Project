@@ -1,5 +1,10 @@
+# read in YAML input files
 PyYAML
+# to load YAML input files as `OrderedDict()`
 yamlordereddictloader
+# to provide the Pandas Dataframe for the Component-Operation Matrix
 pandas
+# To output the pie chart visuals on energy consumption breakdown
 matplotlib
+# In algorithm calculating different possible firmware solutions
 numpy

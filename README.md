@@ -8,15 +8,15 @@
 
 The Shensilicon Microchip Architectural Reference Tool is a project designed to provide architecture-level feature estimations of Shensilicon TH-series microchips. The features included within the SMART project are **energy (pJ)**, **area (um^2)** and **cycle** data.
 
-## Dependencies
+## Quick Start
+
+### Dependencies
 
 The following packages are used outside of the default Python packages. These need to be installed via:
 
 ```bash
 pip install -r requirements.txt
 ```
-
-## Quick Start
 
 ### Smapper
 In the main `SMART_Project` directory, execute `main.py` with no runtime arguments to run the Smapper module, which is a firmware searcher.
