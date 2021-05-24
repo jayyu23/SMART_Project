@@ -41,7 +41,7 @@ class Smapper:
         n = read_yaml_file(nn_file)['neural_network'][0]
         self.nn = NeuralNetwork(n['name'], n['nn_type'], n['dimensions'], n['start'], n['end'])
 
-    def run_operationalizer(self):
+    def run_operationalizer(self, print_on=False):
         solver = Solver(self.nn)
         op = Operationalizer(self.architecture, solver)
         op.create_operations()
@@ -49,10 +49,11 @@ class Smapper:
         for k, v in self.param_op_map.items():
             e = Estimator(architecture=self.architecture, operations=v)
             self.param_cost_map[k] = e.estimate(["energy", "area", "cycle"], False)
-        for a, b in self.param_cost_map.items():
-            print("in_w, in_h, out_h, repeat:", a)
-            print("pJ, um^2, cycle:", b)
-            print()
+        if print_on:
+            for a, b in self.param_cost_map.items():
+                print("in_w, in_h, out_h, repeat:", a)
+                print("pJ, um^2, cycle:", b)
+                print()
         print(len(self.param_cost_map), "combinations estimated")
 
     def graph_energy_cycle(self):
@@ -74,4 +75,4 @@ class Smapper:
         print('{:^25} | {:^35} | {:^20}'.format('Score', 'Metrics', 'Inputs'))
 
         for i in range(num):
-            print(i, self.top_solutions[i])
+            print(i+1, self.top_solutions[i])

@@ -6,7 +6,7 @@ from estimator.data_structures.feature_script import FeatureScript
 from estimator.utils import *
 
 DEFAULT_DB_PATH = "estimator/database/intelligent_primitive_component_library.db"
-
+DEFAULT_TABLE = "TH2Components"
 
 class DatabaseHandler:
     """
@@ -14,11 +14,11 @@ class DatabaseHandler:
     Singleton defined at the end of file
     """
 
-    def __init__(self, db_path=DEFAULT_DB_PATH):
+    def __init__(self, db_path=DEFAULT_DB_PATH, db_table=DEFAULT_TABLE):
         self.db_path = db_path
         self.connection = sqlite3.connect(db_path)
         self.cursor = self.connection.cursor()
-        self.table = "PrimitiveComponents"
+        self.table = db_table if db_table else "PrimitiveComponents"
 
     def set_ipcl_table(self, table_name: str):
         """

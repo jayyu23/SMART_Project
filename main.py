@@ -5,6 +5,7 @@ from mappers.smapper.smapper import Smapper
 import time
 from estimator.utils import read_yaml_file
 from searcher.meta_architecture import MetaArchitecture
+from searcher.searcher import Searcher, yaml_searcher_factory
 
 
 def run_estimator():
@@ -25,7 +26,7 @@ def run_smapper():
     sm.set_nn("project_io/mapper_input/neural_network.yaml")
     start_time = time.time()
     sm.run_operationalizer()
-    sm.graph_energy_cycle()
+    # sm.graph_energy_cycle()
     sm.print_top_solutions()
     end_time = time.time()
     # print(sm.get_operations_from_param((16, 440, 128, 1))) # Get operation set for this param
@@ -37,12 +38,19 @@ def run_arch_finder():
     meta_arch = read_yaml_file("project_io/searcher_input/meta_architecture.yaml")
     start_time = time.time()
     ma = MetaArchitecture(meta_arch)
-    ma.get_argument_combinations()
+    ma.load_argument_combinations()
+    counter = 0
     for c in ma.iter_architectures():
         print(c)
+        counter += 1
     end_time = time.time()
+    print(f"Architectures searched: {counter} possibilities")
     print("Execution time: ", end_time - start_time, "seconds")
 
+def run_searcher():
+    search = yaml_searcher_factory("project_io/searcher_input/meta_architecture.yaml",
+                          "project_io/mapper_input/neural_network.yaml")
+    search.search_combinations()
 
 if __name__ == "__main__":
-    run_arch_finder()
+    run_searcher()

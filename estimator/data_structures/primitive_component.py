@@ -2,6 +2,7 @@ from functools import lru_cache as cache
 
 from estimator.input_handler import database_handler
 from collections import OrderedDict
+import time
 
 
 class PrimitiveComponent:
@@ -9,6 +10,7 @@ class PrimitiveComponent:
     Describes each individual primitive component.
     Scripts is a nested dict(), Feature (Energy) -> Operation (Read) -> FeatureScript
     """
+
     def __init__(self, name: str, comp_class: str, comp_arguments=None):
         """
         Constructor for a component object.
@@ -39,7 +41,7 @@ class PrimitiveComponent:
 
     @cache
     def calculate_operation_stat(self, operation_name: str, table_type: str,
-                                      runtime_arg: tuple = None) -> float:
+                                 runtime_arg: tuple = None) -> float:
         """
         Gets the reference stats for one operation only
         :param runtime_arg: runtime args
@@ -51,3 +53,6 @@ class PrimitiveComponent:
         runtime_arg = runtime_arg if runtime_arg else tuple()
         merged_args = OrderedDict({**self.comp_args, **dict({*runtime_arg})})
         return self.scripts[table_type][operation_name].execute(merged_args)
+
+    def clear_cache(self):
+        self.calculate_operation_stat.cache_clear()

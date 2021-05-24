@@ -2,7 +2,7 @@ from collections import OrderedDict
 from copy import deepcopy
 import pandas as pd
 import matplotlib.pyplot as plot
-
+import time
 from estimator.data_structures.architecture import yaml_arch_factory, Architecture
 from estimator.data_structures.compound_component import load_compound_components
 from estimator.input_handler import *
@@ -25,6 +25,7 @@ def estimator_factory(arch_path: str, op_path: str, db_table, components_folder)
     operation_list = read_yaml_file(op_path)
     return Estimator(architecture, operation_list)
 
+
 class Estimator:
 
     def __init__(self, architecture: Architecture, operations: list):
@@ -35,6 +36,7 @@ class Estimator:
         """
         self.architecture = architecture
         self.operation_list = operations
+        self.count = 0
 
     def estimate(self, features: list, analysis=True):
         # print(database_handler.table)

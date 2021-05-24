@@ -2,6 +2,8 @@
 Utility functions, used for tasks such as string handling
 """
 from collections import OrderedDict
+from functools import lru_cache
+
 import yaml, yamlordereddictloader
 
 
@@ -60,6 +62,7 @@ def write_as_file(text: str, out_path: str):
     file.close()
 
 
+@lru_cache
 def parse_method_notation(method_string: str):
     """
     Parses in notation following Python object.method(arg1=v1, arg2=v2, arg3=v3)
