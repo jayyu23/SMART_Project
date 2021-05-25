@@ -2,7 +2,7 @@ from estimator.data_structures.architecture import Architecture
 from mappers.smapper.solver import Solver
 from collections import OrderedDict
 from mappers.smapper.wrappers import Pipeline
-import math
+import math, numpy
 
 
 class Operationalizer:
@@ -20,7 +20,8 @@ class Operationalizer:
     def __create_dnn_operations(self, print_on=False):
         nn = self.solver.nn
         for params in self.solver.factor_comb:
-            in_w, in_h, out_h, repeat = params
+            in_w, in_h, out_h = params
+            repeat = (self.solver.problem / numpy.array(params)).prod()
             if print_on: print(params)
             # 1. Check the in + weight SRAM size
             input_start = self.comp_dict[nn.start['input']].comp_args

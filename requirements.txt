@@ -8,3 +8,5 @@ pandas
 matplotlib
 # In algorithm calculating different possible firmware solutions
 numpy
+# For Bayesian Optimization
+bayesian-optimization

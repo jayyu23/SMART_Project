@@ -6,6 +6,7 @@ import time
 from estimator.utils import read_yaml_file
 from searcher.meta_architecture import MetaArchitecture
 from searcher.searcher import Searcher, yaml_searcher_factory
+from searcher.bayesian_searcher import BayesianSearcher
 
 
 def run_estimator():
@@ -26,8 +27,9 @@ def run_smapper():
     sm.set_nn("project_io/mapper_input/neural_network.yaml")
     start_time = time.time()
     sm.run_operationalizer()
+    sm.search_firmware()
     # sm.graph_energy_cycle()
-    sm.print_top_solutions()
+    sm.rank_solutions()
     end_time = time.time()
     # print(sm.get_operations_from_param((16, 440, 128, 1))) # Get operation set for this param
     print("Execution time: ", end_time - start_time, "seconds")
@@ -47,10 +49,23 @@ def run_arch_finder():
     print(f"Architectures searched: {counter} possibilities")
     print("Execution time: ", end_time - start_time, "seconds")
 
+
 def run_searcher():
+    start_time = time.time()
     search = yaml_searcher_factory("project_io/searcher_input/meta_architecture.yaml",
-                          "project_io/mapper_input/neural_network.yaml")
+                                   "project_io/mapper_input/neural_network.yaml")
     search.search_combinations()
+    # search.graph_results_2d()
+    print("Execution time: ", time.time() - start_time, "seconds")
+
+
+def run_bayesian_searcher():
+    bayes_searcher = BayesianSearcher()
+    bayes_searcher.init_searcher("project_io/searcher_input/meta_architecture.yaml",
+                                 "project_io/mapper_input/neural_network.yaml"
+                                 )
+    bayes_searcher.run_bayes_model()
+
 
 if __name__ == "__main__":
     run_searcher()
