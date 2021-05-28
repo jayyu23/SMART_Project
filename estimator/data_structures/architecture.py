@@ -4,7 +4,7 @@ from estimator.data_structures.primitive_component import PrimitiveComponent
 from estimator.data_structures.compound_component import compound_component_library, CompoundComponent
 from estimator.input_handler import database_handler
 from copy import deepcopy
-from functools import lru_cache as cache
+from functools import lru_cache
 
 
 def flatten_architecture(yaml_data):
@@ -65,7 +65,7 @@ class Architecture:
         self.version = float()
         self.component_dict = OrderedDict()
 
-    @cache
+    @lru_cache(None)
     def get_component_class(self, component_class):
         """
         Returns all components inside the architecture of this component class (eg. intmac) as a dict(name:comp)

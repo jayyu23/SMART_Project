@@ -1,5 +1,4 @@
-from functools import lru_cache as cache
-
+from functools import lru_cache
 from estimator.input_handler import database_handler
 from collections import OrderedDict
 import time
@@ -39,7 +38,7 @@ class PrimitiveComponent:
         values = OrderedDict({op: self.calculate_operation_stat(op, feature) for op in self.scripts[feature]})
         return values
 
-    @cache
+    @lru_cache(None)
     def calculate_operation_stat(self, operation_name: str, table_type: str,
                                  runtime_arg: tuple = None) -> float:
         """

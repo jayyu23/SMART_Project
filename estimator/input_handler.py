@@ -1,6 +1,6 @@
 import sqlite3, yaml, yamlordereddictloader
 from collections import OrderedDict
-from functools import lru_cache as cache
+from functools import lru_cache
 
 from estimator.data_structures.feature_script import FeatureScript
 from estimator.utils import *
@@ -44,7 +44,7 @@ class DatabaseHandler:
             action_dict[action] = FeatureScript(function, args, vals)
         return action_dict
 
-    @cache
+    @lru_cache(None)
     def is_primitive_component(self, component_name: str):
         """
         Checks if component_name is a primitive component as defined in DB
@@ -55,7 +55,7 @@ class DatabaseHandler:
                                           "WHERE ComponentName = \"%s\"" % component_name)
         return len(sql_results.fetchall()) != 0
 
-    @cache
+    @lru_cache(None)
     def get_default_arguments(self, component_name):
         sql_results = self.cursor.execute(f"SELECT Arguments, DefaultValues FROM {self.table} "
                                           f"WHERE ComponentName = \"{component_name}\"")

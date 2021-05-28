@@ -4,7 +4,7 @@ from estimator.input_handler import database_handler
 from estimator.data_structures.primitive_component import PrimitiveComponent
 from estimator.utils import parse_method_notation, read_yaml_file
 from copy import deepcopy
-from functools import lru_cache as cache
+from functools import lru_cache
 
 compound_component_library = OrderedDict()  # Ordered Dict representing all Compound Components
 
@@ -73,7 +73,7 @@ class CompoundComponent:
             {op_name: self.calculate_operation_stat(op_name, table_type) for op_name in self.operations})
         return values
 
-    @cache
+    @lru_cache(None)
     def calculate_operation_stat(self, operation_name: str, feature: str,
                                  runtime_arg: tuple = None) -> float:
         """
@@ -137,7 +137,7 @@ class CompoundComponent:
                 break
         return out_value
 
-    @cache
+    @lru_cache(None)
     def get_component_class(self, component_class):
         """
         Searches for the primitive component 'component class' within the subcomponents of the compound component.
