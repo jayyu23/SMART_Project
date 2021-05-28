@@ -11,6 +11,19 @@ from mappers.smapper.operationalizer import Operationalizer
 import matplotlib.pyplot as plt
 import time
 
+
+def score_firmware(energy, area, cycle):
+    """
+    Score function dictating how we should score the cost of our firmware according to the energy, area, cycle data.
+    We want to maximize the score (since our Bayesian opt method can only find maxima). Therefore need to *-1.
+    :param energy: Energy data, in pJ
+    :param area: Area data, in um^2
+    :param cycle: Cycle data, in cycles
+    :return:
+    """
+    return -1 * energy * cycle
+
+
 class Smapper:
 
     def __init__(self):
@@ -53,8 +66,8 @@ class Smapper:
         self.param_op_map = op.param_operations_map
         self.param_labels = solver.param_labels
 
-    def search_firmware(self, bayes=True, print_on=False):
-        if bayes:
+    def search_firmware(self, algorithm="bayes", print_on=False):
+        if algorithm == "bayes":
             b_start = time.time()
             # Conduct Bayesian optimization over the firmware possibilities
             # Set the parameter boundaries
@@ -62,8 +75,8 @@ class Smapper:
             fw_param_point_set = self.param_op_map.keys()
             for i in range(len(self.param_labels)):
                 dimension_i = [p[i] for p in fw_param_point_set]
-                max_i, m = max(dimension_i), min(dimension_i)
-                min_i = m - 0.001 if max_i == m else m  # This is to avoid the error when putting bounds in Bayes model
+                # Heuristic: generally large tiles are more efficient
+                max_i, min_i = max(dimension_i) * 1.25, min(dimension_i) * 0.9
                 param_bounds[self.param_labels[i]] = (min_i, max_i)
             # Now apply the Bayesian model
             seed_num = round(0.01 * len(self.param_op_map))
@@ -72,24 +85,25 @@ class Smapper:
                                                     random_state=10,
                                                     verbose=True)
             self.bayes_model.maximize(seed_num*3, seed_num, kappa=1)
+            bayes_score = abs(self.bayes_model.max['target'])
             bayes_sol = self.__make_discrete_param(self.bayes_model.max['params'])
-            print("Bayes Firmware Estimate:", bayes_sol, "Score of:", -1*self.bayes_model.max['target'])
+            print("Bayes Firmware Estimate:", bayes_sol, "Score of:", bayes_score)
             print("Bayesian Time:", time.time() - b_start)
-            return bayes_sol
-        else:
+            return bayes_sol, bayes_score
+
+        elif algorithm == "linear":
             e_time = time.time()
             # Conduct a linear search
             for k, v in self.param_op_map.items():
-                e = Estimator(architecture=self.architecture, operations=v)
-                self.param_cost_map[k] = e.estimate(["energy", "area", "cycle"], False)
-            if print_on:
-                for a, b in self.param_cost_map.items():
-                    print("in_w, in_h, out_h:", a)
-                    print("pJ, um^2, cycle:", b)
-                    print()
+                estimator = Estimator(architecture=self.architecture, operations=v)
+                estimation = estimator.estimate(["energy", "area", "cycle"], False)
+                energy, area, cycle = estimation
+                self.param_cost_map[k] = (score_firmware(energy, area, cycle), estimation)
+            self.top_solutions = sorted(((*v, k) for k, v in self.param_cost_map.items()), reverse=True)
+            linear_score, linear_sol = abs(self.top_solutions[0][0]), self.top_solutions[0][1]
             print(len(self.param_cost_map), "combinations estimated")
             print("Exhaustive Search Time: ", time.time() - e_time)
-            self.rank_solutions(3, True)
+            return linear_sol, linear_score
 
     def __bayesian_trial(self, **kwargs):
         param_dict = OrderedDict(locals()['kwargs'])
@@ -99,27 +113,20 @@ class Smapper:
         architecture, operations = self.architecture, self.param_op_map[discrete_params]
         estimator = Estimator(architecture, operations)
         energy, area, cycle = estimator.estimate(["energy", "area", "cycle"], analysis=False)
-        return self.__firmware_score_function(energy, area, cycle)
+        return score_firmware(energy, area, cycle)
 
     def __make_discrete_param(self, continuous_param_set: OrderedDict):
         """
-        Turns a continuous parameter set suggested by the Bayesian Model into a discrete parameter set that
-        is valid. For each value in the continuous param set
+        Round a continuous parameter set suggested by the Bayesian Model into a discrete parameter set that
+        is valid. Uses Euclidean distance algorithm
         :param continuous_param_set: The set of continuous params, size N
         :return: The parameter set made discrete, as an OrderedDict(). This will be put into **kwargs of Black Box Func
         """
         continuous_param_ordered = [continuous_param_set[i] for i in self.param_labels]
         continuous_param = np.array(tuple(continuous_param_ordered))
-        distances = sorted([[self.__get_euclidean_distance(np.array(p), continuous_param), p] for p in self.param_op_map])
-        # print("Continuous", tuple(continuous_param_ordered))
-        # print("Discrete", distances[0][1])
+        euclid_distance = lambda x, y: np.sqrt(((x - y)**2).sum(axis=0))
+        distances = sorted([[euclid_distance(np.array(p), continuous_param), p] for p in self.param_op_map])
         return distances[0][1]
-
-    def __get_euclidean_distance(self, x: np.array, y: np.array):
-        return np.sqrt(((x - y)**2).sum(axis=0))
-
-    def __firmware_score_function(self, energy, area, cycle):
-        return -1 * energy * area * cycle
 
     def graph_energy_cycle(self):
         energy_data = tuple(math.log10(v[0]) for v in self.param_cost_map.values())
@@ -133,11 +140,7 @@ class Smapper:
     def get_operations_from_param(self, param: tuple):
         return self.param_op_map[param]
 
-    def rank_solutions(self, num=10, print_on=False):
-        # Calculated by multiplying metrics together
-        self.top_solutions = sorted(((math.prod(v), v, k) for k, v in self.param_cost_map.items()))
-        if print_on:
-            print('{:^25} | {:^35} | {:^20}'.format('Score', 'Metrics', 'Inputs'))
-
-            for i in range(num):
-                print(i + 1, self.top_solutions[i])
+    def print_rankings(self, num=10):
+        print('{:^25} | {:^35} | {:^20}'.format('Score', 'Metrics', 'Inputs'))
+        for i in range(num):
+            print(i + 1, self.top_solutions[i])

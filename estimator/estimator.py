@@ -22,7 +22,7 @@ def estimator_factory(arch_path: str, op_path: str, db_table, components_folder)
         load_compound_components(components_folder)
     # Architecture + Operations from two files
     architecture = yaml_arch_factory(read_yaml_file(arch_path))
-    operation_list = read_yaml_file(op_path)
+    operation_list = read_yaml_file(op_path)['operations']
     return Estimator(architecture, operation_list)
 
 

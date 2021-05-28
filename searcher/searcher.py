@@ -18,6 +18,8 @@ class Searcher:
         self.firmware_mapper = Smapper()
         self.hw_fw_result = list()
         self.combinations_searched = 0
+        self.linear_bayes = {'linear': [], 'bayes': []}
+        self.bayes_percentile = []
 
     def set_nn(self, nn_path):
         self.firmware_mapper.set_nn(nn_path)
@@ -35,20 +37,26 @@ class Searcher:
             print("Searching param set",hw_param_set, architecture)
             self.firmware_mapper.architecture = architecture
             self.firmware_mapper.run_operationalizer()
-            bayes = self.firmware_mapper.search_firmware(bayes=True)
-            self.firmware_mapper.search_firmware(bayes=False)
-            self.firmware_mapper.rank_solutions(N)
+            bayes_input, score = self.firmware_mapper.search_firmware(algorithm="bayes")
+            self.firmware_mapper.search_firmware(algorithm="linear")
+            self.firmware_mapper.print_rankings(N)
+
             num_fw_possibilities = len(self.firmware_mapper.top_solutions)
-            # print(num_fw_possibilities)
+            print(num_fw_possibilities)
+
             for rank in range(num_fw_possibilities):
-                if self.firmware_mapper.top_solutions[rank][2] == bayes:
+                if self.firmware_mapper.top_solutions[rank][2] == bayes_input:
+                    percentile = round(100*(1 - (rank/num_fw_possibilities)), 2)
                     print(f"Bayesian solution is rank {rank + 1} out of {num_fw_possibilities}")
-                    print(f"Better than {round(100*(1 - (rank/num_fw_possibilities)), 2)}% of solutions")
+                    print(f"Better than {percentile}% of solutions")
+                    self.bayes_percentile.append(percentile)
                     break
             solution_data = list((hw_param_set, fw_param_set, result) for score, result, fw_param_set
                                   in self.firmware_mapper.top_solutions[:N])
-            self.combinations_searched += len(self.firmware_mapper.param_cost_map)
+            self.combinations_searched += len(self.firmware_mapper.param_op_map)
             self.hw_fw_result += solution_data
+            self.linear_bayes['linear'].append(self.firmware_mapper.top_solutions[0][0])
+            self.linear_bayes['bayes'].append(score)
         print()
         print("="*20)
         print(f"Total: {self.combinations_searched} combinations searched")
@@ -88,4 +96,22 @@ class Searcher:
         ax.set_xlabel('area log10')
         ax.set_ylabel('cycle log10')
         ax.set_title('Different Hardware-Firmware Combinations Costs')
+        plt.show()
+
+    def graph_linear_bayes(self):
+        """
+        ax = plt.axes()
+        x = numpy.log10(numpy.array([data[2][2] for data in self.hw_fw_result]))
+        y1 = numpy.log10(numpy.array(self.linear_bayes['linear']))
+        y2 = numpy.log10(numpy.array(self.linear_bayes['bayes']))
+        ax.scatter(x, y1, color="blue")
+        ax.scatter(x, y2, color="orange")
+        ax.set_xlabel('area log10')
+        ax.set_ylabel('cycles log10')
+        ax.set_title('Bayes Searcher (orange) vs. Linear Searcher Results (blue)')
+        plt.show()
+        """
+        ax = plt.axes()
+        plt.hist(self.bayes_percentile)
+        ax.set_title('Percentile Rank of Bayes Solution')
         plt.show()

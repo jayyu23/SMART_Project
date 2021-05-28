@@ -1,16 +1,28 @@
-- type: serial
-  operation: global_status_reg.write()
-  operation-times: 6
-- type: pipeline
-  stages:
-  - operation: data_sram.read()
-    count: 55
-  - operation: model_sram.read()
-    count: 3520
-    offset: 0
-  - operation: npu_pe.mac()
-    count: 3520
-  - operation: sgemm_sram.write()
-    count: 16
-    offset: 128
-    stride: 16
+operations:
+  - type: serial
+    operation: pe.mac()
+    operation-times: 200
+
+  - type: serial
+    operation: sram_1.idle()
+    operation-times: 3
+
+  - type: parallel
+    operations:
+      - pe_register.read()
+      - sram_1.read(width = 16)
+    operation-times: 25
+
+  - type: pipeline
+    stages:
+      - operation: sram_2.read()
+        count: 64
+      - operation: pe_register.write()
+        count: 8 # Count is the total amount of times the operation is performed
+        offset: 8 # Offset refers to gap since last stage. Default 1. If 0, parallel to previous stage
+        stride: 1 # There is (stride - 1) gap between each operation
+      - operation: pe.mac()
+        count: 64
+      - operation: sram_1.write()
+        count: 8
+    operation-times: 8

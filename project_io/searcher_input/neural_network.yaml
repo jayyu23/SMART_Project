@@ -1,16 +1,14 @@
 neural_network:
-  - name: cnn_1
-    nn_type: cnn
+  - name: dnn_1
+    nn_type: dnn
     dimensions:
-      fmap_height: 1524
-      fmap_width: 40
-      kernel_height: 3
-      kernel_width: 4
-      input_channel: 4
-      output_channel: 4
-      batch: 1
+      in_width: 16
+      in_height: 440
+      out_height: 128
+      weight_bit: 4
     start: # Assume we move everything from the PSRAM into the data_sram (for inputs) and model_sram (for weights)
       input: data_sram
       weights: model_sram
     end:
       output: sgemm_sram
+

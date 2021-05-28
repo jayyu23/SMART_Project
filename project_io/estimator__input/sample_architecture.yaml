@@ -1,0 +1,28 @@
+architecture:
+  name: example_architecture
+  version: 1.0
+  components:
+    - type: group
+      name: processor
+      components:
+      - type: component
+        name: pe
+        class: processing_element
+      - type: component
+        name: pe_register
+        class: register
+    - type: group
+      name: storage
+      components:
+      - type: component
+        name: sram_1
+        class: sram
+        arguments:
+          size: 8000
+          width: 64
+      - type: component
+        name: sram_2
+        class: sram
+        arguments:
+          size: 16000
+          width: 32

@@ -1,4 +1,4 @@
-import os
+import os, re
 from collections import OrderedDict
 from estimator.input_handler import database_handler
 from estimator.data_structures.primitive_component import PrimitiveComponent
@@ -23,19 +23,35 @@ class CompoundComponent:
         self.operations = OrderedDict()
 
         for subcomponent in yaml_data['subcomponents']:
+            instances = subcomponent['instances'] if 'instances' in subcomponent else 1
             # Determine if subcomponent is a primitive_component
             if database_handler.is_primitive_component(subcomponent['class']):
                 # Get the primitive component
                 sc_args = subcomponent['arguments'] if 'arguments' in subcomponent else None
-                comp = PrimitiveComponent(subcomponent['name'], subcomponent['class'], sc_args)
+                if instances > 1:
+                    sc_name = subcomponent['name']
+                    comps = OrderedDict({sc_name + "_" + str(i):
+                                             PrimitiveComponent(sc_name + "_" + str(i), subcomponent['class'], sc_args)
+                                         for i in range(instances)})
+                    self.subcomponents.update(comps)
+                else:
+                    comp = PrimitiveComponent(subcomponent['name'], subcomponent['class'], sc_args)
+                    self.subcomponents[comp.name] = comp
             else:
                 print("Compound Component Subcomponent Detected: %s " % subcomponent['class'])
                 # Check if compound component in CCL
                 assert subcomponent['class'] in compound_component_library, "Compound Component %s Not Found. Check " \
                                                                             "instance order" % subcomponent['class']
                 comp = deepcopy(compound_component_library[subcomponent['class']])
-                comp.name = subcomponent['name']
-            self.subcomponents[comp.name] = comp
+                sc_name = subcomponent['name']
+                if instances > 1:
+                    comps = OrderedDict({sc_name + "_" + str(i):
+                                             deepcopy(compound_component_library[subcomponent['class']])
+                                         for i in range(instances)})
+                    self.subcomponents.update(comps)
+                else:
+                    comp.name = subcomponent['name']
+                    self.subcomponents[comp.name] = comp
         for op in yaml_data['operations']:
             op_name = op['name']
             self.operations[op_name] = op['definition']
@@ -54,7 +70,7 @@ class CompoundComponent:
         :return: int values for each operation dict { str operation : int value }
         """
         values = OrderedDict(
-                {op_name: self.calculate_operation_stat(op_name, table_type) for op_name in self.operations})
+            {op_name: self.calculate_operation_stat(op_name, table_type) for op_name in self.operations})
         return values
 
     @cache
@@ -88,9 +104,12 @@ class CompoundComponent:
                             argument[k] = str(v).replace(comp_key, component_arguments[comp_key])
                 # Merge stored component args with operational runtime args
                 # print(1, component_arguments, 2, argument, 3, runtime_arg)
-                all_component_op_state_dict[obj] = {"method": method,
-                                                    "arguments": OrderedDict(
-                                                        {**component_arguments, **argument, **runtime_arg})}
+                # Match regex
+                objs = [key for key in all_component_op_state_dict if re.search(obj, key)]
+                for o in objs:
+                    all_component_op_state_dict[o] = {"method": method,
+                                                      "arguments": OrderedDict(
+                                                          {**component_arguments, **argument, **runtime_arg})}
 
             if sub_operation['type'] == "serial":
                 override_idle_state(sub_operation['operation'], self.component_arguments)
@@ -104,7 +123,8 @@ class CompoundComponent:
                 result = 0
                 repeat = sub_operation['operation-count'] if 'operation-count' in sub_operation else 1
                 # Since both PC and CC have calculate_operation_stat
-                result = sc_obj.calculate_operation_stat(sc_dict["method"], feature,tuple(sc_dict["arguments"].items()))
+                result = sc_obj.calculate_operation_stat(sc_dict["method"], feature,
+                                                         tuple(sc_dict["arguments"].items()))
                 # Store everything in results array
                 results_array.append(result * repeat)
             # If energy, sum. If cycle, max.
@@ -127,7 +147,7 @@ class CompoundComponent:
         out_dict = OrderedDict()
         for k, v in self.subcomponents.items():
             if isinstance(v, PrimitiveComponent) and v.comp_class == component_class:
-                out_dict[self.name+"."+k] = v
+                out_dict[self.name + "." + k] = v
             elif isinstance(v, CompoundComponent):
                 out_dict.update(v.get_component_class(component_class))
         return out_dict
