@@ -1,5 +1,4 @@
 from collections import OrderedDict
-from typing import final
 
 """
 Provides a sandbox environment in order to run the exec() script on values in the database
