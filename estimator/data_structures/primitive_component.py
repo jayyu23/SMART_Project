@@ -26,7 +26,7 @@ class PrimitiveComponent:
             self.scripts[feature] = database_handler.get_component_feature(self.comp_class, feature,
                                                                            list(self.comp_args.keys()),
                                                                            list(self.comp_args.values()))
-        print(self.name, self.comp_args)
+        # print(self.name, self.comp_args)
 
     def get_feature_reference_table(self, feature: str):
         """

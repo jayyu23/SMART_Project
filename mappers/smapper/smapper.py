@@ -66,7 +66,7 @@ class Smapper:
         self.param_op_map = op.param_operations_map
         self.param_labels = solver.param_labels
 
-    def search_firmware(self, algorithm="bayes", print_on=False):
+    def search_firmware(self, algorithm="linear", print_on=False):
         if algorithm == "bayes":
             b_start = time.time()
             # Conduct Bayesian optimization over the firmware possibilities
@@ -100,6 +100,7 @@ class Smapper:
                 energy, area, cycle = estimation
                 self.param_cost_map[k] = (score_firmware(energy, area, cycle), estimation)
             self.top_solutions = sorted(((*v, k) for k, v in self.param_cost_map.items()), reverse=True)
+            print(self.top_solutions)
             linear_score, linear_sol = abs(self.top_solutions[0][0]), self.top_solutions[0][1]
             print(len(self.param_cost_map), "combinations estimated")
             print("Exhaustive Search Time: ", time.time() - e_time)
@@ -143,4 +144,6 @@ class Smapper:
     def print_rankings(self, num=10):
         print('{:^25} | {:^35} | {:^20}'.format('Score', 'Metrics', 'Inputs'))
         for i in range(num):
+            if i >= len(self.top_solutions):
+                break
             print(i + 1, self.top_solutions[i])

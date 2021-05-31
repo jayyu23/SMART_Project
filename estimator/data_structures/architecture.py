@@ -47,7 +47,7 @@ def yaml_arch_factory(yaml_data: OrderedDict):
             arch.component_dict[item_name] = PrimitiveComponent(item_name, item_class, item_arguments)  # Create PC
         else:
             # Find item from compound component library
-            print("Not a primitive component", item)
+            # print("Not a primitive component", item)
             arch.component_dict[item_name] = deepcopy(compound_component_library[item_class])
             arch.component_dict[item_name].name = item_name
     return arch

@@ -26,9 +26,9 @@ def run_smapper():
     sm.set_nn("project_io/mapper_input/neural_network.yaml")
     start_time = time.time()
     sm.run_operationalizer()
-    # sm.search_firmware()
+    sm.search_firmware()
     # sm.graph_energy_cycle()
-    # sm.print_rankings()
+    sm.print_rankings()
     end_time = time.time()
     # print(sm.get_operations_from_param((16, 440, 128, 1))) # Get operation set for this param
     print("Execution time: ", end_time - start_time, "seconds")
@@ -61,4 +61,4 @@ def run_searcher():
 
 
 if __name__ == "__main__":
-    run_estimator()
+    run_smapper()
