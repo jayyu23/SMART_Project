@@ -2,8 +2,8 @@ neural_network:
   - name: cnn_1
     nn_type: cnn
     dimensions:
-      fmap_height: 1524
-      fmap_width: 40
+      fmap_height: 1526
+      fmap_width: 44
       kernel_height: 3
       kernel_width: 4
       input_channel: 4

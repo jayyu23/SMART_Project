@@ -130,8 +130,8 @@ class Smapper:
         return distances[0][1]
 
     def graph_energy_cycle(self):
-        energy_data = tuple(math.log10(v[0]) for v in self.param_cost_map.values())
-        cycle_data = tuple(math.log10(v[2]) for v in self.param_cost_map.values())
+        energy_data = tuple(math.log10(v[1][0]) for v in self.param_cost_map.values())
+        cycle_data = tuple(math.log10(v[1][2]) for v in self.param_cost_map.values())
         plt.scatter(energy_data, cycle_data, marker='.')
         plt.title('Same Hardware, Different Firmware: Energy vs Cycle')
         plt.xlabel('Energy (pJ) (log10)')

@@ -27,7 +27,7 @@ def run_smapper():
     start_time = time.time()
     sm.run_operationalizer()
     sm.search_firmware()
-    # sm.graph_energy_cycle()
+    sm.graph_energy_cycle()
     sm.print_rankings()
     end_time = time.time()
     # print(sm.get_operations_from_param((16, 440, 128, 1))) # Get operation set for this param
