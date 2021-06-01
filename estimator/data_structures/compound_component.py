@@ -9,50 +9,90 @@ from functools import lru_cache
 compound_component_library = OrderedDict()  # Ordered Dict representing all Compound Components
 
 
+# Compound Component Loader
+def load_compound_components(path="project_io/estimator_input/components", instance_order_file="_instance_order.yaml"):
+    """
+    Will initiate CC objects in the order listed in instance_order_file
+    :param path: directory containing compound components descriptions
+    :param instance_order_file: A YAML folder containing a specific order to instantiate the CCs
+    :return: None. Compound Components loaded in compound_component_library
+    """
+    # Detect the instance order YAML file
+    if instance_order_file in os.listdir(path):
+        cc_load_order = read_yaml_file(os.path.join(path, instance_order_file))
+        print("Found instance order YAML, listing order as follows: %s" % cc_load_order)
+    else:
+        cc_load_order = sorted(os.listdir(path))
+        print("Instance order YAML not found, initiating alphabetically: %s" % cc_load_order)
+    for file in cc_load_order:
+        # We assume one file one Compound Component
+        yaml_data = read_yaml_file(os.path.join(path, file))
+        # Check is a compound component file
+        if type(yaml_data) != OrderedDict or 'compound_component' not in yaml_data:
+            print("Incorrect formatting of compound component! File %s: " % file)
+            continue
+        compound_component_factory(yaml_data['compound_component'])
+
+
+def compound_component_factory(yaml_data: OrderedDict):
+    cc = CompoundComponent()
+    cc.name = yaml_data['name'] if 'name' in yaml_data else None
+    cc.comp_class = yaml_data['class'] if 'class' in yaml_data else yaml_data['name']
+    cc.component_arguments = yaml_data['arguments'] if 'arguments' in yaml_data else OrderedDict()
+    cc.subcomponents = OrderedDict()
+    cc.operations = OrderedDict()
+
+    for subcomponent in yaml_data['subcomponents']:
+        instances = subcomponent['instances'] if 'instances' in subcomponent else 1
+        # Determine if subcomponent is a primitive_component
+        if database_handler.is_primitive_component(subcomponent['class']):
+            # Get the primitive component
+            sc_args = subcomponent['arguments'] if 'arguments' in subcomponent else None
+            if instances > 1:
+                sc_name = subcomponent['name']
+                comps = OrderedDict({sc_name + "_" + str(i):
+                                         PrimitiveComponent(sc_name + "_" + str(i), subcomponent['class'], sc_args)
+                                     for i in range(instances)})
+                cc.subcomponents.update(comps)
+            else:
+                comp = PrimitiveComponent(subcomponent['name'], subcomponent['class'], sc_args)
+                cc.subcomponents[comp.name] = comp
+        else:
+            print("Compound Component Subcomponent Detected: %s " % subcomponent['class'])
+            # Check if compound component in CCL
+            assert subcomponent['class'] in compound_component_library, "Compound Component %s Not Found. Check " \
+                                                                        "instance order" % subcomponent['class']
+            comp = deepcopy(compound_component_library[subcomponent['class']])
+            sc_name = subcomponent['name']
+            if instances > 1:
+                comps = OrderedDict({sc_name + "_" + str(i):
+                                         deepcopy(compound_component_library[subcomponent['class']])
+                                     for i in range(instances)})
+                cc.subcomponents.update(comps)
+            else:
+                comp.name = subcomponent['name']
+                cc.subcomponents[comp.name] = comp
+
+    compound_component_library[cc.comp_class] = cc
+    cc.set_operations(yaml_data['operations'])
+    return cc
+
+
 class CompoundComponent:
     """
     Describes a compound component. A compound component can have either primitive components or compound components
     as subcomponents
     """
 
-    def __init__(self, yaml_data: OrderedDict):
-        self.name = yaml_data['name'] if 'name' in yaml_data else None
-        self.comp_class = yaml_data['class'] if 'class' in yaml_data else yaml_data['name']
-        self.component_arguments = yaml_data['arguments'] if 'arguments' in yaml_data else OrderedDict()
+    def __init__(self):
+        self.name = str()
+        self.comp_class = str()
+        self.component_arguments = OrderedDict()
         self.subcomponents = OrderedDict()
         self.operations = OrderedDict()
 
-        for subcomponent in yaml_data['subcomponents']:
-            instances = subcomponent['instances'] if 'instances' in subcomponent else 1
-            # Determine if subcomponent is a primitive_component
-            if database_handler.is_primitive_component(subcomponent['class']):
-                # Get the primitive component
-                sc_args = subcomponent['arguments'] if 'arguments' in subcomponent else None
-                if instances > 1:
-                    sc_name = subcomponent['name']
-                    comps = OrderedDict({sc_name + "_" + str(i):
-                                             PrimitiveComponent(sc_name + "_" + str(i), subcomponent['class'], sc_args)
-                                         for i in range(instances)})
-                    self.subcomponents.update(comps)
-                else:
-                    comp = PrimitiveComponent(subcomponent['name'], subcomponent['class'], sc_args)
-                    self.subcomponents[comp.name] = comp
-            else:
-                print("Compound Component Subcomponent Detected: %s " % subcomponent['class'])
-                # Check if compound component in CCL
-                assert subcomponent['class'] in compound_component_library, "Compound Component %s Not Found. Check " \
-                                                                            "instance order" % subcomponent['class']
-                comp = deepcopy(compound_component_library[subcomponent['class']])
-                sc_name = subcomponent['name']
-                if instances > 1:
-                    comps = OrderedDict({sc_name + "_" + str(i):
-                                             deepcopy(compound_component_library[subcomponent['class']])
-                                         for i in range(instances)})
-                    self.subcomponents.update(comps)
-                else:
-                    comp.name = subcomponent['name']
-                    self.subcomponents[comp.name] = comp
-        for op in yaml_data['operations']:
+    def set_operations(self, operations_yaml):
+        for op in operations_yaml:
             op_name = op['name']
             self.operations[op_name] = op['definition']
         # Add default idle operation
@@ -60,7 +100,6 @@ class CompoundComponent:
             idle_op = OrderedDict(
                 {'type': 'parallel', 'operations': ["%s.idle()" % sc for sc in self.subcomponents]})
             self.operations['idle'] = [idle_op]  # Since the dict value is a list of operations
-        compound_component_library[self.comp_class] = self
 
     def get_feature_reference_table(self, table_type: str):
         """
@@ -153,28 +192,4 @@ class CompoundComponent:
         return out_dict
 
 
-# Compound Component Loader
-def load_compound_components(path="test/input/components/", instance_order_file="_instance_order.yaml"):
-    """
-    Will initiate CC objects in the order listed in instance_order_file
-    :param path: directory containing compound components descriptions
-    :param instance_order_file: A YAML folder containing a specific order to instantiate the CCs
-    :return: None. Compound Components loaded in compound_component_library
-    """
-    cc_load_order = []
-    # Detect the instance order YAML file
-    if instance_order_file in os.listdir(path):
-        cc_load_order = read_yaml_file(path + instance_order_file)
-        print("Found instance order YAML, listing order as follows: %s" % cc_load_order)
-    else:
-        cc_load_order = sorted(os.listdir(path))
-        print("Instance order YAML not found, initiating alphabetically: %s" % cc_load_order)
 
-    for file in cc_load_order:
-        # We assume one file one Compound Component
-        yaml_data = read_yaml_file(os.path.join(path, file))
-        # Check is a compound component file
-        if type(yaml_data) != OrderedDict or 'compound_component' not in yaml_data:
-            print("Incorrect formatting of compound component! File %s: " % file)
-            continue
-        CompoundComponent(yaml_data['compound_component'])

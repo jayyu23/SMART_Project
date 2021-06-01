@@ -44,7 +44,8 @@ class Solver:
 
     def __cnn_solve(self):
         """
-        Tiling possibilities for a CNN
+        Tiling possibilities for a CNN, along the psum_h and psum_w dimensions.
+        Not considering permutations of access with regards to data exploitation
         :return: Tiling combinations for CNN
         """
         dims = self.nn.dimensions

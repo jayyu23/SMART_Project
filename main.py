@@ -9,9 +9,9 @@ from searcher.searcher import Searcher, yaml_searcher_factory
 
 
 def run_estimator():
-    est = estimator_factory("project_io/estimator__input/sample_architecture.yaml",
-                            "project_io/estimator__input/operations2.yaml",
-                            components_folder="project_io/estimator__input/components/",
+    est = estimator_factory("project_io/estimator_input/sample_architecture.yaml",
+                            "project_io/estimator_input/operations2.yaml",
+                            components_folder="project_io/estimator_input/components/",
                             db_table="TH2Components")
 
     print(est.operation_list)
@@ -61,4 +61,4 @@ def run_searcher():
 
 
 if __name__ == "__main__":
-    run_smapper()
+    run_searcher()

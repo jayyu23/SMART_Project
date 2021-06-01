@@ -31,7 +31,7 @@ class Searcher:
     def search_combinations(self):
         N = 1 # Top N firmware choices for each hardware recorded
         # Outer loop: architecture
-        for hw_param_set, architecture in self.meta_arch.iter_architectures():
+        for hw_param_set, architecture, cc_combination in self.meta_arch.iter_architectures():
             # Set the architecture for the firmware searcher
             print()
             print("Searching param set",hw_param_set, architecture)

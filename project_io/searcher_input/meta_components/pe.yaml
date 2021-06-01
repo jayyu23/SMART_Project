@@ -1,4 +1,4 @@
-compound_component:
+meta_compound_component:
   name: processing_element
   subcomponents:
   - name: mac
