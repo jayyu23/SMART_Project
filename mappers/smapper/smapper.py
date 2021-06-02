@@ -10,6 +10,7 @@ from mappers.smapper.solver import Solver
 from mappers.smapper.operationalizer import Operationalizer
 import matplotlib.pyplot as plt
 import time
+import math
 
 
 def score_firmware(energy, area, cycle):
@@ -33,7 +34,7 @@ class Smapper:
         self.param_cost_map = OrderedDict()
         self.param_op_map = OrderedDict()
         self.top_solutions = ()
-        self.param_labels = None
+        self.fw_param_labels = None
         self.bayes_model = None
 
     def set_architecture(self, arch_path, components_folder, database_table):
@@ -64,7 +65,7 @@ class Smapper:
         op = Operationalizer(self.architecture, solver)
         op.create_operations()
         self.param_op_map = op.param_operations_map
-        self.param_labels = solver.param_labels
+        self.fw_param_labels = solver.param_labels
 
     def search_firmware(self, algorithm="linear", print_on=False):
         if algorithm == "bayes":
@@ -73,20 +74,21 @@ class Smapper:
             # Set the parameter boundaries
             param_bounds = OrderedDict()
             fw_param_point_set = self.param_op_map.keys()
-            for i in range(len(self.param_labels)):
+            for i in range(len(self.fw_param_labels)):
                 dimension_i = [p[i] for p in fw_param_point_set]
                 # Heuristic: generally large tiles are more efficient
                 max_i, min_i = max(dimension_i) * 1.25, min(dimension_i) * 0.9
-                param_bounds[self.param_labels[i]] = (min_i, max_i)
+                param_bounds[self.fw_param_labels[i]] = (min_i, max_i)
             # Now apply the Bayesian model
-            seed_num = round(0.01 * len(self.param_op_map))
+            seed_num = math.ceil(math.log2(len(self.param_op_map)))
             self.bayes_model = BayesianOptimization(f=self.__bayesian_trial,
                                                     pbounds=param_bounds,
                                                     random_state=10,
                                                     verbose=True)
             self.bayes_model.maximize(seed_num*3, seed_num, kappa=1)
             bayes_score = abs(self.bayes_model.max['target'])
-            bayes_sol = self.__make_discrete_param(self.bayes_model.max['params'])
+            bayes_p = self.__make_discrete_param(self.bayes_model.max['params'])
+            bayes_sol = {self.fw_param_labels[i]: bayes_p[i] for i in range(len(bayes_p))}
             print("Bayes Firmware Estimate:", bayes_sol, "Score of:", bayes_score)
             print("Bayesian Time:", time.time() - b_start)
             return bayes_sol, bayes_score
@@ -123,7 +125,7 @@ class Smapper:
         :param continuous_param_set: The set of continuous params, size N
         :return: The parameter set made discrete, as an OrderedDict(). This will be put into **kwargs of Black Box Func
         """
-        continuous_param_ordered = [continuous_param_set[i] for i in self.param_labels]
+        continuous_param_ordered = [continuous_param_set[i] for i in self.fw_param_labels]
         continuous_param = np.array(tuple(continuous_param_ordered))
         euclid_distance = lambda x, y: np.sqrt(((x - y)**2).sum(axis=0))
         distances = sorted([[euclid_distance(np.array(p), continuous_param), p] for p in self.param_op_map])

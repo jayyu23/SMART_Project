@@ -52,7 +52,7 @@ def run_arch_finder():
 def run_searcher():
     start_time = time.time()
     search = yaml_searcher_factory("project_io/searcher_input/meta_architecture.yaml",
-                                   "project_io/mapper_input/neural_network.yaml")
+                                   "project_io/searcher_input/neural_network.yaml")
     search.search_combinations()
     search.graph_linear_bayes()
     # search.graph_results_2d()

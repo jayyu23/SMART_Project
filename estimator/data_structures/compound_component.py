@@ -90,6 +90,7 @@ class CompoundComponent:
         self.component_arguments = OrderedDict()
         self.subcomponents = OrderedDict()
         self.operations = OrderedDict()
+        self.config_label = {} # Misc label parameter to keep track of whats what
 
     def set_operations(self, operations_yaml):
         for op in operations_yaml:
@@ -186,7 +187,7 @@ class CompoundComponent:
         out_dict = OrderedDict()
         for k, v in self.subcomponents.items():
             if isinstance(v, PrimitiveComponent) and v.comp_class == component_class:
-                out_dict[self.name + "." + k] = v
+                out_dict[k] = v
             elif isinstance(v, CompoundComponent):
                 out_dict.update(v.get_component_class(component_class))
         return out_dict

@@ -33,16 +33,17 @@ class Searcher:
         # Outer loop: architecture
         for hw_param_set, architecture, cc_combination in self.meta_arch.iter_architectures():
             # Set the architecture for the firmware searcher
-            print()
-            print("Searching param set",hw_param_set, architecture)
+            print("*"*50)
+            print("Searching param set", architecture.config_label)#  hw_param_set, len(architecture.component_dict['npu_pe'].subcomponents))
             self.firmware_mapper.architecture = architecture
             self.firmware_mapper.run_operationalizer()
             bayes_input, score = self.firmware_mapper.search_firmware(algorithm="bayes")
+            """
             self.firmware_mapper.search_firmware(algorithm="linear")
             self.firmware_mapper.print_rankings(N)
 
             num_fw_possibilities = len(self.firmware_mapper.top_solutions)
-            print(num_fw_possibilities)
+            # print(num_fw_possibilities)
 
             for rank in range(num_fw_possibilities):
                 if self.firmware_mapper.top_solutions[rank][2] == bayes_input:
@@ -57,6 +58,7 @@ class Searcher:
             self.hw_fw_result += solution_data
             self.linear_bayes['linear'].append(self.firmware_mapper.top_solutions[0][0])
             self.linear_bayes['bayes'].append(score)
+        """
         print()
         print("="*20)
         print(f"Total: {self.combinations_searched} combinations searched")

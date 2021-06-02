@@ -64,6 +64,7 @@ class Architecture:
         self.name = str()
         self.version = float()
         self.component_dict = OrderedDict()
+        self.config_label = {}  # Add in a misc label parameter
 
     @lru_cache(None)
     def get_component_class(self, component_class):
@@ -77,7 +78,8 @@ class Architecture:
             if isinstance(v, PrimitiveComponent) and v.comp_class == component_class:
                 out_dict[k] = v
             elif isinstance(v, CompoundComponent):
-                out_dict.update(v.get_component_class(component_class))
+                out_dict.update(OrderedDict({str(k + "." + cc_k): cc_v for cc_k, cc_v
+                                             in v.get_component_class(component_class).items()}))
         return out_dict
 
     def print_current_reference_table(self, table_type: str, print_data: bool = True):

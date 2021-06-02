@@ -22,7 +22,7 @@ class MetaArchitecture:
         self.base_arch.version = yaml_data['version']
         self.pc_arg_val = []  # (PC, arg, arg_array_vals)
         self.meta_cc_combs = []  # 2d array, each item is a list of meta-cc possibilities
-        self.meta_cc_labels = []
+        self.meta_cc_name = [] # MCC name, MCC variables
         self.argument_combs = None
         self.param_architecture_map = None
         self.param_set_labels = [] # String tuple
@@ -40,11 +40,11 @@ class MetaArchitecture:
                 if item_arguments:
                     self.pc_arg_val += [(pc, k, v) for k, v in item_arguments.items()]
                     self.param_set_labels += [f"hardware_{item_name}_{key}" for key in item_arguments]
-            else: # TODO: Fix CC for PEs
+            else:
                 mcc = deepcopy(meta_compound_component_library[item_class])
-                self.meta_cc_labels.append(item_name)
+                self.meta_cc_name.append(item_name)
                 meta_cc_combs.append(list(mcc.iter_compound_components()))
-        self.meta_cc_combs = itertools.product(*meta_cc_combs)
+        self.meta_cc_combs = list(itertools.product(*meta_cc_combs))
         print(self.param_set_labels)
 
     def load_argument_combinations(self):
@@ -53,19 +53,21 @@ class MetaArchitecture:
 
     def iter_architectures(self):
         # Return generator of the same base architecture but with different param sets
+        # print((tuple(self.argument_combs)))
         for param_set in self.argument_combs:
             self.update_base_arch(param_set)
             for cc_comb in self.meta_cc_combs:
                 self.update_cc_from_comb(cc_comb)
-                print(self.base_arch)
                 yield param_set, self.base_arch, cc_comb
 
     def update_base_arch(self, param_set):
         for i in range(len(self.pc_arg_val)):
+            self.base_arch.config_label[self.param_set_labels[i]] = param_set[i]
             self.pc_arg_val[i][0].comp_args[self.pc_arg_val[i][1]] = param_set[i]
             self.pc_arg_val[i][0].clear_cache()
 
     def update_cc_from_comb(self, cc_comb):
         for cc_index in range(len(cc_comb)):
-            name = self.meta_cc_labels[cc_index]
+            name = self.meta_cc_name[cc_index]
             self.base_arch.component_dict[name] = cc_comb[cc_index]
+            self.base_arch.config_label.update(cc_comb[cc_index].config_label)

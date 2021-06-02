@@ -47,6 +47,7 @@ class MetaCompoundComponent:
         self.base_cc.set_operations(yaml_data['operations'])
         self.subcomponent_var = []
         self.subcomponent_combs = []
+        self.subcomponent_comb_labels = []
 
         meta_combs = []
         # Now iterate over subcomponents
@@ -60,6 +61,7 @@ class MetaCompoundComponent:
                     ins = subcomponent['instances'] if isinstance(subcomponent['instances'], list) \
                         else [subcomponent['instances']]  # Convert to list
                     meta_combs.append(ins)
+                    self.subcomponent_comb_labels.append(f"hardware_{sc_name}_instances")
                 else:
                     self.base_cc.subcomponents[sc_name] = PrimitiveComponent(sc_name, sc_class)
                 # Check if there are arguments
@@ -69,10 +71,12 @@ class MetaCompoundComponent:
                         self.subcomponent_var.append([True, "argument", sc_name, a_key])
                         a_val_list = a_val if isinstance(a_val, list) else [a_val]
                         meta_combs.append(a_val_list)
+                        self.subcomponent_comb_labels.append(f"hardware_{sc_name}_{a_key}")
                 # Get the subcomponent combs from meta_combs
                 self.subcomponent_combs = itertools.product(*meta_combs)
             else:
-                # TODO: Deal with a compound subcomponent
+                # Deal with a compound subcomponent
+                raise NotImplementedError("Compound Component Subcomponents functionality not yet implemented!")
                 pass
 
     def iter_compound_components(self):
@@ -91,10 +95,12 @@ class MetaCompoundComponent:
                         for i in range(param_value):
                             n = sc_name + "_" + str(i)
                             self.base_cc.subcomponents[n] = PrimitiveComponent(n, sc_class)
+
                     elif param_info[1] == "argument":
                         sc_name = param_info[2]
                         for k, v in self.base_cc.subcomponents.items():
                             if re.match(f"{sc_name}_[0-9*]", k) and isinstance(v, PrimitiveComponent):
                                 v.comp_args[param_info[3]] = param_value
+                    self.base_cc.config_label[self.subcomponent_comb_labels[p_index]] = param_value
             yield deepcopy(self.base_cc)
 

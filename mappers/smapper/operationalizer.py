@@ -46,8 +46,8 @@ class Operationalizer:
             # Get how many bits can the intmac do. 8, 16, etc from architecture,
             # through searching for intmac units in arch
             mac_info = self.architecture.get_component_class('intmac')
-            mac_array_num, intmac_bits = 8,8 #TODO len(mac_info), tuple(mac_info.items())[0][1].comp_args['datasize']
-            pe_unit = "npu_pe" #TODO tuple(mac_info.items())[0][0].split('.')[0]  # since the search result shows pe.mac_0
+            mac_array_num, intmac_bits = len(mac_info), tuple(mac_info.items())[0][1].comp_args['datasize']
+            pe_unit = tuple(mac_info.items())[0][0].split('.')[0]  # since the search result shows pe.mac_0
             pe_mac_ops = in_h * out_h / (mac_array_num * intmac_bits / 8)
             # Find the output destination
             out_width, out_bit = int(output_end['width']), 8
@@ -105,8 +105,8 @@ class Operationalizer:
             # Get how many bits can the intmac do. 8, 16, etc from architecture,
             # through searching for intmac units in arch
             mac_info = self.architecture.get_component_class('intmac')
-            mac_array_num, intmac_bits = 8, 8  # TODO len(mac_info), tuple(mac_info.items())[0][1].comp_args['datasize']
-            pe_unit = "npu_pe"  # TODO tuple(mac_info.items())[0][0].split('.')[0]  # since the search result shows pe.mac_0
+            mac_array_num, intmac_bits = len(mac_info), tuple(mac_info.items())[0][1].comp_args['datasize']
+            pe_unit = tuple(mac_info.items())[0][0].split('.')[0]  # since the search result shows pe.mac_0
             pe_mac_ops = mac_num / (mac_array_num * intmac_bits / 8)
 
             # Find the output destination
