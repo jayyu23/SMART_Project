@@ -3,7 +3,7 @@ meta_compound_component:
   subcomponents:
   - name: mac
     class: intmac
-    instances: [8, 16, 32, 64]
+    instances: [8, 16]
     arguments:
       datasize: [8, 16]
   operations:

@@ -4,7 +4,6 @@ from collections import OrderedDict
 from mappers.smapper.wrappers import Pipeline
 import math, numpy
 
-
 class Operationalizer:
 
     def __init__(self, architecture: Architecture, solver: Solver):
@@ -49,7 +48,7 @@ class Operationalizer:
             mac_array_num, intmac_bits = len(mac_info), tuple(mac_info.items())[0][1].comp_args['datasize']
             # print(mac_array_num == 16)
             pe_unit = tuple(mac_info.items())[0][0].split('.')[0]  # since the search result shows pe.mac_0
-            pe_mac_ops = math.ceil(in_h * out_h / (mac_array_num * intmac_bits / 8))
+            pe_mac_ops = math.ceil(in_h * in_w * out_h / (mac_array_num * intmac_bits))
             # Find the output destination
             out_width, out_bit = int(output_end['width']), 8
             out_write_times = out_h * in_width / (out_width)

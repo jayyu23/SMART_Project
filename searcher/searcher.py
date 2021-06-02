@@ -33,15 +33,16 @@ class Searcher:
         self.meta_arch.load_argument_combinations()
 
     def search_combinations(self):
-        # Outer loop: architecture
+        # Outer loop: hardware architecture search
         top_solutions_num = 10
         start_time = time.time()
         for hw_param_set, architecture in self.meta_arch.iter_architectures():
-            # Set the architecture for the firmware searcher
+            # Inner loop: firmware operations search
             self.logger.add_line("="*50)
             self.logger.add_line(f"Hardware param: {architecture.config_label}")
             self.firmware_mapper.architecture = architecture
             self.firmware_mapper.run_operationalizer()
+            # Firmware operations search, using Bayesian Optimization algorithm
             bayes_fw_input, score, eac = self.firmware_mapper.search_firmware(algorithm="bayes")
             search_space = len(self.firmware_mapper.param_op_map)
             self.logger.add_line(f"Firmware param (Best from Bayesian Opt): {bayes_fw_input}")
@@ -54,7 +55,7 @@ class Searcher:
                 self.top_solutions.sort()
             elif score < self.top_solutions[-1][0]:
                 self.top_solutions[-1] = [score, bayes_fw_input, eac, deepcopy(architecture)]
-                self.top_solutions.sort()
+                self.top_solutions.sort(key=lambda x: x[0])
         # Summarize the search
         end_time = time.time()
         self.logger.add_line("="*50)
@@ -70,6 +71,8 @@ class Searcher:
             self.logger.add_line(f"\t\tFirmware: {solution[1]}")
         self.logger.add_line(f"Execution time: {end_time - start_time} seconds")
         self.logger.write_out(f"project_io/test_run/search_log{time.time_ns()}.txt")
+        # TODO: Retrieve the optimal architecture + operations, and analyze in detail. (Pie charts)
+        #   Do this by running Estimator again with analysis = True
 
     def graph_results_3d(self):
         ax = plt.axes(projection='3d')
