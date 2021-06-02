@@ -58,6 +58,7 @@ class MetaArchitecture:
             self.update_base_arch(param_set)
             for cc_comb in self.meta_cc_combs:
                 self.update_cc_from_comb(cc_comb)
+                self.base_arch.clear_cache()
                 yield param_set, self.base_arch
 
     def update_base_arch(self, param_set):

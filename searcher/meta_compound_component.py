@@ -102,5 +102,6 @@ class MetaCompoundComponent:
                             if re.match(f"{sc_name}_[0-9*]", k) and isinstance(v, PrimitiveComponent):
                                 v.comp_args[param_info[3]] = param_value
                     self.base_cc.config_label[self.subcomponent_comb_labels[p_index]] = param_value
+            self.base_cc.clear_caches()
             yield deepcopy(self.base_cc)
 

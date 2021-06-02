@@ -192,5 +192,9 @@ class CompoundComponent:
                 out_dict.update(v.get_component_class(component_class))
         return out_dict
 
+    def clear_caches(self):
+        self.get_component_class.cache_clear()
+        self.calculate_operation_stat.cache_clear()
+
 
 

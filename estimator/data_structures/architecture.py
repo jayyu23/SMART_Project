@@ -110,3 +110,6 @@ class Architecture:
         if print_data:
             print(out_text)
         write_as_file(out_text, "test/output/%s_reference_table.txt" % table_type)
+
+    def clear_cache(self):
+        self.get_component_class.cache_clear()
