@@ -22,7 +22,7 @@ def score_firmware(energy, area, cycle):
     :param cycle: Cycle data, in cycles
     :return:
     """
-    return -1 * energy * cycle
+    return -1 * cycle
 
 
 class Smapper:
@@ -80,7 +80,7 @@ class Smapper:
                 max_i, min_i = max(dimension_i) * 1.25, min(dimension_i) * 0.9
                 param_bounds[self.fw_param_labels[i]] = (min_i, max_i)
             # Now apply the Bayesian model
-            seed_num = math.ceil(math.log2(len(self.param_op_map)))
+            seed_num = math.ceil(len(self.param_op_map) * 0.01)
             self.bayes_model = BayesianOptimization(f=self.__bayesian_trial,
                                                     pbounds=param_bounds,
                                                     random_state=10,
@@ -89,9 +89,11 @@ class Smapper:
             bayes_score = abs(self.bayes_model.max['target'])
             bayes_p = self.__make_discrete_param(self.bayes_model.max['params'])
             bayes_sol = {self.fw_param_labels[i]: bayes_p[i] for i in range(len(bayes_p))}
+            e = Estimator(self.architecture, self.param_op_map[bayes_p])
+            bayes_eac = e.estimate(['energy', 'area', 'cycle'], analysis=False)
             print("Bayes Firmware Estimate:", bayes_sol, "Score of:", bayes_score)
             print("Bayesian Time:", time.time() - b_start)
-            return bayes_sol, bayes_score
+            return bayes_sol, bayes_score, bayes_eac
 
         elif algorithm == "linear":
             e_time = time.time()
@@ -103,10 +105,11 @@ class Smapper:
                 self.param_cost_map[k] = (score_firmware(energy, area, cycle), estimation)
             self.top_solutions = sorted(((*v, k) for k, v in self.param_cost_map.items()), reverse=True)
             print(self.top_solutions)
-            linear_score, linear_sol = abs(self.top_solutions[0][0]), self.top_solutions[0][1]
+            linear_score = abs(self.top_solutions[0][0])
+            linear_eac, linear_sol = self.top_solutions[0][1], self.top_solutions[0][2]
             print(len(self.param_cost_map), "combinations estimated")
             print("Exhaustive Search Time: ", time.time() - e_time)
-            return linear_sol, linear_score
+            return linear_sol, linear_score, linear_eac
 
     def __bayesian_trial(self, **kwargs):
         param_dict = OrderedDict(locals()['kwargs'])
