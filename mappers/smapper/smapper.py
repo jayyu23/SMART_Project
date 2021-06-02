@@ -22,7 +22,7 @@ def score_firmware(energy, area, cycle):
     :param cycle: Cycle data, in cycles
     :return:
     """
-    return -1 * cycle
+    return -1 * energy * area * cycle
 
 
 class Smapper:

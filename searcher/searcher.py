@@ -34,19 +34,19 @@ class Searcher:
 
     def search_combinations(self):
         # Outer loop: architecture
-        top_solutions_num = 3
+        top_solutions_num = 10
         start_time = time.time()
         for hw_param_set, architecture in self.meta_arch.iter_architectures():
             # Set the architecture for the firmware searcher
-            self.logger.add_line("="*20)
+            self.logger.add_line("="*50)
             self.logger.add_line(f"Hardware param: {architecture.config_label}")
             self.firmware_mapper.architecture = architecture
             self.firmware_mapper.run_operationalizer()
             bayes_fw_input, score, eac = self.firmware_mapper.search_firmware(algorithm="bayes")
             search_space = len(self.firmware_mapper.param_op_map)
             self.logger.add_line(f"Firmware param (Best from Bayesian Opt): {bayes_fw_input}")
-            self.logger.add_line(f"\t\tScore:{score}")
-            self.logger.add_line(f"\t\tEnergy (pJ), Area (um^2), Cycle:{eac}")
+            self.logger.add_line(f"\t\tScore: {score}")
+            self.logger.add_line(f"\t\tEnergy (pJ), Area (um^2), Cycle: {eac}")
             self.logger.add_line(f"Search space: {search_space} firmware possibilities")
             self.combinations_searched += search_space
             if len(self.top_solutions) < top_solutions_num:
@@ -54,38 +54,16 @@ class Searcher:
                 self.top_solutions.sort()
             elif score < self.top_solutions[-1][0]:
                 self.top_solutions[-1] = [score, bayes_fw_input, eac, deepcopy(architecture)]
-            """
-            # This script is intermediate, used to evaluate the effectiveness of bayes search against linear search
-             N = 1 # Top N firmware choices for each hardware recorded
-            self.firmware_mapper.search_firmware(algorithm="linear")
-            self.firmware_mapper.print_rankings(N)
-
-            num_fw_possibilities = len(self.firmware_mapper.top_solutions)
-            # print(num_fw_possibilities)
-
-            for rank in range(num_fw_possibilities):
-                if self.firmware_mapper.top_solutions[rank][2] == bayes_fw_input:
-                    percentile = round(100*(1 - (rank/num_fw_possibilities)), 2)
-                    print(f"Bayesian solution is rank {rank + 1} out of {num_fw_possibilities}")
-                    print(f"Better than {percentile}% of solutions")
-                    self.bayes_percentile.append(percentile)
-                    break
-            solution_data = list((hw_param_set, fw_param_set, result) for score, result, fw_param_set
-                                  in self.firmware_mapper.top_solutions[:N])
-            self.combinations_searched += len(self.firmware_mapper.param_op_map)
-            self.hw_fw_result += solution_data
-            self.linear_bayes['linear'].append(self.firmware_mapper.top_solutions[0][0])
-            self.linear_bayes['bayes'].append(score)
-        """
+                self.top_solutions.sort()
         # Summarize the search
         end_time = time.time()
-        self.logger.add_line("="*20)
+        self.logger.add_line("="*50)
         self.logger.add_line(f"Total: {self.combinations_searched} combinations searched")
-        self.logger.add_line("="*20)
+        self.logger.add_line("="*50)
         self.logger.add_line(f"Top solutions found:")
         for solution_i in range(top_solutions_num):
             solution = self.top_solutions[solution_i]
-            self.logger.add_line(f"***Rank {solution_i}***")
+            self.logger.add_line(f"#{solution_i + 1}\t\t{'*'*20}")
             self.logger.add_line(f"\t\tScore: {solution[0]}")
             self.logger.add_line(f"\t\tEnergy (pJ), Area (um^2), Cycle: {solution[2]}")
             self.logger.add_line(f"\t\tHardware: {solution[3].config_label}")

@@ -11,7 +11,7 @@ class Logger:
 
     def add_line(self, line_string):
         now = datetime.datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
-        print(f"{now}: {line_string}")
+        # print(f"{now}: {line_string}")
         self.lines.append(f"{now}: {line_string}")
 
     def write_out(self, file_path):

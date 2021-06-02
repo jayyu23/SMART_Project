@@ -54,11 +54,9 @@ def run_searcher():
     search = yaml_searcher_factory("project_io/searcher_input/meta_architecture.yaml",
                                    "project_io/searcher_input/neural_network.yaml")
     search.search_combinations()
-    search.rank_results()
     # search.graph_linear_bayes()
     # search.graph_results_2d()
     print("Execution time: ", time.time() - start_time, "seconds")
-
 
 
 if __name__ == "__main__":
