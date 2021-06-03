@@ -22,7 +22,7 @@ class Solver:
         self.nn = nn
         self.factor_comb = None
         self.param_labels = None
-        self.original_tile = None # Original tile
+        self.original_tile = None  # Original tile
         self.__solve_maps = {'dnn': self.__dnn_solve, 'cnn': self.__cnn_solve}
         self.factor_comb = self.__solve_maps[self.nn.nn_type]()
 

@@ -28,6 +28,9 @@ class PrimitiveComponent:
                                                                            list(self.comp_args.values()))
         # print(self.name, self.comp_args)
 
+    def __repr__(self):
+        return f"{self.name} {self.comp_class} PC with {self.comp_args}"
+
     def get_feature_reference_table(self, feature: str):
         """
         Get the reference table given operations + scripts, which DOES NOT involve operations dict()

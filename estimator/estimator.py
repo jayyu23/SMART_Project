@@ -143,7 +143,7 @@ class Estimator:
         out_text += "Total %s Estimation: %s %s" % (feature.capitalize(),
                                                     round(arch_total_feature, 5), units[feature]) + "\n"
         if analysis:
-            print(out_text)
+            # print(out_text)
             plot.pie(x=component_feature_dict.values(), labels=component_feature_dict.keys(), autopct='%1.1f%%')
             plot.title(f"Component Breakdown for {feature.capitalize()} (Unit: {units[feature]})")
             plot.savefig(png_dir)

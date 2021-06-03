@@ -1,5 +1,4 @@
 from estimator.estimator import Estimator
-from mappers.smapper.wrappers import write_yaml
 from searcher.meta_architecture import MetaArchitecture
 from estimator.utils import read_yaml_file
 from mappers.smapper.smapper import Smapper
@@ -55,10 +54,11 @@ class Searcher:
             self.combinations_searched += search_space
             if len(self.top_solutions) < top_solutions_num:
                 self.top_solutions.append([score, bayes_fw_input, eac, deepcopy(architecture)])
-                self.top_solutions.sort()
+                self.top_solutions.sort(key=lambda x: x[0])
             elif score < self.top_solutions[-1][0]:
                 self.top_solutions[-1] = [score, bayes_fw_input, eac, deepcopy(architecture)]
                 self.top_solutions.sort(key=lambda x: x[0])
+                # print("sorted", self.top_solutions)
         end_time = time.time()
         # Summarize the search, create output directory
         run_id = time.time_ns()
@@ -79,13 +79,18 @@ class Searcher:
         self.logger.write_out(os.path.join(out_dir, "search_log.txt"))
         # Retrieve the optimal architecture + operations, and analyze in detail. (Pie charts)
         #   Do this by running Estimator again with analysis = True
+        print([c[0] for c in self.top_solutions])
         for i in range(top_solutions_num):
-            print(self.top_solutions[i])
+            print(self.top_solutions[i][3].component_dict['npu_pe'].subcomponents)
             solution_folder = os.path.join(out_dir, f"rank{i + 1}")
             os.mkdir(os.path.join(out_dir, f"rank{i + 1}"))
             analysis_arch = self.top_solutions[i][3]
-            analysis_op = self.firmware_mapper.param_op_map[tuple(self.top_solutions[i][1].values())]
-            # write_yaml(analysis_arch)
+            # Reset the firmware mapper to the winning architecture model
+            self.firmware_mapper.architecture = analysis_arch
+            self.firmware_mapper.run_operationalizer()  # To get the param_op map
+            firmware_config = self.top_solutions[i][1]
+            param_op = tuple(firmware_config[x] for x in self.firmware_mapper.fw_param_labels)
+            analysis_op = self.firmware_mapper.param_op_map[param_op]
             analysis_estimator = Estimator(analysis_arch, analysis_op)
             analysis_estimator.estimate(["energy", "area", "cycle"], analysis=True, out_dir=solution_folder)
 
