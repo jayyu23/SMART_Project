@@ -4,6 +4,7 @@ from collections import OrderedDict
 from mappers.smapper.wrappers import Pipeline
 import math, numpy
 
+
 class Operationalizer:
 
     def __init__(self, architecture: Architecture, solver: Solver):

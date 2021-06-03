@@ -20,9 +20,9 @@ def score_firmware(energy, area, cycle):
     :param energy: Energy data, in pJ
     :param area: Area data, in um^2
     :param cycle: Cycle data, in cycles
-    :return:
+    :return: Score of the firmware architecture. A higher score means better architecture.
     """
-    return -1 * (math.log10(energy) + math.log10(area) + 1.5 * math.log10(cycle))
+    return -1 * (math.log10(energy) + math.log10(area) + math.log10(cycle))
 
 
 class Smapper:
@@ -98,7 +98,8 @@ class Smapper:
             Round a continuous parameter set suggested by the Bayesian Model into a discrete parameter set that
             is valid. Uses Euclidean distance algorithm
             :param continuous_param_set: The set of continuous params, size N
-            :return: The parameter set made discrete, as an OrderedDict(). This will be put into **kwargs of Black Box Func
+            :return: The parameter set made discrete, as an OrderedDict().
+            This will be put into **kwargs of Black Box Function
             """
             continuous_param_ordered = [continuous_param_set[i] for i in self.fw_param_labels]
             continuous_param = np.array(tuple(continuous_param_ordered))

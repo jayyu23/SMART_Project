@@ -2,15 +2,12 @@ from collections import OrderedDict
 from copy import deepcopy
 import pandas as pd
 import matplotlib.pyplot as plot
-import time
+import time, os
 from estimator.data_structures.architecture import yaml_arch_factory, Architecture
 from estimator.data_structures.compound_component import load_compound_components
 from estimator.input_handler import *
 
 # DEFAULT_DB_PATH = "estimator/database/intelligent_primitive_component_library.db"
-
-
-OUT_DIR = "project_io/estimation_output/"
 
 
 def estimator_factory(arch_path: str, op_path: str, db_table, components_folder):
@@ -37,12 +34,14 @@ class Estimator:
         self.architecture = architecture
         self.operation_list = operations
         self.count = 0
+        self.out_dir = "project_io/estimation_output/"
 
-    def estimate(self, features: list, analysis=True):
+    def estimate(self, features: list, analysis=True, out_dir=None):
         # print(database_handler.table)
+        out_dir = out_dir if out_dir else self.out_dir
         out = []
         for f in features:
-            out.append(self.__estimate_feature(f, OUT_DIR, analysis))
+            out.append(self.__estimate_feature(f, out_dir, analysis))
         return tuple(out)
 
     def __estimate_feature(self, feature: str, out_dir, analysis=True):
@@ -54,8 +53,9 @@ class Estimator:
         assert self.operation_list is not None, "No operation count database available to conduct estimation."
         assert feature in ('energy', 'area', 'cycle'), "Error in feature definition"
         component_dict = self.architecture.component_dict
-        out_file = out_dir + "%s_estimation.txt" % feature
-        csv_dir = out_dir + "/%s_estimation_matrix.csv" % feature
+        out_file = os.path.join(out_dir, "%s_estimation.txt" % feature)
+        csv_dir = os.path.join(out_dir, "%s_estimation_matrix.csv" % feature)
+        png_dir = os.path.join(out_dir, "%s_pie_chart_breakdown.png" % feature)
         units = {'energy': 'pJ', 'area': 'um^2', 'cycle': 'cycles'}
         arch_total_feature = 0
         # Dataframe with Rows = component, Columns = Operation, with a 'total' row at the bottom
@@ -146,8 +146,8 @@ class Estimator:
             print(out_text)
             plot.pie(x=component_feature_dict.values(), labels=component_feature_dict.keys(), autopct='%1.1f%%')
             plot.title(f"Component Breakdown for {feature.capitalize()} (Unit: {units[feature]})")
-            plot.show()
-
+            plot.savefig(png_dir)
+            plot.close()
             comp_op_matrix.to_csv(csv_dir)
             write_as_file(out_text, out_file)
         return arch_total_feature
