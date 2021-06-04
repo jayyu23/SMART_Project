@@ -55,8 +55,6 @@ def run_searcher():
                                    "project_io/searcher_input/original_arch/meta_components",
                                    "project_io/searcher_input/neural_network.yaml")
     search.search_combinations(verbose=True, algorithm="bayes")
-    # search.graph_linear_bayes()
-    # search.graph_results_2d()
     print("Execution time: ", time.time() - start_time, "seconds")
 
 

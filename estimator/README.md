@@ -1,37 +1,38 @@
-# Shensilicon Microchip Architectural Reference Tool
+# SMART Estimator
 
-*Updated 2021-04-06 by Jay Yu*
+*Updated 2021-06-04 by Jay Yu*
 
 *Shensilicon Semiconductors*
 
 ## Overview
 
-The Shensilicon Microchip Architectural Reference Tool is a project designed to provide architecture-level feature estimations of Shensilicon TH-series microchips. The features included within the SMART project are **energy (pJ)**, **area (um^2)** and **cycle** data. 
+The **Shensilicon Microchip Architectural Reference Tool (SMART)** is a project designed to provide assistance in the design of the Shensilicon TH-series microchips through quantitative analysis of architectures' **energy (pJ)**, **area (um^2)** and **cycle** consumption when running Neural Networks. The **SMART Estimator** acts as an engine and core analysis tool for the project.
 
-## Dependencies
+Inputs:
 
-The following packages are used outside of the default Python packages. These need to be installed via pip:
+- Architecture YAML file: describing the hardware architecture to be analyzed
+- Operations YAML file: describing the operations the hardware architecture carries out
+- IPCL SQLite Database: Contains the energy/area/cycle functions for basic hardware components (eg. SRAM, intmac, register)
+- (Optional) Compound Components Folder: Describes more complex, user-defined microarchitectures that may be specific to a certain architecture (eg. processing element)
 
-- `PyYAML`: in order to read in YAML input files
-- `yamlordereddictloader`: to load YAML input files as `OrderedDict()`
-- `pandas`: In order to provide the Pandas Dataframe for the Component-Operation Matrix
-- `matplotlib`: To output the pie chart visuals on energy consumption breakdown
+Outputs:
 
-## Project Timeline
+- Energy/Area/Cycle Component Breakdown TXT analysis
+- Energy/Area/Cycle Matrix, detailing the breakdown at each operation for each component
+- Energy/Area/Cycle Pie Chart, graphically analyzing the breakdown for each component
 
-The SMART project is split into three parts, as follows:
+## Quick Start
 
-|      | Name               | Target   | Goals                                                        | Timeline          |
-| ---- | ------------------ | -------- | ------------------------------------------------------------ | ----------------- |
-| 1    | Architecture Phase | Hardware | Define and model hardware architectural components and corresponding operations. Output Feature Estimation documents | Feb 20 - March 20 |
-| 2    | Mapping Phase      | Firmware | Define and model DNN shapes. Create "mappings" representing firmware that places DNN shape onto the hardware architecture | March 20 - May 1  |
-| 3    | Searching Phase    | Software | Given a set of DNN parameters and constraints, automatically generate optimized mappings using a searching algorithm. | May 1 - June 15   |
+To run *only* the SMART Estimator on a specific architecture/operation
 
-## Functionality
+1. Make sure the packages in `dependencies.txt` are downloaded successfully
+2. Change the function inside `main.py` to `run_estimator` and edit the file paths for the inputs and outputs
 
-### Part 1:  Architecture  Phase (Estimator)
 
-As of 2021-04-06, SMART has completed the requirements for Part 1. It is able to:
+
+### Functionality
+
+As of **SMART v1.0**, the SMART Estimator has the following capabilities
 
 - [x] Read and store "Primitive Components" (PC) -- which are basic hardware units such as registers, MAC units, SRAM --  in a SQLite database, the *Intelligent Primitive Component Library* (IPCL)
 
@@ -41,7 +42,7 @@ As of 2021-04-06, SMART has completed the requirements for Part 1. It is able to
 
 - [x] Allow the user to define an Architecture YAML template using both PC and CC
 
-- [x] Allow the user to define an Operations YAML template detailing the operations to be conducted, which easily describe serial/parallel actions as well as loops, providing support for loop nesting
+- [x] Allow the user to define an Operations YAML template detailing the operations to be conducted, which can easily describe **serial**, **parallel**, and **pipeline** operations.
 
 - [x] Output Feature Reference Tables for the features of **energy, area, cycle**, given an Architecture template, detailing statistics for each component's operation.
 
@@ -51,15 +52,7 @@ As of 2021-04-06, SMART has completed the requirements for Part 1. It is able to
 
 - [x] Output the Component-Operation Matrix for each Feature Estimation as a .csv file
 
-### Part 2: Mapping Phase (Assembler + Operation Maker)
 
-As of 2021-04-06, SMART has completed the following requirements for Part 2. It is able to:  
-
-- [x] Given the binary descriptors (64 bit machine code), output relevant Assembly code through a disassembler
-  
-- [x] Given this machine code, create corresponding Operations for VAD and ASR
-  
-- [x] Create, from a set of parameters, operations and architecture templates as defined in Phase 1
 
 ### Sample Output: VAD Cycle Estimation
 

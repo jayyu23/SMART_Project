@@ -1,12 +1,18 @@
 # Shensilicon Microchip Architectural Reference Tool
 
-*Updated 2021-05-20 by Jay Yu*
+### Version 1.0
+
+*Updated 2021-06-04 by Jay Yu*
 
 *Shensilicon Semiconductors*
 
 ## Overview
 
-The Shensilicon Microchip Architectural Reference Tool is a project designed to provide architecture-level feature estimations of Shensilicon TH-series microchips. The features included within the SMART project are **energy (pJ)**, **area (um^2)** and **cycle** data.
+The **Shensilicon Microchip Architectural Reference Tool (SMART)** is a project designed to provide assistance in the design of the Shensilicon TH-series microchips through quantitative analysis of architectures' **energy (pJ)**, **area (um^2)** and **cycle** consumption when running Neural Networks. The SMART Project is split into three main parts:
+
+1. The **Estimator** acts as an engine and core analysis tool for the project. It takes in an `architecture.yaml` and an `operations.yaml` and will output a detailed analysis of energy/area/cycle consumption
+2. The **Smapper**  is the default SMART Mapper that will take in an Architecture and a Neural Network shape. The Smapper will search for firmware possibilities to 'map' the Neural Network onto the given Architecture (if possible), creating relevant operations and use the Estimator to evaluate the efficacy of this architecture + operation combination. The Smapper will return the top firmware solutions given a certain firmware scoring function.
+3. The **Searcher** is a hardware architecture searcher. Given a `meta-architecture.yaml` and a `neural_network.yaml`, the searcher will iterate over a possibility space that represents all the different Architectures that are legal given the constraints of the `meta-architecture.yaml`, and use the Smapper to evaluate the optimal firmware mapping for each separate Architecture. It will then rank the hardware architectures based on their score, and ultimately output a detailed analysis of the best ranked hardware architectures through the Estimator.
 
 ## Quick Start
 
@@ -18,21 +24,35 @@ The following packages are used outside of the default Python packages. These ne
 pip install -r requirements.txt
 ```
 
-### Smapper
-In the main `SMART_Project` directory, execute `main.py` with no runtime arguments to run the Smapper module, which is a firmware searcher.
+### Run Searcher
+
+In the main `SMART_Project` directory, execute `main.py` with no runtime arguments to run the Searcher module, which is a hardware searcher.
+
+The Searcher module takes two inputs, defined in `main.py` code (`run_searcher()` method):
+
+- Neural Network Shape: `project_io/searcher_input/neural_network.yaml`. Currently supports DNN and CNN model shapes.
+- Meta-Architecture Model: `project_io/searcher_input/original_arch/meta_architecture.yaml`. The meta compound components used in this architecture are defined in the `meta_components` folder in the same directory
+
+Searcher will output the results of the search in the folder of `project_io/test_run/run_{run_id}` where `run_id` is given by `time.time_ns()`
+
+### Run Smapper
+
+To run the Smapper from an `architecture` file and `neural_network` file, change the `__main__` method in`main.py` to `run_smapper()`, and enter the architecture/neural network file paths
 
 The Smapper module takes two inputs, defined in `main.py` code (`run_smapper()` method):
-- Neural Network Shape: `project_io/mapper_input/neural_network.yaml`. Currently only supports DNN model shape
+- Neural Network Shape: `project_io/mapper_input/neural_network.yaml`. Currently only supports DNN and CNN model shapes.
 - Architecture Model: `project_io/mapper_input/architecture.yaml`. The compound components used in this architecture are defined in the `components` folder in the same directory
 
 Smapper will output onto terminal results of firmware combinations estimated, and a ranking of the firmware.
 
-### Estimator
+### Run Estimator
 
-To run only the SMART Estimator from an `architecture` file and `operations` file, change the `__main__` method in`main.py` to run estimator, and enter the architecture/operations file paths
+To run only the Estimator from an `architecture` file and `operations` file, change the `__main__` method in`main.py` to run estimator, and enter the architecture/operations file paths
+
 Defaults:
-- Architecture Model: `project_io/mapper_output/architecture.yaml` The compound components used in this architecture are defined in the `components` folder in the same directory
-- Operations List: `project_io/mapper_output/operations.yaml`
+
+- Architecture Model: `project_io/estimator_input/architecture.yaml` The compound components used in this architecture are defined in the `components` folder in the same directory
+- Operations List: `project_io/estimator_output/operations.yaml`
 
 ## Project Timeline
 
@@ -41,12 +61,12 @@ The SMART project is split into three parts, as follows:
 |      | Name               | Target   | Goals                                                        | Timeline          |
 | ---- | ------------------ | -------- | ------------------------------------------------------------ | ----------------- |
 | 1    | Architecture Phase | Hardware | Define and model hardware architectural components and corresponding operations. Output Feature Estimation documents | Feb 20 - March 20 |
-| 2    | Mapping Phase      | Firmware | Define and model DNN shapes. Create "mappings" representing firmware that places DNN shape onto the hardware architecture | March 20 - May 1  |
-| 3    | Searching Phase    | Software | Given a set of DNN parameters and constraints, automatically generate optimized mappings using a searching algorithm. | May 1 - June 15   |
+| 2    | Mapping Phase      | Firmware | Define and model NN shapes. Create "mappings" representing firmware that places DNN shape onto the hardware architecture | March 20 - May 1  |
+| 3    | Searching Phase    | Software | Given a set of NN parameters and constraints, automatically generate optimized mappings using a searching algorithm. | May 1 - June 15   |
 
 ## Functionality
 
-### Part 1:  Architecture  Phase (Estimator)
+### Part 1:  Architecture Phase
 
 As of 2021-04-06, SMART has completed the requirements for Part 1. It is able to:
 
@@ -58,7 +78,7 @@ As of 2021-04-06, SMART has completed the requirements for Part 1. It is able to
 
 - [x] Allow the user to define an Architecture YAML template using both PC and CC
 
-- [x] Allow the user to define an Operations YAML template detailing the operations to be conducted, which easily describe serial/parallel actions as well as loops, providing support for loop nesting
+- [x] Allow the user to define an Operations YAML template detailing the operations to be conducted, which easily describe serial/parallel/pipeline actions 
 
 - [x] Output Feature Reference Tables for the features of **energy, area, cycle**, given an Architecture template, detailing statistics for each component's operation.
 
@@ -68,17 +88,27 @@ As of 2021-04-06, SMART has completed the requirements for Part 1. It is able to
 
 - [x] Output the Component-Operation Matrix for each Feature Estimation as a .csv file
 
-### Part 2: Mapping Phase (Assembler + Operation Maker)
+### Part 2: Mapping Phase
 
 As of 2021-05-20, SMART has completed the following requirements for Part 2. It is able to:
 
-- [x] Given the binary descriptors (64 bit machine code), output relevant Assembly code through a disassembler
+- [x] Define the Neural Network YAML structure, so that it is able to describe the key features of a DNN/CNN
+- [x] Given a Neural Network (DNN/CNN) shape, generate different tiling solutions based on factorization properties
+- [x] Given a tiling combination, determine whether it can fit on a hardware Architecture. If so, generate the corresponding `operations.yaml` file, and connect this to the Estimator API
+- [x] Define a scoring algorithm for firmware that takes in energy, area, cycle data, and outputs a weighted score. Rank the different firmware tiles according to the score they receive.
+- [x] Use multiple firmware searching algorithms, including linear search and Bayesian Optimization method to conduct the firmware search, and allow the user to specify which algorithm to conduct firmware search
 
-- [x] Given this machine code, create corresponding Operations for VAD and ASR
+### Part 3: Searching Phase
 
-- [x] Create, from a set of parameters, operations and architecture templates as defined in Phase 1
+As of 2021-06-04, SMART has completed the following requirements for Part 3. It is able to:
 
-- [x] Given a Neural Network shape, generate different firmware solutions for the network, and rank these firmware solutions
+- [x] Define Meta-Architecture YAML template, which is based on the Architecture YAML template but allows the user to use a list to define the different hardware parameters they wish to be searched along
+- [x] Define Meta-Compound-Component YAML, which is based on the Compound Component YAML, but allows the user to use a list to define the different hardware parameters they wish to be searched along
+- [x] Allow the user to define multiple instances of the same component inside the Meta-Compound-Component, and vary the amount of instances like a search parameter
+- [x] Create a searching algorithm that can iterate over the different hardware architectures possible as constrained by the Meta-Architecture YAML, and connect this to the Smapper API
+- [x] Add in a logger module to record the different hardware-firmware combinations searched, as well as keep track of how many combinations have been searched
+- [x] Rank the different hardware architectures according to their best-performing firmware results.
+- [x] For the top N architecture solutions (with N defined by the user), output the detailed analysis as a folder, consisting of pie charts, TXT analysis, and the relevant component-operation matrix.
 
 ### Sample Output: VAD Cycle Estimation
 
