@@ -10,6 +10,13 @@ import os
 
 
 def yaml_searcher_factory(meta_arch_path, meta_cc_path, nn_path):
+    """
+    Initializes a Searcher object according to the parameters specified
+    :param meta_arch_path: Path to the meta-architecture YAML file
+    :param meta_cc_path: Path to the meta-compound-components folder
+    :param nn_path: Path to the Neural Network YAML file
+    :return: Searcher object
+    """
     s = Searcher()
     s.set_nn(nn_path)
     s.set_meta_arch(meta_arch_path, meta_cc_path)
@@ -17,6 +24,10 @@ def yaml_searcher_factory(meta_arch_path, meta_cc_path, nn_path):
 
 
 class Searcher:
+    """
+    SMART Searcher is a hardware searcher that will search for hardware architectures given a neural network and a
+    set of architecture constraints.
+    """
     def __init__(self):
         self.meta_arch = None
         self.firmware_mapper = Smapper()
@@ -25,16 +36,39 @@ class Searcher:
         self.bayes_percentile = []
         self.logger = Logger()
         self.top_solutions = []
-        # self.linear_bayes = {'linear': [], 'bayes': []}
 
     def set_nn(self, nn_path):
+        """
+        Sets the neural network as defined in a Neural Network YAML file.
+        Currently supports descriptions for DNN and CNN
+        :param nn_path: Path to the Neural Network YAML file
+        :return: None
+        """
         self.firmware_mapper.set_nn(nn_path)
 
     def set_meta_arch(self, meta_arch_path, meta_cc_path):
+        """
+        Sets the meta-architecture to be searched. A meta-architecture describes the constraints of the architecture
+        and the range of different possibilities to be searched. A Meta-Compound-Component similarly describes the
+        possibility space where SMART should search for valid architectures
+        :param meta_arch_path: Path to the meta-architecture YAML file
+        :param meta_cc_path: Path to the meta-compound-component directory
+        :return: None
+        """
         self.meta_arch = MetaArchitecture(read_yaml_file(meta_arch_path), meta_cc_path)
         self.meta_arch.load_argument_combinations()
 
     def search_combinations(self, top_solutions_num=3, algorithm="bayes", verbose=False):
+        """
+        Key algorithm to (1) search for different hardware-firmware combinations, (2) rank all these HW-FW combinations,
+        and (3) output detailed component analysis for the top N architectures
+        :param top_solutions_num: Number of top solutions to be analyzed in detail
+        :param algorithm: Algorithm used to search for firmware. Currently supports Bayesian Optimization ('bayes'),
+        which is default, and linear-exhaustive search ('linear')
+        :param verbose: Whether the output log should include details of all the different hardware-firmware
+        combinations searched
+        :return: None. Will output search results in test_run folder, keeping track of search log details etc.
+        """
         # Outer loop: hardware architecture search
         start_time = time.time()
         for architecture in self.meta_arch.iter_architectures():
@@ -87,60 +121,8 @@ class Searcher:
             self.firmware_mapper.architecture = analysis_arch
             self.firmware_mapper.run_operationalizer()  # To get the param_op map
             firmware_config = self.top_solutions[i][1]
+            # print(firmware_config, self.firmware_mapper.fw_param_labels)
             param_op = tuple(firmware_config[x] for x in self.firmware_mapper.fw_param_labels)
             analysis_op = self.firmware_mapper.param_op_map[param_op]
             analysis_estimator = Estimator(analysis_arch, analysis_op)
             analysis_estimator.estimate(["energy", "area", "cycle"], analysis=True, out_dir=solution_folder)
-
-    def graph_results_3d(self):
-        # Legacy analytical code
-        ax = plt.axes(projection='3d')
-        x = numpy.log10(numpy.array([data[2][0] for data in self.hw_fw_result]))
-        y = numpy.log10(numpy.array([data[2][1] for data in self.hw_fw_result]))
-        z = numpy.log10(numpy.array([data[2][2] for data in self.hw_fw_result]))
-
-        ax.scatter(x, y, z)
-        ax.set_xlabel('energy log10')
-        ax.set_ylabel('area log10')
-        ax.set_zlabel('cycle log10')
-        ax.set_title('Different Hardware-Firmware Combinations Costs')
-        plt.show()
-
-    def graph_results_2d(self):
-        # Legacy analytical code
-        ax = plt.axes()
-        x = numpy.log10(numpy.array([data[2][1] for data in self.hw_fw_result]))
-        y = numpy.log10(numpy.array([data[2][2] for data in self.hw_fw_result]))
-
-        ax.scatter(x, y)
-        for data in self.hw_fw_result:
-            if data[0] == (32000, 64, 64000, 64, 64, 8, 256000, 64): # TH hardware
-                color = "red"
-                if data[1] == (16, 440, 128, 1):
-                    color = "orange"
-                x = numpy.log10(data[2][1])
-                y = numpy.log10(data[2][2])
-                ax.scatter(x, y, color=color)
-        ax.set_xlabel('area log10')
-        ax.set_ylabel('cycle log10')
-        ax.set_title('Different Hardware-Firmware Combinations Costs')
-        plt.show()
-
-    def graph_linear_bayes(self):
-        # Legacy Analytical Code
-        """
-        ax = plt.axes()
-        x = numpy.log10(numpy.array([data[2][2] for data in self.hw_fw_result]))
-        y1 = numpy.log10(numpy.array(self.linear_bayes['linear']))
-        y2 = numpy.log10(numpy.array(self.linear_bayes['bayes']))
-        ax.scatter(x, y1, color="blue")
-        ax.scatter(x, y2, color="orange")
-        ax.set_xlabel('area log10')
-        ax.set_ylabel('cycles log10')
-        ax.set_title('Bayes Searcher (orange) vs. Linear Searcher Results (blue)')
-        plt.show()
-        """
-        ax = plt.axes()
-        plt.hist(self.bayes_percentile)
-        ax.set_title('Percentile Rank of Bayes Solution')
-        plt.show()

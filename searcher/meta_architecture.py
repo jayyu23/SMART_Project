@@ -14,6 +14,13 @@ Outputs a range of Architecture Options from a meta_arch param
 
 class MetaArchitecture:
     def __init__(self, yaml_data: OrderedDict, meta_cc_dir=None):
+        """
+        Defines the Meta-Architecture, which will contain the possibility space for all the different architectures
+        that are possible, given the constraints defined in the meta-architecture template.
+        :param yaml_data: File path to the meta-architecture YAML file containing the definition
+        :param meta_cc_dir: File path to the folder containing the meta-compound-components to be used in this
+        meta-architecture
+        """
         assert "meta_architecture" in yaml_data, "Not a meta-architecture template!"
         if meta_cc_dir:
             load_meta_compound_component_library(meta_cc_dir)
@@ -48,10 +55,21 @@ class MetaArchitecture:
         self.meta_cc_combs = list(itertools.product(*meta_cc_combs))
 
     def load_argument_combinations(self):
+        """
+        Loads the different argument combinations using itertools according to the different parameters specified in
+        the meta-architecture
+        :return: None. Updates the self.argument_combs field
+        """
         argument_pools = (p[2] if isinstance(p[2], list) else [p[2]] for p in self.pc_arg_val)
         self.argument_combs = itertools.product(*argument_pools) # Cartesian product
 
     def iter_architectures(self):
+        """
+        Will iterate the different architecture possibilities in a given possibilities space and Cartesian product
+        combinations of different changing elements
+        :return: Generator object with <Architecture objects> in each iteration, representing a possible combination
+        of different changing parameters
+        """
         # Return generator of the same base architecture but with different param sets
         # print((tuple(self.argument_combs)))
         for param_set in self.argument_combs:
@@ -62,12 +80,22 @@ class MetaArchitecture:
                 yield self.base_arch
 
     def update_base_arch(self, param_set):
+        """
+        Update the base architecture from given a parameter set
+        :param param_set: parameter set values (a tuple, with labels as defined in param_set_labels)
+        :return: None. Will update the base_architecture
+        """
         for i in range(len(self.pc_arg_val)):
             self.base_arch.config_label[self.param_set_labels[i]] = param_set[i]
             self.pc_arg_val[i][0].comp_args[self.pc_arg_val[i][1]] = param_set[i]
             self.pc_arg_val[i][0].clear_cache()
 
     def update_cc_from_comb(self, cc_comb):
+        """
+        Update the compound components within the architecture given a compound component combination
+        :param cc_comb: Compound Component Parameter combination
+        :return: None. Updates the compound components within the base_arch, in preparation for iter_architectures
+        """
         for cc_index in range(len(cc_comb)):
             name = self.meta_cc_name[cc_index]
             self.base_arch.component_dict[name] = cc_comb[cc_index]

@@ -28,7 +28,7 @@ def score_firmware(energy, area, cycle):
 class Smapper:
     """
     Smapper, aka. SMART Mapper, is the SMART system's firmware searcher/mapper module. Given a particular hardware
-    architecture, Smapper will coordinate Solver find tiling possibilities, then Operationalizer to create
+    <Architecture>, Smapper will coordinate Solver find tiling possibilities, then Operationalizer to create
     SMART Operations, then call the SMART Estimator and evaluate cost/score using the static score_firmware() method.
     The user can decide which algorithm to use to conduct the search. Currently supports linear-exhaustive search
     (keyword: "linear", recommended for users with large compute for a precise/definite answer) and a
@@ -40,7 +40,6 @@ class Smapper:
         self.nn = None
         self.param_cost_map = OrderedDict()
         self.param_op_map = OrderedDict()
-        self.top_solutions = ()  # TODO: Legacy code
         self.fw_param_labels = None
         self.algorithm_map = {"bayes": self.__bayesian_optimization_search,
                               "linear": self.__linear_search}
@@ -69,6 +68,11 @@ class Smapper:
         self.nn = NeuralNetwork(n['name'], n['nn_type'], n['dimensions'], n['start'], n['end'])
 
     def run_operationalizer(self):
+        """
+        Run the Operationalizer, which will populate the param_op_map for all of the different combinations identified
+        in the solver.
+        :return: None
+        """
         solver = Solver(self.nn)
         op = Operationalizer(self.architecture, solver)
         op.create_operations()
@@ -84,6 +88,11 @@ class Smapper:
         :return: tuple of len == 3: (solution_arguments, score, (energy, area, cycle))
         """
         def __bayesian_trial(**kwargs):
+            """
+            The 'black box function' implemented in the Bayesian Optimization method
+            :param kwargs: An API for the Bayesian Optimization package used
+            :return: Score of the Bayesian trial
+            """
             param_dict = OrderedDict(locals()['kwargs'])
             # Make into discrete params
             discrete_params = __make_discrete_param(param_dict)
@@ -141,12 +150,12 @@ class Smapper:
             estimation = estimator.estimate(["energy", "area", "cycle"], False)
             energy, area, cycle = estimation
             self.param_cost_map[k] = (score_firmware(energy, area, cycle), estimation)
-        self.top_solutions = sorted(((*v, k) for k, v in self.param_cost_map.items()), reverse=True)
-        print(self.top_solutions)
-        linear_score = abs(self.top_solutions[0][0])
-        linear_eac, linear_sol = self.top_solutions[0][1], self.top_solutions[0][2]
-        print(len(self.param_cost_map), "combinations estimated")
-        print("Exhaustive Linear Search Time: ", time.time() - e_time)
+        top_solution = max(((*v, k) for k, v in self.param_cost_map.items()))
+        linear_score = abs(top_solution[0])
+        linear_eac, linear_p = top_solution[1], top_solution[2]
+        linear_sol = {self.fw_param_labels[i]: linear_p[i] for i in range(len(linear_p))}
+        # print(len(self.param_cost_map), "combinations estimated")
+        # print("Exhaustive Linear Search Time: ", time.time() - e_time)
         return linear_sol, linear_score, linear_eac
 
     def graph_energy_cycle(self):
@@ -160,11 +169,3 @@ class Smapper:
 
     def get_operations_from_param(self, param: tuple):
         return self.param_op_map[param]
-
-    def print_rankings(self, num=10):
-        # TODO: Legacy code from linear search
-        print('{:^25} | {:^35} | {:^20}'.format('Score', 'Metrics', 'Inputs'))
-        for i in range(num):
-            if i >= len(self.top_solutions):
-                break
-            print(i + 1, self.top_solutions[i])

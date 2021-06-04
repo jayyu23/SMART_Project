@@ -10,7 +10,8 @@ from estimator.input_handler import database_handler as db
 from copy import deepcopy
 
 """
-Meta Compound Component Describes Compound Components that are able to be searched
+Meta Compound Component Describes Compound Components that are able to be searched, with parameter combinations within
+the specified constraints (defined as a possibilities space)
 """
 
 meta_compound_component_library = OrderedDict()
@@ -18,6 +19,14 @@ meta_compound_component_library = OrderedDict()
 
 def load_meta_compound_component_library(path="project_io/searcher_input/meta_components",
                                          instance_order_file="_instance_order.yaml"):
+    """
+    Loads the meta-compound-components from a given folder, and places them into the global
+    meta_compound_component_library
+    :param path: Path of the compound components folder
+    :param instance_order_file: File name of the _instance_order file, which describes the order in which the
+    compound components should be initialized in.
+    :return: None. Will Populate the meta_compound_component_library global.
+    """
     meta_cc_load_order = []
     # Detect the instance order YAML file
     if instance_order_file in os.listdir(path):
@@ -38,6 +47,9 @@ def load_meta_compound_component_library(path="project_io/searcher_input/meta_co
 
 
 class MetaCompoundComponent:
+    """
+    Class defining each meta-compound-component
+    """
     def __init__(self, yaml_data: OrderedDict):
         yaml_data = yaml_data['meta_compound_component']
         self.base_cc = CompoundComponent()
@@ -92,6 +104,12 @@ class MetaCompoundComponent:
                 self.subcomponent_combs = tuple(itertools.product(*meta_combs))
 
     def iter_compound_components(self):
+        """
+        Will iterate over the different compound component possibilities given the possibilities space and Cartesian
+        product combinations of all the different changing elements.
+        :return: Generator object that is a <Compound Component> at each iteration, representing a possible combination
+        of the different changing parameters
+        """
         for param_set in self.subcomponent_combs:
             for p_index in range(len(param_set)):
                 param_info = self.subcomponent_var[p_index]
