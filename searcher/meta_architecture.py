@@ -13,9 +13,10 @@ Outputs a range of Architecture Options from a meta_arch param
 
 
 class MetaArchitecture:
-    def __init__(self, yaml_data: OrderedDict):
+    def __init__(self, yaml_data: OrderedDict, meta_cc_dir=None):
         assert "meta_architecture" in yaml_data, "Not a meta-architecture template!"
-        load_meta_compound_component_library("project_io/searcher_input/meta_components")
+        if meta_cc_dir:
+            load_meta_compound_component_library(meta_cc_dir)
         yaml_data = yaml_data['meta_architecture']
         self.base_arch = Architecture()
         self.base_arch.name = yaml_data['name']
@@ -45,7 +46,6 @@ class MetaArchitecture:
                 self.meta_cc_name.append(item_name)
                 meta_cc_combs.append(list(mcc.iter_compound_components()))
         self.meta_cc_combs = list(itertools.product(*meta_cc_combs))
-        print(self.param_set_labels)
 
     def load_argument_combinations(self):
         argument_pools = (p[2] if isinstance(p[2], list) else [p[2]] for p in self.pc_arg_val)
@@ -59,7 +59,7 @@ class MetaArchitecture:
             for cc_comb in self.meta_cc_combs:
                 self.update_cc_from_comb(cc_comb)
                 self.base_arch.clear_cache()
-                yield param_set, self.base_arch
+                yield self.base_arch
 
     def update_base_arch(self, param_set):
         for i in range(len(self.pc_arg_val)):

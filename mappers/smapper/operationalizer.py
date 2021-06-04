@@ -46,7 +46,7 @@ class Operationalizer:
             # Get how many bits can the intmac do. 8, 16, etc from architecture,
             # through searching for intmac units in arch
             mac_info = self.architecture.get_component_class('intmac')
-            mac_array_num, intmac_bits = len(mac_info), tuple(mac_info.items())[0][1].comp_args['datasize']
+            mac_array_num, intmac_bits = len(mac_info), int(tuple(mac_info.items())[0][1].comp_args['datasize'])
             # print(mac_array_num == 16)
             pe_unit = tuple(mac_info.items())[0][0].split('.')[0]  # since the search result shows pe.mac_0
             pe_mac_ops = math.ceil(in_h * in_w * out_h / (mac_array_num * intmac_bits))

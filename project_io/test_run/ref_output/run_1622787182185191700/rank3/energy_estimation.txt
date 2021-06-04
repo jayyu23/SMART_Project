@@ -1,0 +1,39 @@
+
+░██████╗███╗░░░███╗░█████╗░██████╗░████████╗
+██╔════╝████╗░████║██╔══██╗██╔══██╗╚══██╔══╝
+╚█████╗░██╔████╔██║███████║██████╔╝░░░██║░░░
+░╚═══██╗██║╚██╔╝██║██╔══██║██╔══██╗░░░██║░░░
+██████╔╝██║░╚═╝░██║██║░░██║██║░░██║░░░██║░░░
+╚═════╝░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░
+Shensilicon Microchip Architectural Reference Tool
+==================================================
+===== Energy Estimation ======
+	Component: psram
+	Value: 8192.0 pJ
+
+	Component: global_status_reg
+	Value: 3.03104 pJ
+
+	Component: npu_ctrl
+	Value: 24.576 pJ
+
+	Component: sgemm_sram
+	Value: 2210398.208 pJ
+
+	Component: data_sram
+	Value: 28950528.0 pJ
+
+	Component: his_sram
+	Value: 16777.216 pJ
+
+	Component: his_sum_sram
+	Value: 2097.152 pJ
+
+	Component: model_sram
+	Value: 7541358.592 pJ
+
+	Component: npu_pe
+	Value: 27596.8 pJ
+
+====================
+Total Energy Estimation: 38756975.57504 pJ

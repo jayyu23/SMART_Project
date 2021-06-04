@@ -1,0 +1,13 @@
+meta_compound_component:
+  name: processing_element
+  subcomponents:
+  - name: mac
+    class: smart_mac
+    instances: [1, 2, 3]
+
+  operations:
+  - name: mac
+    definition:
+    - type: parallel
+      operations:
+      - mac*.mac() # All macs, mac[0:7] will do the mac

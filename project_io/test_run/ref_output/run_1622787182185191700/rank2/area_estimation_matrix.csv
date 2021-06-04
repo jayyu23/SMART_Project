@@ -1,0 +1,11 @@
+,0
+psram,1000.0
+global_status_reg,5.98
+npu_ctrl,50.4
+sgemm_sram,640000.0
+data_sram,640000.0
+his_sram,20480.0
+his_sum_sram,2560.0
+model_sram,327680.0
+npu_pe,10688.0
+total,1642464.38

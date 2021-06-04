@@ -2,17 +2,17 @@ from estimator.estimator import Estimator
 from searcher.meta_architecture import MetaArchitecture
 from estimator.utils import read_yaml_file
 from mappers.smapper.smapper import Smapper
-from mappers.smapper.logger import Logger
+from searcher.logger import Logger
 from copy import deepcopy
 import numpy, time
 import matplotlib.pyplot as plt
 import os
 
 
-def yaml_searcher_factory(meta_arch_path, nn_path):
+def yaml_searcher_factory(meta_arch_path, meta_cc_path, nn_path):
     s = Searcher()
     s.set_nn(nn_path)
-    s.set_meta_arch(meta_arch_path)
+    s.set_meta_arch(meta_arch_path, meta_cc_path)
     return s
 
 
@@ -30,19 +30,19 @@ class Searcher:
     def set_nn(self, nn_path):
         self.firmware_mapper.set_nn(nn_path)
 
-    def set_meta_arch(self, meta_arch_path):
-        self.meta_arch = MetaArchitecture(read_yaml_file(meta_arch_path))
+    def set_meta_arch(self, meta_arch_path, meta_cc_path):
+        self.meta_arch = MetaArchitecture(read_yaml_file(meta_arch_path), meta_cc_path)
         self.meta_arch.load_argument_combinations()
 
-    def search_combinations(self, top_solutions_num=3, verbose=False):
+    def search_combinations(self, top_solutions_num=3, algorithm="bayes", verbose=False):
         # Outer loop: hardware architecture search
         start_time = time.time()
-        for hw_param_set, architecture in self.meta_arch.iter_architectures():
+        for architecture in self.meta_arch.iter_architectures():
             # Inner loop: firmware operations search
             self.firmware_mapper.architecture = architecture
             self.firmware_mapper.run_operationalizer()
             # Firmware operations search, using Bayesian Optimization algorithm
-            bayes_fw_input, score, eac = self.firmware_mapper.search_firmware(algorithm="bayes")
+            bayes_fw_input, score, eac = self.firmware_mapper.search_firmware(algorithm=algorithm)
             search_space = len(self.firmware_mapper.param_op_map)
             if verbose:
                 self.logger.add_line("=" * 50)
@@ -79,9 +79,7 @@ class Searcher:
         self.logger.write_out(os.path.join(out_dir, "search_log.txt"))
         # Retrieve the optimal architecture + operations, and analyze in detail. (Pie charts)
         #   Do this by running Estimator again with analysis = True
-        print([c[0] for c in self.top_solutions])
         for i in range(top_solutions_num):
-            print(self.top_solutions[i][3].component_dict['npu_pe'].subcomponents)
             solution_folder = os.path.join(out_dir, f"rank{i + 1}")
             os.mkdir(os.path.join(out_dir, f"rank{i + 1}"))
             analysis_arch = self.top_solutions[i][3]

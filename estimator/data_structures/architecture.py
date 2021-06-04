@@ -31,13 +31,14 @@ def yaml_arch_factory(yaml_data: OrderedDict):
     :return: Architecture object from yaml
     """
     assert "architecture" in yaml_data.keys(), "Not an architecture template!"
+    yaml_data = yaml_data['architecture']
     arch = Architecture()
-    arch.name = yaml_data['architecture']['name']
-    arch.version = yaml_data['architecture']['version']
+    arch.name = yaml_data['name']
+    arch.version = yaml_data['version'] if 'version' in yaml_data else 1.0
     arch.component_dict = OrderedDict()  # Flattened Architecture, contains { Name : Component Object }
 
     # Expand subtrees
-    flattened_arch = flatten_architecture(yaml_data['architecture'])
+    flattened_arch = flatten_architecture(yaml_data)
     for item in flattened_arch:
         item_name = item['name']
         item_class = item['class']
@@ -65,6 +66,9 @@ class Architecture:
         self.version = float()
         self.component_dict = OrderedDict()
         self.config_label = {}  # Add in a misc label parameter
+
+    def __repr__(self):
+        return f"<{self.name} v{self.version}> {self.config_label}"
 
     @lru_cache(None)
     def get_component_class(self, component_class):

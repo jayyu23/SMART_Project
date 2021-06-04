@@ -1,0 +1,39 @@
+
+░██████╗███╗░░░███╗░█████╗░██████╗░████████╗
+██╔════╝████╗░████║██╔══██╗██╔══██╗╚══██╔══╝
+╚█████╗░██╔████╔██║███████║██████╔╝░░░██║░░░
+░╚═══██╗██║╚██╔╝██║██╔══██║██╔══██╗░░░██║░░░
+██████╔╝██║░╚═╝░██║██║░░██║██║░░██║░░░██║░░░
+╚═════╝░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░
+Shensilicon Microchip Architectural Reference Tool
+==================================================
+===== Area Estimation ======
+	Component: psram
+	Value: 1000.0 um^2
+
+	Component: global_status_reg
+	Value: 5.98 um^2
+
+	Component: npu_ctrl
+	Value: 50.4 um^2
+
+	Component: sgemm_sram
+	Value: 163840.0 um^2
+
+	Component: data_sram
+	Value: 640000.0 um^2
+
+	Component: his_sram
+	Value: 20480.0 um^2
+
+	Component: his_sum_sram
+	Value: 2560.0 um^2
+
+	Component: model_sram
+	Value: 327680.0 um^2
+
+	Component: npu_pe
+	Value: 10688.0 um^2
+
+====================
+Total Area Estimation: 1166304.38 um^2

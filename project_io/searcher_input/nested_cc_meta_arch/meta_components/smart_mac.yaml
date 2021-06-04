@@ -1,0 +1,17 @@
+meta_compound_component:
+  name: smart_mac
+  subcomponents:
+  - name: base_mac
+    class: intmac
+    arguments:
+      datasize: [8, 16, 32]
+  - name: local_buff
+    class: register
+
+  operations:
+  - name: mac
+    definition:
+    - type: parallel
+      operations:
+      - base_mac.mac()
+      - local_buff.write()

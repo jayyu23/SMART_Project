@@ -34,7 +34,7 @@ def load_meta_compound_component_library(path="project_io/searcher_input/meta_co
             continue
         # Create the Meta Compound Component
         mcc = MetaCompoundComponent(yaml_data)
-        meta_compound_component_library[mcc.base_cc.comp_class] = mcc
+        meta_compound_component_library[mcc.base_cc.comp_class] = deepcopy(mcc)
 
 
 class MetaCompoundComponent:
@@ -58,26 +58,38 @@ class MetaCompoundComponent:
                 # Check if there are instances, in which case we don't initiate
                 if 'instances' in subcomponent:
                     self.subcomponent_var.append([True, "instance", sc_name, sc_class])
-                    ins = subcomponent['instances'] if isinstance(subcomponent['instances'], list) \
+                    ins_num = subcomponent['instances'] if isinstance(subcomponent['instances'], list) \
                         else [subcomponent['instances']]  # Convert to list
-                    meta_combs.append(ins)
+                    meta_combs.append(ins_num)
                     self.subcomponent_comb_labels.append(f"hardware_{sc_name}_instances")
                 else:
                     self.base_cc.subcomponents[sc_name] = PrimitiveComponent(sc_name, sc_class)
                 # Check if there are arguments
                 if 'arguments' in subcomponent:
-                    print(subcomponent)
                     for a_key, a_val in subcomponent['arguments'].items():
                         self.subcomponent_var.append([True, "argument", sc_name, a_key])
                         a_val_list = a_val if isinstance(a_val, list) else [a_val]
                         meta_combs.append(a_val_list)
                         self.subcomponent_comb_labels.append(f"hardware_{sc_name}_{a_key}")
                 # Get the subcomponent combs from meta_combs
-                self.subcomponent_combs = itertools.product(*meta_combs)
+                self.subcomponent_combs = tuple(itertools.product(*meta_combs))
             else:
                 # Deal with a compound subcomponent
-                raise NotImplementedError("Compound Component Subcomponents functionality not yet implemented!")
-                pass
+                #  raise NotImplementedError("Compound Component Subcomponents functionality not yet implemented!")
+                meta_combs = []
+                mcc = deepcopy(meta_compound_component_library[sc_class])
+                mcc_combs = mcc.subcomponent_combs
+                self.subcomponent_comb_labels.append(f"hardware_{sc_name}_configs_" + "_".join(
+                    [string.replace("hardware_", "", 1) for string in mcc.subcomponent_comb_labels]))
+                meta_combs.append(mcc_combs)
+                self.subcomponent_var.append([False, "subcomponents", sc_name, mcc])
+                if 'instances' in subcomponent:
+                    self.subcomponent_var.append([False, "instance", sc_name, mcc])
+                    ins_num = subcomponent['instances'] if isinstance(subcomponent['instances'], list) \
+                        else [subcomponent['instances']]
+                    meta_combs.append(ins_num)
+                    self.subcomponent_comb_labels.append(f"hardware_{sc_name}_instances")
+                self.subcomponent_combs = tuple(itertools.product(*meta_combs))
 
     def iter_compound_components(self):
         for param_set in self.subcomponent_combs:
@@ -95,13 +107,29 @@ class MetaCompoundComponent:
                         for i in range(param_value):
                             n = sc_name + "_" + str(i)
                             self.base_cc.subcomponents[n] = PrimitiveComponent(n, sc_class)
-
                     elif param_info[1] == "argument":
                         sc_name = param_info[2]
                         for k, v in self.base_cc.subcomponents.items():
                             if re.match(f"{sc_name}_[0-9*]", k) and isinstance(v, PrimitiveComponent):
                                 v.comp_args[param_info[3]] = param_value
-                    self.base_cc.config_label[self.subcomponent_comb_labels[p_index]] = param_value
+                else:
+                    sc_name, mcc = param_info[2], param_info[3]
+                    # We have a compound component here.
+                    mcc_scc = tuple(mcc.subcomponent_combs)
+                    if param_info[1] == "subcomponents":
+                        curr_cc = next(mcc.iter_compound_components())
+                        self.base_cc.subcomponents[sc_name] = curr_cc
+                    elif param_info[1] == "instance":
+                        curr_cc = self.base_cc.subcomponents.pop(sc_name)
+                        # Remove former instances
+                        key_removal = [k for k in self.base_cc.subcomponents if re.match(f"{sc_name}_[0-9*]", k)]
+                        removed = [self.base_cc.subcomponents.pop(k) for k in key_removal]
+                        # Initiate the instances
+                        for i in range(param_value):
+                            n = sc_name + "_" + str(i)
+                            self.base_cc.subcomponents[n] = curr_cc
+                self.base_cc.config_label[self.subcomponent_comb_labels[p_index]] = param_value
+                pass
             self.base_cc.clear_caches()
             yield deepcopy(self.base_cc)
 

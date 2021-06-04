@@ -90,7 +90,10 @@ class CompoundComponent:
         self.component_arguments = OrderedDict()
         self.subcomponents = OrderedDict()
         self.operations = OrderedDict()
-        self.config_label = {} # Misc label parameter to keep track of whats what
+        self.config_label = {}  # Misc label parameter to keep track of whats what
+
+    def __repr__(self):
+        return f"<{self.name} {self.comp_class} Compound Component> {self.config_label}"
 
     def set_operations(self, operations_yaml):
         for op in operations_yaml:

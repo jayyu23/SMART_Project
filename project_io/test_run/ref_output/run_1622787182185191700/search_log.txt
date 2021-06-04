@@ -1,0 +1,893 @@
+
+░██████╗███╗░░░███╗░█████╗░██████╗░████████╗
+██╔════╝████╗░████║██╔══██╗██╔══██╗╚══██╔══╝
+╚█████╗░██╔████╔██║███████║██████╔╝░░░██║░░░
+░╚═══██╗██║╚██╔╝██║██╔══██║██╔══██╗░░░██║░░░
+██████╔╝██║░╚═╝░██║██║░░██║██║░░██║░░░██║░░░
+╚═════╝░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░
+Shensilicon Microchip Architectural Reference Tool
+==================================================
+[2021-06-04 14:11:12]: ==================================================
+[2021-06-04 14:11:12]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:12]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:12]: 		Score: 17.832593897943944
+[2021-06-04 14:11:12]: 		Energy (pJ), Area (um^2), Cycle: (39560816.34048, 1157872.38, 14848)
+[2021-06-04 14:11:12]: Search space: 366 firmware possibilities
+[2021-06-04 14:11:13]: ==================================================
+[2021-06-04 14:11:13]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:13]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:13]: 		Score: 17.55290833026434
+[2021-06-04 14:11:13]: 		Energy (pJ), Area (um^2), Cycle: (38769417.17504, 1160960.38, 7936)
+[2021-06-04 14:11:13]: Search space: 366 firmware possibilities
+[2021-06-04 14:11:13]: ==================================================
+[2021-06-04 14:11:13]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:13]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:13]: 		Score: 17.552457589390148
+[2021-06-04 14:11:13]: 		Energy (pJ), Area (um^2), Cycle: (38756975.57504, 1160128.38, 7936)
+[2021-06-04 14:11:13]: Search space: 366 firmware possibilities
+[2021-06-04 14:11:14]: ==================================================
+[2021-06-04 14:11:14]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:14]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:14]: 		Score: 17.2892960707294
+[2021-06-04 14:11:14]: 		Energy (pJ), Area (um^2), Cycle: (38352641.192959994, 1166304.38, 4352)
+[2021-06-04 14:11:14]: Search space: 366 firmware possibilities
+[2021-06-04 14:11:14]: ==================================================
+[2021-06-04 14:11:14]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:14]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:14]: 		Score: 18.8017791645863
+[2021-06-04 14:11:14]: 		Energy (pJ), Area (um^2), Cycle: (74604207.28831999, 5950192.38, 14272)
+[2021-06-04 14:11:14]: Search space: 490 firmware possibilities
+[2021-06-04 14:11:15]: ==================================================
+[2021-06-04 14:11:15]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:15]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:15]: 		Score: 18.4817325573675
+[2021-06-04 14:11:15]: 		Energy (pJ), Area (um^2), Cycle: (70423532.04352, 5953280.38, 7232)
+[2021-06-04 14:11:15]: Search space: 490 firmware possibilities
+[2021-06-04 14:11:16]: ==================================================
+[2021-06-04 14:11:16]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:16]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:16]: 		Score: 18.481592678077583
+[2021-06-04 14:11:16]: 		Energy (pJ), Area (um^2), Cycle: (70410693.64352001, 5952448.38, 7232)
+[2021-06-04 14:11:16]: Search space: 490 firmware possibilities
+[2021-06-04 14:11:17]: ==================================================
+[2021-06-04 14:11:17]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:17]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:17]: 		Score: 18.179345388976408
+[2021-06-04 14:11:17]: 		Energy (pJ), Area (um^2), Cycle: (68326852.02112, 5958624.38, 3712)
+[2021-06-04 14:11:17]: Search space: 490 firmware possibilities
+[2021-06-04 14:11:17]: ==================================================
+[2021-06-04 14:11:17]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:17]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:17]: 		Score: 19.909878986580665
+[2021-06-04 14:11:17]: 		Energy (pJ), Area (um^2), Cycle: (267181743.28832, 21310192.38, 14272)
+[2021-06-04 14:11:17]: Search space: 503 firmware possibilities
+[2021-06-04 14:11:18]: ==================================================
+[2021-06-04 14:11:18]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:18]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:18]: 		Score: 19.58963249257713
+[2021-06-04 14:11:18]: 		Energy (pJ), Area (um^2), Cycle: (252187628.04352, 21313280.38, 7232)
+[2021-06-04 14:11:18]: Search space: 503 firmware possibilities
+[2021-06-04 14:11:19]: ==================================================
+[2021-06-04 14:11:19]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:19]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:19]: 		Score: 19.589593429143736
+[2021-06-04 14:11:19]: 		Energy (pJ), Area (um^2), Cycle: (252174789.64352, 21312448.38, 7232)
+[2021-06-04 14:11:19]: Search space: 503 firmware possibilities
+[2021-06-04 14:11:19]: ==================================================
+[2021-06-04 14:11:19]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:19]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:19]: 		Score: 19.286973121507586
+[2021-06-04 14:11:19]: 		Energy (pJ), Area (um^2), Cycle: (244684228.02111998, 21318624.38, 3712)
+[2021-06-04 14:11:19]: Search space: 503 firmware possibilities
+[2021-06-04 14:11:20]: ==================================================
+[2021-06-04 14:11:20]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:20]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:20]: 		Score: 21.685929879672575
+[2021-06-04 14:11:20]: 		Energy (pJ), Area (um^2), Cycle: (2064572079.2883198, 164670192.38, 14272)
+[2021-06-04 14:11:20]: Search space: 505 firmware possibilities
+[2021-06-04 14:11:21]: ==================================================
+[2021-06-04 14:11:21]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:21]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:21]: 		Score: 21.365615958792745
+[2021-06-04 14:11:21]: 		Energy (pJ), Area (um^2), Cycle: (1948652524.04352, 164673280.38, 7232)
+[2021-06-04 14:11:21]: Search space: 505 firmware possibilities
+[2021-06-04 14:11:22]: ==================================================
+[2021-06-04 14:11:22]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:22]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:22]: 		Score: 21.365610903252925
+[2021-06-04 14:11:22]: 		Energy (pJ), Area (um^2), Cycle: (1948639685.64352, 164672448.38, 7232)
+[2021-06-04 14:11:22]: Search space: 505 firmware possibilities
+[2021-06-04 14:11:22]: ==================================================
+[2021-06-04 14:11:22]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:22]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:22]: 		Score: 21.062864699257986
+[2021-06-04 14:11:22]: 		Energy (pJ), Area (um^2), Cycle: (1890686404.02112, 164678624.38, 3712)
+[2021-06-04 14:11:22]: Search space: 505 firmware possibilities
+[2021-06-04 14:11:23]: ==================================================
+[2021-06-04 14:11:23]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:23]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 88, 'firmware_out_h': 4}
+[2021-06-04 14:11:23]: 		Score: 19.288885486161067
+[2021-06-04 14:11:23]: 		Energy (pJ), Area (um^2), Cycle: (236923898.56640002, 5637872.38, 14560)
+[2021-06-04 14:11:23]: Search space: 379 firmware possibilities
+[2021-06-04 14:11:23]: ==================================================
+[2021-06-04 14:11:23]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:23]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:23]: 		Score: 18.995733813712214
+[2021-06-04 14:11:23]: 		Energy (pJ), Area (um^2), Cycle: (236451896.17023998, 5640960.38, 7424)
+[2021-06-04 14:11:23]: Search space: 379 firmware possibilities
+[2021-06-04 14:11:24]: ==================================================
+[2021-06-04 14:11:24]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:24]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:24]: 		Score: 18.995646572341585
+[2021-06-04 14:11:24]: 		Energy (pJ), Area (um^2), Cycle: (236439275.37024, 5640128.38, 7424)
+[2021-06-04 14:11:24]: Search space: 379 firmware possibilities
+[2021-06-04 14:11:24]: ==================================================
+[2021-06-04 14:11:24]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:24]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:24]: 		Score: 18.72048287083893
+[2021-06-04 14:11:24]: 		Energy (pJ), Area (um^2), Cycle: (234502199.78752002, 5646304.38, 3968)
+[2021-06-04 14:11:24]: Search space: 379 firmware possibilities
+[2021-06-04 14:11:25]: ==================================================
+[2021-06-04 14:11:25]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:25]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:11:25]: 		Score: 19.270565795129894
+[2021-06-04 14:11:25]: 		Energy (pJ), Area (um^2), Cycle: (126745099.58944, 10430192.379999999, 14104)
+[2021-06-04 14:11:25]: Search space: 526 firmware possibilities
+[2021-06-04 14:11:26]: ==================================================
+[2021-06-04 14:11:26]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:26]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:11:26]: 		Score: 18.944513956334614
+[2021-06-04 14:11:26]: 		Energy (pJ), Area (um^2), Cycle: (119410464.34464, 10433280.379999999, 7064)
+[2021-06-04 14:11:26]: Search space: 526 firmware possibilities
+[2021-06-04 14:11:27]: ==================================================
+[2021-06-04 14:11:27]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:27]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:11:27]: 		Score: 18.9444322832293
+[2021-06-04 14:11:27]: 		Energy (pJ), Area (um^2), Cycle: (119397531.54464, 10432448.379999999, 7064)
+[2021-06-04 14:11:27]: Search space: 526 firmware possibilities
+[2021-06-04 14:11:27]: ==================================================
+[2021-06-04 14:11:27]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:27]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:11:27]: 		Score: 18.631608040924327
+[2021-06-04 14:11:27]: 		Energy (pJ), Area (um^2), Cycle: (115736689.92224, 10438624.379999999, 3544)
+[2021-06-04 14:11:27]: Search space: 526 firmware possibilities
+[2021-06-04 14:11:28]: ==================================================
+[2021-06-04 14:11:28]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:28]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 40, 'firmware_out_h': 16}
+[2021-06-04 14:11:28]: 		Score: 20.072238327599774
+[2021-06-04 14:11:28]: 		Energy (pJ), Area (um^2), Cycle: (319237182.58784, 25790192.38, 14344)
+[2021-06-04 14:11:28]: Search space: 542 firmware possibilities
+[2021-06-04 14:11:29]: ==================================================
+[2021-06-04 14:11:29]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:29]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:11:29]: 		Score: 19.7345827058537
+[2021-06-04 14:11:29]: 		Energy (pJ), Area (um^2), Cycle: (297869088.34463996, 25793280.38, 7064)
+[2021-06-04 14:11:29]: Search space: 542 firmware possibilities
+[2021-06-04 14:11:30]: ==================================================
+[2021-06-04 14:11:30]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:30]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:11:30]: 		Score: 19.734549840333358
+[2021-06-04 14:11:30]: 		Energy (pJ), Area (um^2), Cycle: (297856155.54463995, 25792448.38, 7064)
+[2021-06-04 14:11:30]: Search space: 542 firmware possibilities
+[2021-06-04 14:11:30]: ==================================================
+[2021-06-04 14:11:30]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:30]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:30]: 		Score: 19.452674891693334
+[2021-06-04 14:11:30]: 		Energy (pJ), Area (um^2), Cycle: (296121796.02112, 25798624.38, 3712)
+[2021-06-04 14:11:30]: Search space: 542 firmware possibilities
+[2021-06-04 14:11:31]: ==================================================
+[2021-06-04 14:11:31]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:31]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:11:31]: 		Score: 21.696211572950762
+[2021-06-04 14:11:31]: 		Energy (pJ), Area (um^2), Cycle: (2082556427.58944, 169150192.38, 14104)
+[2021-06-04 14:11:31]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:32]: ==================================================
+[2021-06-04 14:11:32]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:32]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:32]: 		Score: 21.388930682554395
+[2021-06-04 14:11:32]: 		Energy (pJ), Area (um^2), Cycle: (2001667052.04352, 169153280.38, 7232)
+[2021-06-04 14:11:32]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:33]: ==================================================
+[2021-06-04 14:11:33]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:33]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:33]: 		Score: 21.388925760911153
+[2021-06-04 14:11:33]: 		Energy (pJ), Area (um^2), Cycle: (2001654213.64352, 169152448.38, 7232)
+[2021-06-04 14:11:33]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:33]: ==================================================
+[2021-06-04 14:11:33]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:33]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 88, 'firmware_out_h': 16}
+[2021-06-04 14:11:33]: 		Score: 21.069656036223392
+[2021-06-04 14:11:33]: 		Energy (pJ), Area (um^2), Cycle: (1906604035.1216, 169158624.38, 3640)
+[2021-06-04 14:11:33]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:34]: ==================================================
+[2021-06-04 14:11:34]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:34]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:34]: 		Score: 21.053425150771883
+[2021-06-04 14:11:34]: 		Energy (pJ), Area (um^2), Cycle: (1885038682.13504, 41477872.38, 14464)
+[2021-06-04 14:11:34]: Search space: 379 firmware possibilities
+[2021-06-04 14:11:34]: ==================================================
+[2021-06-04 14:11:34]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:34]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:34]: 		Score: 20.757028807891984
+[2021-06-04 14:11:34]: 		Energy (pJ), Area (um^2), Cycle: (1855846456.1702402, 41480960.38, 7424)
+[2021-06-04 14:11:34]: Search space: 379 firmware possibilities
+[2021-06-04 14:11:35]: ==================================================
+[2021-06-04 14:11:35]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:35]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:35]: 		Score: 20.757017143531876
+[2021-06-04 14:11:35]: 		Energy (pJ), Area (um^2), Cycle: (1855833835.3702402, 41480128.38, 7424)
+[2021-06-04 14:11:35]: Search space: 379 firmware possibilities
+[2021-06-04 14:11:35]: ==================================================
+[2021-06-04 14:11:35]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:35]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:35]: 		Score: 20.48165060192143
+[2021-06-04 14:11:35]: 		Energy (pJ), Area (um^2), Cycle: (1841510455.7875202, 41486304.38, 3968)
+[2021-06-04 14:11:35]: Search space: 379 firmware possibilities
+[2021-06-04 14:11:36]: ==================================================
+[2021-06-04 14:11:36]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:36]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 220, 'firmware_out_h': 32}
+[2021-06-04 14:11:36]: 		Score: 20.42361491467099
+[2021-06-04 14:11:36]: 		Energy (pJ), Area (um^2), Cycle: (405726078.38528, 46270192.38, 14128)
+[2021-06-04 14:11:36]: Search space: 526 firmware possibilities
+[2021-06-04 14:11:37]: ==================================================
+[2021-06-04 14:11:37]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:37]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 220, 'firmware_out_h': 32}
+[2021-06-04 14:11:37]: 		Score: 20.08774916909076
+[2021-06-04 14:11:37]: 		Energy (pJ), Area (um^2), Cycle: (373160075.14048004, 46273280.38, 7088)
+[2021-06-04 14:11:37]: Search space: 526 firmware possibilities
+[2021-06-04 14:11:38]: ==================================================
+[2021-06-04 14:11:38]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:38]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 220, 'firmware_out_h': 32}
+[2021-06-04 14:11:38]: 		Score: 20.08772634017547
+[2021-06-04 14:11:38]: 		Energy (pJ), Area (um^2), Cycle: (373147169.5404801, 46272448.38, 7088)
+[2021-06-04 14:11:38]: Search space: 526 firmware possibilities
+[2021-06-04 14:11:38]: ==================================================
+[2021-06-04 14:11:38]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:38]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 220, 'firmware_out_h': 32}
+[2021-06-04 14:11:38]: 		Score: 19.770316106497223
+[2021-06-04 14:11:38]: 		Energy (pJ), Area (um^2), Cycle: (356870639.91808003, 46278624.38, 3568)
+[2021-06-04 14:11:38]: Search space: 526 firmware possibilities
+[2021-06-04 14:11:39]: ==================================================
+[2021-06-04 14:11:39]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:39]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:11:39]: 		Score: 20.81860558497587
+[2021-06-04 14:11:39]: 		Energy (pJ), Area (um^2), Cycle: (757651979.5894401, 61630192.38, 14104)
+[2021-06-04 14:11:39]: Search space: 542 firmware possibilities
+[2021-06-04 14:11:40]: ==================================================
+[2021-06-04 14:11:40]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:40]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:11:40]: 		Score: 20.49288801645472
+[2021-06-04 14:11:40]: 		Energy (pJ), Area (um^2), Cycle: (714532591.1926401, 61633280.38, 7064)
+[2021-06-04 14:11:40]: Search space: 542 firmware possibilities
+[2021-06-04 14:11:41]: ==================================================
+[2021-06-04 14:11:41]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:41]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:11:41]: 		Score: 20.492874293131482
+[2021-06-04 14:11:41]: 		Energy (pJ), Area (um^2), Cycle: (714519658.39264, 61632448.38, 7064)
+[2021-06-04 14:11:41]: Search space: 542 firmware possibilities
+[2021-06-04 14:11:41]: ==================================================
+[2021-06-04 14:11:41]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:41]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:11:41]: 		Score: 20.179977357937123
+[2021-06-04 14:11:41]: 		Energy (pJ), Area (um^2), Cycle: (692836416.77024, 61638624.38, 3544)
+[2021-06-04 14:11:41]: Search space: 542 firmware possibilities
+[2021-06-04 14:11:42]: ==================================================
+[2021-06-04 14:11:42]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:42]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 44, 'firmware_out_h': 16}
+[2021-06-04 14:11:42]: 		Score: 21.870961373139885
+[2021-06-04 14:11:42]: 		Energy (pJ), Area (um^2), Cycle: (2530959945.488, 204990192.38, 14320)
+[2021-06-04 14:11:42]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:43]: ==================================================
+[2021-06-04 14:11:43]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:43]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:11:43]: 		Score: 21.537346537247096
+[2021-06-04 14:11:43]: 		Energy (pJ), Area (um^2), Cycle: (2379886368.34464, 204993280.38, 7064)
+[2021-06-04 14:11:43]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:44]: ==================================================
+[2021-06-04 14:11:44]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:44]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:11:44]: 		Score: 21.53734241453229
+[2021-06-04 14:11:44]: 		Energy (pJ), Area (um^2), Cycle: (2379873435.54464, 204992448.38, 7064)
+[2021-06-04 14:11:44]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:44]: ==================================================
+[2021-06-04 14:11:44]: Hardware param: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:44]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 16}
+[2021-06-04 14:11:44]: 		Score: 21.253096093470162
+[2021-06-04 14:11:44]: 		Energy (pJ), Area (um^2), Cycle: (2353624516.02112, 204998624.38, 3712)
+[2021-06-04 14:11:44]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:45]: ==================================================
+[2021-06-04 14:11:45]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:45]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:45]: 		Score: 18.050640045044254
+[2021-06-04 14:11:45]: 		Energy (pJ), Area (um^2), Cycle: (46313907.92448, 1634032.38, 14848)
+[2021-06-04 14:11:45]: Search space: 381 firmware possibilities
+[2021-06-04 14:11:45]: ==================================================
+[2021-06-04 14:11:45]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:45]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:45]: 		Score: 17.76875716433628
+[2021-06-04 14:11:45]: 		Energy (pJ), Area (um^2), Cycle: (45193386.96704, 1637120.38, 7936)
+[2021-06-04 14:11:45]: Search space: 381 firmware possibilities
+[2021-06-04 14:11:46]: ==================================================
+[2021-06-04 14:11:46]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:46]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:46]: 		Score: 17.768416819294863
+[2021-06-04 14:11:46]: 		Energy (pJ), Area (um^2), Cycle: (45180945.36704, 1636288.38, 7936)
+[2021-06-04 14:11:46]: Search space: 381 firmware possibilities
+[2021-06-04 14:11:46]: ==================================================
+[2021-06-04 14:11:46]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:46]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:46]: 		Score: 17.503577690777128
+[2021-06-04 14:11:46]: 		Energy (pJ), Area (um^2), Cycle: (44605955.24096, 1642464.38, 4352)
+[2021-06-04 14:11:46]: Search space: 381 firmware possibilities
+[2021-06-04 14:11:47]: ==================================================
+[2021-06-04 14:11:47]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:47]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:47]: 		Score: 18.850009880260814
+[2021-06-04 14:11:47]: 		Energy (pJ), Area (um^2), Cycle: (77712635.91296, 6426352.38, 14176)
+[2021-06-04 14:11:47]: Search space: 528 firmware possibilities
+[2021-06-04 14:11:48]: ==================================================
+[2021-06-04 14:11:48]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:48]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:48]: 		Score: 18.526119587977202
+[2021-06-04 14:11:48]: 		Energy (pJ), Area (um^2), Cycle: (73196712.02815999, 6429440.38, 7136)
+[2021-06-04 14:11:48]: Search space: 528 firmware possibilities
+[2021-06-04 14:11:49]: ==================================================
+[2021-06-04 14:11:49]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:49]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:49]: 		Score: 18.525986938590187
+[2021-06-04 14:11:49]: 		Energy (pJ), Area (um^2), Cycle: (73183828.82815999, 6428608.38, 7136)
+[2021-06-04 14:11:49]: Search space: 528 firmware possibilities
+[2021-06-04 14:11:49]: ==================================================
+[2021-06-04 14:11:49]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:49]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:49]: 		Score: 18.217606749993518
+[2021-06-04 14:11:49]: 		Energy (pJ), Area (um^2), Cycle: (70932346.88576, 6434784.38, 3616)
+[2021-06-04 14:11:49]: Search space: 528 firmware possibilities
+[2021-06-04 14:11:50]: ==================================================
+[2021-06-04 14:11:50]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:50]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:50]: 		Score: 19.921331490108344
+[2021-06-04 14:11:50]: 		Energy (pJ), Area (um^2), Cycle: (270142715.91296, 21786352.38, 14176)
+[2021-06-04 14:11:50]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:51]: ==================================================
+[2021-06-04 14:11:51]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:51]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:51]: 		Score: 19.597923098700484
+[2021-06-04 14:11:51]: 		Energy (pJ), Area (um^2), Cycle: (254813352.02816, 21789440.38, 7136)
+[2021-06-04 14:11:51]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:51]: ==================================================
+[2021-06-04 14:11:51]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:51]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:51]: 		Score: 19.5978845572365
+[2021-06-04 14:11:51]: 		Energy (pJ), Area (um^2), Cycle: (254800468.82816, 21788608.38, 7136)
+[2021-06-04 14:11:51]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:52]: ==================================================
+[2021-06-04 14:11:52]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:52]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:52]: 		Score: 19.289528024496896
+[2021-06-04 14:11:52]: 		Energy (pJ), Area (um^2), Cycle: (247142266.88575998, 21794784.38, 3616)
+[2021-06-04 14:11:52]: Search space: 544 firmware possibilities
+[2021-06-04 14:11:53]: ==================================================
+[2021-06-04 14:11:53]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:53]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:53]: 		Score: 21.68458596637761
+[2021-06-04 14:11:53]: 		Energy (pJ), Area (um^2), Cycle: (2066156795.91296, 165146352.38, 14176)
+[2021-06-04 14:11:53]: Search space: 546 firmware possibilities
+[2021-06-04 14:11:53]: ==================================================
+[2021-06-04 14:11:53]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:53]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:53]: 		Score: 21.361344730718752
+[2021-06-04 14:11:53]: 		Energy (pJ), Area (um^2), Cycle: (1949901992.0281599, 165149440.38, 7136)
+[2021-06-04 14:11:53]: Search space: 546 firmware possibilities
+[2021-06-04 14:11:54]: ==================================================
+[2021-06-04 14:11:54]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:54]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:54]: 		Score: 21.361339673360693
+[2021-06-04 14:11:54]: 		Energy (pJ), Area (um^2), Cycle: (1949889108.8281598, 165148608.38, 7136)
+[2021-06-04 14:11:54]: Search space: 546 firmware possibilities
+[2021-06-04 14:11:55]: ==================================================
+[2021-06-04 14:11:55]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:55]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 32}
+[2021-06-04 14:11:55]: 		Score: 21.052987498954042
+[2021-06-04 14:11:55]: 		Energy (pJ), Area (um^2), Cycle: (1891768186.8857598, 165154784.38, 3616)
+[2021-06-04 14:11:55]: Search space: 546 firmware possibilities
+[2021-06-04 14:11:55]: ==================================================
+[2021-06-04 14:11:55]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:55]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:55]: 		Score: 19.334227558064462
+[2021-06-04 14:11:55]: 		Energy (pJ), Area (um^2), Cycle: (244124524.56704, 6114032.38, 14464)
+[2021-06-04 14:11:55]: Search space: 394 firmware possibilities
+[2021-06-04 14:11:56]: ==================================================
+[2021-06-04 14:11:56]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:56]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:56]: 		Score: 19.037085676438693
+[2021-06-04 14:11:56]: 		Energy (pJ), Area (um^2), Cycle: (239828441.96223998, 6117120.38, 7424)
+[2021-06-04 14:11:56]: Search space: 394 firmware possibilities
+[2021-06-04 14:11:56]: ==================================================
+[2021-06-04 14:11:56]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:56]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:56]: 		Score: 19.037003748248928
+[2021-06-04 14:11:56]: 		Energy (pJ), Area (um^2), Cycle: (239815821.16224, 6116288.38, 7424)
+[2021-06-04 14:11:56]: Search space: 394 firmware possibilities
+[2021-06-04 14:11:57]: ==================================================
+[2021-06-04 14:11:57]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:57]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:11:57]: 		Score: 18.7615530279575
+[2021-06-04 14:11:57]: 		Energy (pJ), Area (um^2), Cycle: (237714184.68352002, 6122464.38, 3968)
+[2021-06-04 14:11:57]: Search space: 394 firmware possibilities
+[2021-06-04 14:11:58]: ==================================================
+[2021-06-04 14:11:58]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:11:58]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 32}
+[2021-06-04 14:11:58]: 		Score: 19.192431975425386
+[2021-06-04 14:11:58]: 		Energy (pJ), Area (um^2), Cycle: (101253524.80544, 10906352.379999999, 14104)
+[2021-06-04 14:11:58]: Search space: 567 firmware possibilities
+[2021-06-04 14:11:59]: ==================================================
+[2021-06-04 14:11:59]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:11:59]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 32}
+[2021-06-04 14:11:59]: 		Score: 18.85805324992958
+[2021-06-04 14:11:59]: 		Energy (pJ), Area (um^2), Cycle: (93583672.92064, 10909440.379999999, 7064)
+[2021-06-04 14:11:59]: Search space: 567 firmware possibilities
+[2021-06-04 14:12:00]: ==================================================
+[2021-06-04 14:12:00]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:00]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 32}
+[2021-06-04 14:12:00]: 		Score: 18.85796010604167
+[2021-06-04 14:12:00]: 		Energy (pJ), Area (um^2), Cycle: (93570740.12064001, 10908608.379999999, 7064)
+[2021-06-04 14:12:00]: Search space: 567 firmware possibilities
+[2021-06-04 14:12:01]: ==================================================
+[2021-06-04 14:12:01]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:01]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 32}
+[2021-06-04 14:12:01]: 		Score: 18.540506022235565
+[2021-06-04 14:12:01]: 		Energy (pJ), Area (um^2), Cycle: (89742290.17824, 10914784.379999999, 3544)
+[2021-06-04 14:12:01]: Search space: 567 firmware possibilities
+[2021-06-04 14:12:02]: ==================================================
+[2021-06-04 14:12:02]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:02]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:02]: 		Score: 20.02998830973717
+[2021-06-04 14:12:02]: 		Energy (pJ), Area (um^2), Cycle: (289478230.28752005, 26266352.38, 14092)
+[2021-06-04 14:12:02]: Search space: 589 firmware possibilities
+[2021-06-04 14:12:03]: ==================================================
+[2021-06-04 14:12:03]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:03]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:03]: 		Score: 19.700724310383844
+[2021-06-04 14:12:03]: 		Energy (pJ), Area (um^2), Cycle: (270994942.40272003, 26269440.38, 7052)
+[2021-06-04 14:12:03]: Search space: 589 firmware possibilities
+[2021-06-04 14:12:04]: ==================================================
+[2021-06-04 14:12:04]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:04]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:04]: 		Score: 19.700689806985586
+[2021-06-04 14:12:04]: 		Energy (pJ), Area (um^2), Cycle: (270981996.00272, 26268608.38, 7052)
+[2021-06-04 14:12:04]: Search space: 589 firmware possibilities
+[2021-06-04 14:12:05]: ==================================================
+[2021-06-04 14:12:05]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:05]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:05]: 		Score: 19.385441286417837
+[2021-06-04 14:12:05]: 		Energy (pJ), Area (um^2), Cycle: (261746830.06032, 26274784.38, 3532)
+[2021-06-04 14:12:05]: Search space: 589 firmware possibilities
+[2021-06-04 14:12:06]: ==================================================
+[2021-06-04 14:12:06]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:06]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:06]: 		Score: 21.691456423364663
+[2021-06-04 14:12:06]: 		Energy (pJ), Area (um^2), Cycle: (2055845462.28752, 169626352.38, 14092)
+[2021-06-04 14:12:06]: Search space: 592 firmware possibilities
+[2021-06-04 14:12:07]: ==================================================
+[2021-06-04 14:12:07]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:07]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:07]: 		Score: 21.364816845602977
+[2021-06-04 14:12:07]: 		Energy (pJ), Area (um^2), Cycle: (1936436734.40272, 169629440.38, 7052)
+[2021-06-04 14:12:07]: Search space: 592 firmware possibilities
+[2021-06-04 14:12:08]: ==================================================
+[2021-06-04 14:12:08]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:08]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:08]: 		Score: 21.36481181190183
+[2021-06-04 14:12:08]: 		Energy (pJ), Area (um^2), Cycle: (1936423788.00272, 169628608.38, 7052)
+[2021-06-04 14:12:08]: Search space: 592 firmware possibilities
+[2021-06-04 14:12:08]: ==================================================
+[2021-06-04 14:12:08]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:08]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:08]: 		Score: 21.05093645405908
+[2021-06-04 14:12:08]: 		Energy (pJ), Area (um^2), Cycle: (1876725902.0603201, 169634784.38, 3532)
+[2021-06-04 14:12:08]: Search space: 592 firmware possibilities
+[2021-06-04 14:12:09]: ==================================================
+[2021-06-04 14:12:09]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:09]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 88, 'firmware_out_h': 4}
+[2021-06-04 14:12:09]: 		Score: 21.054962877688382
+[2021-06-04 14:12:09]: 		Energy (pJ), Area (um^2), Cycle: (1857923353.2863998, 41954032.38, 14560)
+[2021-06-04 14:12:09]: Search space: 394 firmware possibilities
+[2021-06-04 14:12:09]: ==================================================
+[2021-06-04 14:12:09]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:09]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:09]: 		Score: 20.76277512081475
+[2021-06-04 14:12:09]: 		Energy (pJ), Area (um^2), Cycle: (1859223001.96224, 41957120.38, 7424)
+[2021-06-04 14:12:09]: Search space: 394 firmware possibilities
+[2021-06-04 14:12:10]: ==================================================
+[2021-06-04 14:12:10]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:10]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:10]: 		Score: 20.762763560677115
+[2021-06-04 14:12:10]: 		Energy (pJ), Area (um^2), Cycle: (1859210381.16224, 41956288.38, 7424)
+[2021-06-04 14:12:10]: Search space: 394 firmware possibilities
+[2021-06-04 14:12:10]: ==================================================
+[2021-06-04 14:12:10]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:10]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:10]: 		Score: 20.48736367998871
+[2021-06-04 14:12:10]: 		Energy (pJ), Area (um^2), Cycle: (1844722440.68352, 41962464.38, 3968)
+[2021-06-04 14:12:10]: Search space: 394 firmware possibilities
+[2021-06-04 14:12:11]: ==================================================
+[2021-06-04 14:12:11]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:11]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 64}
+[2021-06-04 14:12:11]: 		Score: 20.296536281889306
+[2021-06-04 14:12:11]: 		Energy (pJ), Area (um^2), Cycle: (299714577.84128, 46746352.38, 14128)
+[2021-06-04 14:12:11]: Search space: 567 firmware possibilities
+[2021-06-04 14:12:12]: ==================================================
+[2021-06-04 14:12:12]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:12]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 64}
+[2021-06-04 14:12:12]: 		Score: 19.94650769399613
+[2021-06-04 14:12:12]: 		Energy (pJ), Area (um^2), Cycle: (266813357.95648003, 46749440.38, 7088)
+[2021-06-04 14:12:12]: Search space: 567 firmware possibilities
+[2021-06-04 14:12:13]: ==================================================
+[2021-06-04 14:12:13]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:13]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 64}
+[2021-06-04 14:12:13]: 		Score: 19.946478957718256
+[2021-06-04 14:12:13]: 		Energy (pJ), Area (um^2), Cycle: (266800452.35648003, 46748608.38, 7088)
+[2021-06-04 14:12:13]: Search space: 567 firmware possibilities
+[2021-06-04 14:12:14]: ==================================================
+[2021-06-04 14:12:14]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:14]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 64}
+[2021-06-04 14:12:14]: 		Score: 19.620809453718497
+[2021-06-04 14:12:14]: 		Energy (pJ), Area (um^2), Cycle: (250356314.41408002, 46754784.38, 3568)
+[2021-06-04 14:12:14]: Search space: 567 firmware possibilities
+[2021-06-04 14:12:15]: ==================================================
+[2021-06-04 14:12:15]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:15]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:15]: 		Score: 20.67089002802006
+[2021-06-04 14:12:15]: 		Energy (pJ), Area (um^2), Cycle: (535526998.28752, 62106352.38, 14092)
+[2021-06-04 14:12:15]: Search space: 589 firmware possibilities
+[2021-06-04 14:12:15]: ==================================================
+[2021-06-04 14:12:15]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:15]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:15]: 		Score: 20.33326935035205
+[2021-06-04 14:12:15]: 		Energy (pJ), Area (um^2), Cycle: (491812350.40272, 62109440.38, 7052)
+[2021-06-04 14:12:15]: Search space: 589 firmware possibilities
+[2021-06-04 14:12:16]: ==================================================
+[2021-06-04 14:12:16]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:16]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:16]: 		Score: 20.33325210017242
+[2021-06-04 14:12:16]: 		Energy (pJ), Area (um^2), Cycle: (491799404.00271994, 62108608.38, 7052)
+[2021-06-04 14:12:16]: Search space: 589 firmware possibilities
+[2021-06-04 14:12:17]: ==================================================
+[2021-06-04 14:12:17]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:17]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:17]: 		Score: 20.013265998290024
+[2021-06-04 14:12:17]: 		Energy (pJ), Area (um^2), Cycle: (469948558.06031996, 62114784.38, 3532)
+[2021-06-04 14:12:17]: Search space: 589 firmware possibilities
+[2021-06-04 14:12:18]: ==================================================
+[2021-06-04 14:12:18]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:18]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:18]: 		Score: 21.82379870988821
+[2021-06-04 14:12:18]: 		Energy (pJ), Area (um^2), Cycle: (2301894230.28752, 205466352.38, 14092)
+[2021-06-04 14:12:18]: Search space: 592 firmware possibilities
+[2021-06-04 14:12:19]: ==================================================
+[2021-06-04 14:12:19]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:19]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:19]: 		Score: 21.49496085330974
+[2021-06-04 14:12:19]: 		Energy (pJ), Area (um^2), Cycle: (2157254142.40272, 205469440.38, 7052)
+[2021-06-04 14:12:19]: Search space: 592 firmware possibilities
+[2021-06-04 14:12:19]: ==================================================
+[2021-06-04 14:12:19]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:19]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:19]: 		Score: 21.494956488379653
+[2021-06-04 14:12:19]: 		Energy (pJ), Area (um^2), Cycle: (2157241196.00272, 205468608.38, 7052)
+[2021-06-04 14:12:19]: Search space: 592 firmware possibilities
+[2021-06-04 14:12:20]: ==================================================
+[2021-06-04 14:12:20]: Hardware param: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:20]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 32}
+[2021-06-04 14:12:20]: 		Score: 21.179870213059885
+[2021-06-04 14:12:20]: 		Energy (pJ), Area (um^2), Cycle: (2084927630.0603201, 205474784.38, 3532)
+[2021-06-04 14:12:20]: Search space: 592 firmware possibilities
+[2021-06-04 14:12:21]: ==================================================
+[2021-06-04 14:12:21]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:21]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:21]: 		Score: 20.019048360940495
+[2021-06-04 14:12:21]: 		Energy (pJ), Area (um^2), Cycle: (327692723.92447996, 21474032.38, 14848)
+[2021-06-04 14:12:21]: Search space: 392 firmware possibilities
+[2021-06-04 14:12:21]: ==================================================
+[2021-06-04 14:12:21]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:21]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:21]: 		Score: 19.72692607873185
+[2021-06-04 14:12:21]: 		Energy (pJ), Area (um^2), Cycle: (312858794.96704, 21477120.38, 7936)
+[2021-06-04 14:12:21]: Search space: 392 firmware possibilities
+[2021-06-04 14:12:22]: ==================================================
+[2021-06-04 14:12:22]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:22]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:22]: 		Score: 19.726891983183453
+[2021-06-04 14:12:22]: 		Energy (pJ), Area (um^2), Cycle: (312846353.36704004, 21476288.38, 7936)
+[2021-06-04 14:12:22]: Search space: 392 firmware possibilities
+[2021-06-04 14:12:22]: ==================================================
+[2021-06-04 14:12:22]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:22]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:22]: 		Score: 19.455301599799164
+[2021-06-04 14:12:22]: 		Energy (pJ), Area (um^2), Cycle: (305160707.24096, 21482464.38, 4352)
+[2021-06-04 14:12:22]: Search space: 392 firmware possibilities
+[2021-06-04 14:12:23]: ==================================================
+[2021-06-04 14:12:23]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:23]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:23]: 		Score: 20.117606199597738
+[2021-06-04 14:12:23]: 		Energy (pJ), Area (um^2), Cycle: (353886612.80543995, 26266352.38, 14104)
+[2021-06-04 14:12:23]: Search space: 564 firmware possibilities
+[2021-06-04 14:12:24]: ==================================================
+[2021-06-04 14:12:24]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:24]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:24]: 		Score: 19.79406887000448
+[2021-06-04 14:12:24]: 		Energy (pJ), Area (um^2), Cycle: (335403320.92063993, 26269440.38, 7064)
+[2021-06-04 14:12:24]: Search space: 564 firmware possibilities
+[2021-06-04 14:12:24]: ==================================================
+[2021-06-04 14:12:24]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:24]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:24]: 		Score: 19.79403836864409
+[2021-06-04 14:12:24]: 		Energy (pJ), Area (um^2), Cycle: (335390388.1206399, 26268608.38, 7064)
+[2021-06-04 14:12:24]: Search space: 564 firmware possibilities
+[2021-06-04 14:12:25]: ==================================================
+[2021-06-04 14:12:25]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:25]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:25]: 		Score: 19.482457205178008
+[2021-06-04 14:12:25]: 		Energy (pJ), Area (um^2), Cycle: (326155218.17823994, 26274784.38, 3544)
+[2021-06-04 14:12:25]: Search space: 564 firmware possibilities
+[2021-06-04 14:12:26]: ==================================================
+[2021-06-04 14:12:26]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:26]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:26]: 		Score: 20.50363737729359
+[2021-06-04 14:12:26]: 		Energy (pJ), Area (um^2), Cycle: (543158676.80544, 41626352.379999995, 14104)
+[2021-06-04 14:12:26]: Search space: 582 firmware possibilities
+[2021-06-04 14:12:26]: ==================================================
+[2021-06-04 14:12:26]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:26]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:26]: 		Score: 20.179297719647572
+[2021-06-04 14:12:26]: 		Energy (pJ), Area (um^2), Cycle: (513861944.92063993, 41629440.379999995, 7064)
+[2021-06-04 14:12:26]: Search space: 582 firmware possibilities
+[2021-06-04 14:12:27]: ==================================================
+[2021-06-04 14:12:27]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:27]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:27]: 		Score: 20.179278109418238
+[2021-06-04 14:12:27]: 		Energy (pJ), Area (um^2), Cycle: (513849012.1206399, 41628608.379999995, 7064)
+[2021-06-04 14:12:27]: Search space: 582 firmware possibilities
+[2021-06-04 14:12:28]: ==================================================
+[2021-06-04 14:12:28]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:28]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:28]: 		Score: 19.86723080586178
+[2021-06-04 14:12:28]: 		Energy (pJ), Area (um^2), Cycle: (499207122.17823994, 41634784.379999995, 3544)
+[2021-06-04 14:12:28]: Search space: 582 firmware possibilities
+[2021-06-04 14:12:29]: ==================================================
+[2021-06-04 14:12:29]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:29]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:29]: 		Score: 21.78003717536612
+[2021-06-04 14:12:29]: 		Energy (pJ), Area (um^2), Cycle: (2309697940.80544, 184986352.38, 14104)
+[2021-06-04 14:12:29]: Search space: 584 firmware possibilities
+[2021-06-04 14:12:30]: ==================================================
+[2021-06-04 14:12:30]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:30]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:30]: 		Score: 21.454549674119257
+[2021-06-04 14:12:30]: 		Energy (pJ), Area (um^2), Cycle: (2179475768.92064, 184989440.38, 7064)
+[2021-06-04 14:12:30]: Search space: 584 firmware possibilities
+[2021-06-04 14:12:30]: ==================================================
+[2021-06-04 14:12:30]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:30]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:30]: 		Score: 21.45454514378256
+[2021-06-04 14:12:30]: 		Energy (pJ), Area (um^2), Cycle: (2179462836.1206403, 184988608.38, 7064)
+[2021-06-04 14:12:30]: Search space: 584 firmware possibilities
+[2021-06-04 14:12:31]: ==================================================
+[2021-06-04 14:12:31]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:31]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 128}
+[2021-06-04 14:12:31]: 		Score: 21.141831767341312
+[2021-06-04 14:12:31]: 		Energy (pJ), Area (um^2), Cycle: (2114358226.17824, 184994784.38, 3544)
+[2021-06-04 14:12:31]: Search space: 584 firmware possibilities
+[2021-06-04 14:12:32]: ==================================================
+[2021-06-04 14:12:32]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:32]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:32]: 		Score: 20.175228031958714
+[2021-06-04 14:12:32]: 		Energy (pJ), Area (um^2), Cycle: (398781292.56703997, 25954032.38, 14464)
+[2021-06-04 14:12:32]: Search space: 405 firmware possibilities
+[2021-06-04 14:12:32]: ==================================================
+[2021-06-04 14:12:32]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:32]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:32]: 		Score: 19.865269508624657
+[2021-06-04 14:12:32]: 		Energy (pJ), Area (um^2), Cycle: (380517849.96224, 25957120.38, 7424)
+[2021-06-04 14:12:32]: Search space: 405 firmware possibilities
+[2021-06-04 14:12:33]: ==================================================
+[2021-06-04 14:12:33]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:33]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:33]: 		Score: 19.865241183348743
+[2021-06-04 14:12:33]: 		Energy (pJ), Area (um^2), Cycle: (380505229.16223997, 25956288.38, 7424)
+[2021-06-04 14:12:33]: Search space: 405 firmware possibilities
+[2021-06-04 14:12:34]: ==================================================
+[2021-06-04 14:12:34]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:34]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:12:34]: 		Score: 19.582931206076875
+[2021-06-04 14:12:34]: 		Energy (pJ), Area (um^2), Cycle: (371546888.6835199, 25962464.38, 3968)
+[2021-06-04 14:12:34]: Search space: 405 firmware possibilities
+[2021-06-04 14:12:35]: ==================================================
+[2021-06-04 14:12:35]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:35]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:12:35]: 		Score: 19.91047248148843
+[2021-06-04 14:12:35]: 		Energy (pJ), Area (um^2), Cycle: (187644820.80544, 30746352.38, 14104)
+[2021-06-04 14:12:35]: Search space: 605 firmware possibilities
+[2021-06-04 14:12:36]: ==================================================
+[2021-06-04 14:12:36]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:36]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:12:36]: 		Score: 19.557015901157282
+[2021-06-04 14:12:36]: 		Energy (pJ), Area (um^2), Cycle: (166007608.92064, 30749440.38, 7064)
+[2021-06-04 14:12:36]: Search space: 605 firmware possibilities
+[2021-06-04 14:12:37]: ==================================================
+[2021-06-04 14:12:37]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:37]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:12:37]: 		Score: 19.556970315147485
+[2021-06-04 14:12:37]: 		Energy (pJ), Area (um^2), Cycle: (165994676.12064, 30748608.38, 7064)
+[2021-06-04 14:12:37]: Search space: 605 firmware possibilities
+[2021-06-04 14:12:38]: ==================================================
+[2021-06-04 14:12:38]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:38]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 16}
+[2021-06-04 14:12:38]: 		Score: 19.22824927310709
+[2021-06-04 14:12:38]: 		Energy (pJ), Area (um^2), Cycle: (155182546.17824003, 30754784.38, 3544)
+[2021-06-04 14:12:38]: Search space: 605 firmware possibilities
+[2021-06-04 14:12:39]: ==================================================
+[2021-06-04 14:12:39]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:39]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 64}
+[2021-06-04 14:12:39]: 		Score: 20.3375047925168
+[2021-06-04 14:12:39]: 		Energy (pJ), Area (um^2), Cycle: (334931769.02856, 46106352.379999995, 14086)
+[2021-06-04 14:12:39]: Search space: 635 firmware possibilities
+[2021-06-04 14:12:40]: ==================================================
+[2021-06-04 14:12:40]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:40]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 64}
+[2021-06-04 14:12:40]: 		Score: 19.992430761356097
+[2021-06-04 14:12:40]: 		Energy (pJ), Area (um^2), Cycle: (302481119.14376, 46109440.379999995, 7046)
+[2021-06-04 14:12:40]: Search space: 635 firmware possibilities
+[2021-06-04 14:12:41]: ==================================================
+[2021-06-04 14:12:41]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:41]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 64}
+[2021-06-04 14:12:41]: 		Score: 19.992404332343163
+[2021-06-04 14:12:41]: 		Energy (pJ), Area (um^2), Cycle: (302468169.94376004, 46108608.379999995, 7046)
+[2021-06-04 14:12:41]: Search space: 635 firmware possibilities
+[2021-06-04 14:12:42]: ==================================================
+[2021-06-04 14:12:42]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:42]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 64}
+[2021-06-04 14:12:42]: 		Score: 19.667866956997457
+[2021-06-04 14:12:42]: 		Energy (pJ), Area (um^2), Cycle: (286249322.00136, 46114784.379999995, 3526)
+[2021-06-04 14:12:42]: Search space: 635 firmware possibilities
+[2021-06-04 14:12:43]: ==================================================
+[2021-06-04 14:12:43]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:43]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 128}
+[2021-06-04 14:12:43]: 		Score: 21.74723971706392
+[2021-06-04 14:12:43]: 		Energy (pJ), Area (um^2), Cycle: (2094172458.39908, 189466352.38, 14083)
+[2021-06-04 14:12:43]: Search space: 640 firmware possibilities
+[2021-06-04 14:12:44]: ==================================================
+[2021-06-04 14:12:44]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:44]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 64}
+[2021-06-04 14:12:44]: 		Score: 21.419470910160832
+[2021-06-04 14:12:44]: 		Energy (pJ), Area (um^2), Cycle: (1967836895.14376, 189469440.38, 7046)
+[2021-06-04 14:12:44]: Search space: 640 firmware possibilities
+[2021-06-04 14:12:45]: ==================================================
+[2021-06-04 14:12:45]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:45]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 64}
+[2021-06-04 14:12:45]: 		Score: 21.419466145227616
+[2021-06-04 14:12:45]: 		Energy (pJ), Area (um^2), Cycle: (1967823945.94376, 189468608.38, 7046)
+[2021-06-04 14:12:45]: Search space: 640 firmware possibilities
+[2021-06-04 14:12:46]: ==================================================
+[2021-06-04 14:12:46]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 8000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:46]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 440, 'firmware_out_h': 64}
+[2021-06-04 14:12:46]: 		Score: 21.103848372207718
+[2021-06-04 14:12:46]: 		Energy (pJ), Area (um^2), Cycle: (1901142378.00136, 189474784.38, 3526)
+[2021-06-04 14:12:46]: Search space: 640 firmware possibilities
+[2021-06-04 14:12:47]: ==================================================
+[2021-06-04 14:12:47]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:47]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 8}
+[2021-06-04 14:12:47]: 		Score: 21.052729986612604
+[2021-06-04 14:12:47]: 		Energy (pJ), Area (um^2), Cycle: (1263266668.56704, 61794032.379999995, 14464)
+[2021-06-04 14:12:47]: Search space: 405 firmware possibilities
+[2021-06-04 14:12:48]: ==================================================
+[2021-06-04 14:12:48]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:48]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 8}
+[2021-06-04 14:12:48]: 		Score: 20.74788481366751
+[2021-06-04 14:12:48]: 		Energy (pJ), Area (um^2), Cycle: (1219771865.9622402, 61797120.379999995, 7424)
+[2021-06-04 14:12:48]: Search space: 405 firmware possibilities
+[2021-06-04 14:12:48]: ==================================================
+[2021-06-04 14:12:48]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:48]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 8}
+[2021-06-04 14:12:48]: 		Score: 20.74787447293891
+[2021-06-04 14:12:48]: 		Energy (pJ), Area (um^2), Cycle: (1219759245.1622403, 61796288.379999995, 7424)
+[2021-06-04 14:12:48]: Search space: 405 firmware possibilities
+[2021-06-04 14:12:49]: ==================================================
+[2021-06-04 14:12:49]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:49]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 55, 'firmware_out_h': 8}
+[2021-06-04 14:12:49]: 		Score: 20.4681845479977
+[2021-06-04 14:12:49]: 		Energy (pJ), Area (um^2), Cycle: (1198414600.68352, 61802464.379999995, 3968)
+[2021-06-04 14:12:49]: Search space: 405 firmware possibilities
+[2021-06-04 14:12:50]: ==================================================
+[2021-06-04 14:12:50]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:50]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 64}
+[2021-06-04 14:12:50]: 		Score: 20.567796053791515
+[2021-06-04 14:12:50]: 		Energy (pJ), Area (um^2), Cycle: (393612180.80544, 66586352.379999995, 14104)
+[2021-06-04 14:12:50]: Search space: 605 firmware possibilities
+[2021-06-04 14:12:51]: ==================================================
+[2021-06-04 14:12:51]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:51]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 64}
+[2021-06-04 14:12:51]: 		Score: 20.212464520678285
+[2021-06-04 14:12:51]: 		Energy (pJ), Area (um^2), Cycle: (346743608.92063993, 66589440.379999995, 7064)
+[2021-06-04 14:12:51]: Search space: 605 firmware possibilities
+[2021-06-04 14:12:52]: ==================================================
+[2021-06-04 14:12:52]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:52]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 64}
+[2021-06-04 14:12:52]: 		Score: 20.212442895799818
+[2021-06-04 14:12:52]: 		Energy (pJ), Area (um^2), Cycle: (346730676.1206399, 66588608.379999995, 7064)
+[2021-06-04 14:12:52]: Search space: 605 firmware possibilities
+[2021-06-04 14:12:53]: ==================================================
+[2021-06-04 14:12:53]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 8000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:53]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 110, 'firmware_out_h': 64}
+[2021-06-04 14:12:53]: 		Score: 19.882543485099283
+[2021-06-04 14:12:53]: 		Energy (pJ), Area (um^2), Cycle: (323302866.17823994, 66594784.379999995, 3544)
+[2021-06-04 14:12:53]: Search space: 605 firmware possibilities
+[2021-06-04 14:12:54]: ==================================================
+[2021-06-04 14:12:54]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:54]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 128}
+[2021-06-04 14:12:54]: 		Score: 20.724908878959145
+[2021-06-04 14:12:54]: 		Energy (pJ), Area (um^2), Cycle: (459823929.02856, 81946352.38, 14086)
+[2021-06-04 14:12:54]: Search space: 635 firmware possibilities
+[2021-06-04 14:12:55]: ==================================================
+[2021-06-04 14:12:55]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:55]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 128}
+[2021-06-04 14:12:55]: 		Score: 20.3658679772114
+[2021-06-04 14:12:55]: 		Energy (pJ), Area (um^2), Cycle: (402141919.14376, 81949440.38, 7046)
+[2021-06-04 14:12:55]: Search space: 635 firmware possibilities
+[2021-06-04 14:12:56]: ==================================================
+[2021-06-04 14:12:56]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:56]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 128}
+[2021-06-04 14:12:56]: 		Score: 20.365849583214185
+[2021-06-04 14:12:56]: 		Energy (pJ), Area (um^2), Cycle: (402128969.94376004, 81948608.38, 7046)
+[2021-06-04 14:12:56]: Search space: 635 firmware possibilities
+[2021-06-04 14:12:57]: ==================================================
+[2021-06-04 14:12:57]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 32000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:12:57]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 128}
+[2021-06-04 14:12:57]: 		Score: 20.032908143721524
+[2021-06-04 14:12:57]: 		Energy (pJ), Area (um^2), Cycle: (373294442.00136006, 81954784.38, 3526)
+[2021-06-04 14:12:57]: Search space: 635 firmware possibilities
+[2021-06-04 14:12:59]: ==================================================
+[2021-06-04 14:12:59]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 8}
+[2021-06-04 14:12:59]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 128}
+[2021-06-04 14:12:59]: 		Score: 21.849106794028256
+[2021-06-04 14:12:59]: 		Energy (pJ), Area (um^2), Cycle: (2226105145.02856, 225306352.38, 14086)
+[2021-06-04 14:12:59]: Search space: 640 firmware possibilities
+[2021-06-04 14:13:00]: ==================================================
+[2021-06-04 14:13:00]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 8, 'hardware_mac_datasize': 16}
+[2021-06-04 14:13:00]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 128}
+[2021-06-04 14:13:00]: 		Score: 21.51616706179548
+[2021-06-04 14:13:00]: 		Energy (pJ), Area (um^2), Cycle: (2067497695.14376, 225309440.38, 7046)
+[2021-06-04 14:13:00]: Search space: 640 firmware possibilities
+[2021-06-04 14:13:01]: ==================================================
+[2021-06-04 14:13:01]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:13:01]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 128}
+[2021-06-04 14:13:01]: 		Score: 21.516162737981716
+[2021-06-04 14:13:01]: 		Energy (pJ), Area (um^2), Cycle: (2067484745.94376, 225308608.38, 7046)
+[2021-06-04 14:13:01]: Search space: 640 firmware possibilities
+[2021-06-04 14:13:02]: ==================================================
+[2021-06-04 14:13:02]: Hardware param: {'hardware_sgemm_sram_size': 32000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 64000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 256000, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:13:02]: Firmware param (Best from Bayesian Opt): {'firmware_in_w': 16, 'firmware_in_h': 220, 'firmware_out_h': 128}
+[2021-06-04 14:13:02]: 		Score: 21.198529336096104
+[2021-06-04 14:13:02]: 		Energy (pJ), Area (um^2), Cycle: (1988187498.00136, 225314784.38, 3526)
+[2021-06-04 14:13:02]: Search space: 640 firmware possibilities
+[2021-06-04 14:13:02]: ==================================================
+[2021-06-04 14:13:02]: Total: 75284 combinations searched
+[2021-06-04 14:13:02]: ==================================================
+[2021-06-04 14:13:02]: Top solutions found:
+[2021-06-04 14:13:02]: #1		********************
+[2021-06-04 14:13:02]: 		Score: 17.2892960707294
+[2021-06-04 14:13:02]: 		Energy (pJ), Area (um^2), Cycle: (38352641.192959994, 1166304.38, 4352)
+[2021-06-04 14:13:02]: 		Hardware: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:13:02]: 		Firmware: {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:13:02]: #2		********************
+[2021-06-04 14:13:02]: 		Score: 17.503577690777128
+[2021-06-04 14:13:02]: 		Energy (pJ), Area (um^2), Cycle: (44605955.24096, 1642464.38, 4352)
+[2021-06-04 14:13:02]: 		Hardware: {'hardware_sgemm_sram_size': 1000, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 16}
+[2021-06-04 14:13:02]: 		Firmware: {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:13:02]: #3		********************
+[2021-06-04 14:13:02]: 		Score: 17.552457589390148
+[2021-06-04 14:13:02]: 		Energy (pJ), Area (um^2), Cycle: (38756975.57504, 1160128.38, 7936)
+[2021-06-04 14:13:02]: 		Hardware: {'hardware_sgemm_sram_size': 256, 'hardware_sgemm_sram_width': 64, 'hardware_data_sram_size': 1000, 'hardware_data_sram_width': 64, 'hardware_his_sram_size': 64, 'hardware_his_sum_sram_size': 8, 'hardware_model_sram_size': 512, 'hardware_model_sram_width': 64, 'hardware_mac_instances': 16, 'hardware_mac_datasize': 8}
+[2021-06-04 14:13:02]: 		Firmware: {'firmware_in_w': 8, 'firmware_in_h': 110, 'firmware_out_h': 4}
+[2021-06-04 14:13:02]: Execution time: 109.86680126190186 seconds

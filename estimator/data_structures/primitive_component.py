@@ -29,7 +29,7 @@ class PrimitiveComponent:
         # print(self.name, self.comp_args)
 
     def __repr__(self):
-        return f"{self.name} {self.comp_class} PC with {self.comp_args}"
+        return f"<{self.name} {self.comp_class} Primitive Component> {dict(self.comp_args)}"
 
     def get_feature_reference_table(self, feature: str):
         """

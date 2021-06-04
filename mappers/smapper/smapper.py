@@ -65,7 +65,7 @@ class Smapper:
         :param nn_file: path of YAML file to be initialized as NN list
         :return: None
         """
-        n = read_yaml_file(nn_file)['neural_network'][0]
+        n = read_yaml_file(nn_file)['neural_network'][0]  # Currently we consider only 1 layer
         self.nn = NeuralNetwork(n['name'], n['nn_type'], n['dimensions'], n['start'], n['end'])
 
     def run_operationalizer(self):
