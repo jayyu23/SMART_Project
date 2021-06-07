@@ -18,7 +18,7 @@ The **Shensilicon Microchip Architectural Reference Tool (SMART)** is a project 
 
 ### Dependencies
 
-The following packages are used outside of the default Python packages. These need to be installed via:
+Packages are used outside of the default Python packages. These need to be installed via:
 
 ```bash
 pip install -r requirements.txt

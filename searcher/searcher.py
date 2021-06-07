@@ -4,8 +4,7 @@ from estimator.utils import read_yaml_file
 from mappers.smapper.smapper import Smapper
 from searcher.logger import Logger
 from copy import deepcopy
-import numpy, time
-import matplotlib.pyplot as plt
+import time
 import os
 
 
@@ -69,28 +68,29 @@ class Searcher:
         combinations searched
         :return: None. Will output search results in test_run folder, keeping track of search log details etc.
         """
-        # Outer loop: hardware architecture search
         start_time = time.time()
+        algorithm_names = {'bayes': 'Bayesian Opt', 'linear': 'linear search'}
+        # Outer loop: hardware architecture search
         for architecture in self.meta_arch.iter_architectures():
             # Inner loop: firmware operations search
             self.firmware_mapper.architecture = architecture
             self.firmware_mapper.run_operationalizer()
             # Firmware operations search, using Bayesian Optimization algorithm
-            bayes_fw_input, score, eac = self.firmware_mapper.search_firmware(algorithm=algorithm)
+            fw_input, score, eac = self.firmware_mapper.search_firmware(algorithm=algorithm)
             search_space = len(self.firmware_mapper.param_op_map)
             if verbose:
                 self.logger.add_line("=" * 50)
                 self.logger.add_line(f"Hardware param: {architecture.config_label}")
-                self.logger.add_line(f"Firmware param (Best from Bayesian Opt): {bayes_fw_input}")
+                self.logger.add_line(f"Firmware param (Best from {algorithm_names[algorithm]}): {fw_input}")
                 self.logger.add_line(f"\t\tScore: {score}")
                 self.logger.add_line(f"\t\tEnergy (pJ), Area (um^2), Cycle: {eac}")
                 self.logger.add_line(f"Search space: {search_space} firmware possibilities")
             self.combinations_searched += search_space
             if len(self.top_solutions) < top_solutions_num:
-                self.top_solutions.append([score, bayes_fw_input, eac, deepcopy(architecture)])
+                self.top_solutions.append([score, fw_input, eac, deepcopy(architecture)])
                 self.top_solutions.sort(key=lambda x: x[0])
             elif score < self.top_solutions[-1][0]:
-                self.top_solutions[-1] = [score, bayes_fw_input, eac, deepcopy(architecture)]
+                self.top_solutions[-1] = [score, fw_input, eac, deepcopy(architecture)]
                 self.top_solutions.sort(key=lambda x: x[0])
                 # print("sorted", self.top_solutions)
         end_time = time.time()
