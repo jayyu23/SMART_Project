@@ -1,3 +1,4 @@
+from estimator.data_structures.architecture import Architecture
 from estimator.estimator import Estimator
 from searcher.meta_architecture import MetaArchitecture
 from estimator.utils import read_yaml_file
@@ -6,6 +7,8 @@ from searcher.logger import Logger
 from copy import deepcopy
 import time
 import os
+from bayes_opt import BayesianOptimization
+import random
 
 
 def yaml_searcher_factory(meta_arch_path, meta_cc_path, nn_path):
@@ -57,6 +60,23 @@ class Searcher:
         self.meta_arch = MetaArchitecture(read_yaml_file(meta_arch_path), meta_cc_path)
         self.meta_arch.load_argument_combinations()
 
+    def search_hw_bayes(self):
+        def __bayes_trial(**kwargs):
+            param_set = locals()['kwargs']
+            print("paramsert", param_set)
+            a_params, mcc_params = self.meta_arch.create_arch_config_dicts(param_set)
+            print("aparam", a_params, mcc_params)
+            arch = self.meta_arch.get_architecture(a_params, mcc_params)
+            if isinstance(arch, Architecture):
+                print(arch.component_dict)
+            return random.randint(1, 100)
+        bayes_model = BayesianOptimization(f=__bayes_trial,
+                                           pbounds={**self.meta_arch.get_param_bounds(),
+                                                    **self.meta_arch.get_mcc_param_bounds(flatten=True)},
+                                           random_state=10)
+        bayes_model.maximize(3, 3, kappa=1)
+        max_params = bayes_model.max['params']
+
     def search_combinations(self, top_solutions_num=3, algorithm="bayes", verbose=False):
         """
         Key algorithm to (1) search for different hardware-firmware combinations, (2) rank all these HW-FW combinations,
@@ -69,9 +89,11 @@ class Searcher:
         :return: None. Will output search results in test_run folder, keeping track of search log details etc.
         """
 
-        print("meta_arh params", self.meta_arch.get_param_bounds())
-        print("meta_cc_params", self.meta_arch.get_mcc_param_bounds())
+        # print("meta_arh params", self.meta_arch.get_param_bounds())
+        # print("meta_cc_params", self.meta_arch.get_mcc_param_bounds(flatten=True))
+        self.search_hw_bayes()
         return
+        # TODO: Accomodate the Bayes function with this segment of code
         start_time = time.time()
         algorithm_names = {'bayes': 'Bayesian Opt', 'linear': 'linear search'}
         # Outer loop: hardware architecture search

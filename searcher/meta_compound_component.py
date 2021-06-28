@@ -2,7 +2,7 @@ import os
 import itertools
 import re
 from collections import OrderedDict
-
+import numpy as np
 from estimator.data_structures.primitive_component import PrimitiveComponent
 from estimator.utils import read_yaml_file
 from estimator.data_structures.compound_component import CompoundComponent
@@ -155,8 +155,12 @@ class MetaCompoundComponent:
         return deepcopy(self.base_cc)
 
     def get_compound_component(self, config_dict):
-        param_set = tuple(config_dict[label] for label in self.subcomponent_comb_labels)
-        return self.__get_cc_from_param_set(param_set)
+        continuous_param_set = np.array(tuple(config_dict[label] for label in self.subcomponent_comb_labels))
+        euclid_distance = lambda x, y: np.sqrt(((x - y) ** 2).sum(axis=0))
+        discrete_param_set = sorted([(euclid_distance(continuous_param_set, p), p)
+                                     for p in self.subcomponent_combs])[0][1]
+        print(discrete_param_set)
+        return self.__get_cc_from_param_set(discrete_param_set)
 
     def iter_compound_components(self):
         """

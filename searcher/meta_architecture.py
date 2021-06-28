@@ -1,7 +1,7 @@
 import itertools
 from collections import OrderedDict
 from copy import deepcopy
-
+import numpy as np
 from estimator.data_structures.architecture import flatten_architecture, Architecture
 from estimator.data_structures.primitive_component import PrimitiveComponent
 from estimator.input_handler import database_handler
@@ -34,7 +34,7 @@ class MetaArchitecture:
         self.argument_combs = None
         self.param_architecture_map = None
         self.param_set_labels = []  # String tuple
-
+        self.flatten_divider_character = None # See flatten in get_mcc_param_bounds
 
         flat_arch = flatten_architecture(yaml_data)
         meta_cc_combs = []
@@ -66,8 +66,14 @@ class MetaArchitecture:
             out_dict[param_name] = (minima, maxima)
         return out_dict
 
-    def get_mcc_param_bounds(self):
+    def get_mcc_param_bounds(self, flatten=True):
         out_dict = {name: mcc.get_param_bounds() for name, mcc in self.meta_cc_name_vars}
+        if flatten:
+            self.flatten_divider_character = '一'
+            flat_out_dict = {}
+            for name, value in out_dict.items():
+                flat_out_dict.update({f"{name}{self.flatten_divider_character}{k}": v for k, v in value.items()})
+            out_dict = flat_out_dict
         return out_dict
 
     def load_argument_combinations(self):
@@ -106,15 +112,34 @@ class MetaArchitecture:
             self.pc_arg_val[i][0].comp_args[self.pc_arg_val[i][1]] = param_set[i]
             self.pc_arg_val[i][0].clear_cache()
 
+    def create_arch_config_dicts(self, bayes_param_dict: dict):
+        # Unpacks the BayesOpt kwargs dict
+        arch_dict = {}
+        mcc_dict = {}
+        for key, value in bayes_param_dict.items():
+            if self.flatten_divider_character and self.flatten_divider_character in key:
+                # This means that we have a MCC parameter
+                mcc_key, mcc_field = str(key).split(self.flatten_divider_character, maxsplit=1)
+                if mcc_key not in mcc_dict:
+                    mcc_dict[mcc_key] = dict()
+                mcc_dict[mcc_key][mcc_field] = value
+            else:
+                arch_dict[key] = value
+        return arch_dict, mcc_dict
+
     def get_architecture(self, arch_config_dict, meta_cc_config_data=None):
         """
         Get an architecture from a given Architecture dict and relevant meta_cc_config_data
-        :param arch_config_dict: Architecture dict: {config_label: config_data}
+        :param arch_config_dict: Architecture dict: {config_label: continuous_config_data}
         :param meta_cc_config_data: Nested dict: {MCC_Name: {mcc_config_label: mcc_config_data} }
         :return: Architecture object: base_arch
         """
-        param_set = tuple(arch_config_dict[label] for label in self.param_set_labels)
-        self.update_base_arch(param_set)
+        continuous_param_set = np.array(tuple(arch_config_dict[label] for label in self.param_set_labels))
+        euclid_distance = lambda x, y: np.sqrt(((x - y) ** 2).sum(axis=0))
+        discrete_param_set = sorted([(euclid_distance(continuous_param_set, np.array(p)), p)
+                                     for p in self.argument_combs])[0][1]
+        print([(self.param_set_labels[i], discrete_param_set[i]) for i in range(len(self.param_set_labels))])
+        self.update_base_arch(discrete_param_set)
         # Now update_cc_from_comb as specified in mcc_config_data
         if meta_cc_config_data:
             cc_comb = [mcc.get_compound_component(meta_cc_config_data[name]) for name, mcc in self.meta_cc_name_vars]
