@@ -62,4 +62,4 @@ def run_compiler():
     comp.compile()
 
 if __name__ == "__main__":
-    run_compiler()
+    run_searcher()

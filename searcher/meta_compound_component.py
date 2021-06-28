@@ -50,6 +50,7 @@ class MetaCompoundComponent:
     """
     Class defining each meta-compound-component
     """
+
     def __init__(self, yaml_data: OrderedDict):
         yaml_data = yaml_data['meta_compound_component']
         self.base_cc = CompoundComponent()
@@ -102,6 +103,51 @@ class MetaCompoundComponent:
                     meta_combs.append(ins_num)
                     self.subcomponent_comb_labels.append(f"hardware_{sc_name}_instances")
                 self.subcomponent_combs = tuple(itertools.product(*meta_combs))
+        print(self.subcomponent_comb_labels)
+
+    def __get_cc_from_param_set(self, param_set):
+        for p_index in range(len(param_set)):
+            param_info = self.subcomponent_var[p_index]
+            param_value = param_set[p_index]
+            if param_info[0]:  # Is primitive component
+                # Check if it is an instance or argument
+                if param_info[1] == "instance":
+                    sc_name, sc_class = param_info[2], param_info[3]
+                    # Remove former instances
+                    key_removal = [k for k in self.base_cc.subcomponents if re.match(f"{sc_name}_[0-9*]", k)]
+                    removed = [self.base_cc.subcomponents.pop(k) for k in key_removal]
+                    # Initiate the instances
+                    for i in range(param_value):
+                        n = sc_name + "_" + str(i)
+                        self.base_cc.subcomponents[n] = PrimitiveComponent(n, sc_class)
+                elif param_info[1] == "argument":
+                    sc_name = param_info[2]
+                    for k, v in self.base_cc.subcomponents.items():
+                        if re.match(f"{sc_name}_[0-9*]", k) and isinstance(v, PrimitiveComponent):
+                            v.comp_args[param_info[3]] = param_value
+            else:
+                sc_name, mcc = param_info[2], param_info[3]
+                # We have a compound component here.
+                mcc_scc = tuple(mcc.subcomponent_combs)
+                if param_info[1] == "subcomponents":
+                    curr_cc = next(mcc.iter_compound_components())
+                    self.base_cc.subcomponents[sc_name] = curr_cc
+                elif param_info[1] == "instance":
+                    curr_cc = self.base_cc.subcomponents.pop(sc_name)
+                    # Remove former instances
+                    key_removal = [k for k in self.base_cc.subcomponents if re.match(f"{sc_name}_[0-9*]", k)]
+                    removed = [self.base_cc.subcomponents.pop(k) for k in key_removal]
+                    # Initiate the instances
+                    for i in range(param_value):
+                        n = sc_name + "_" + str(i)
+                        self.base_cc.subcomponents[n] = curr_cc
+            self.base_cc.config_label[self.subcomponent_comb_labels[p_index]] = param_value
+        self.base_cc.clear_caches()
+        return deepcopy(self.base_cc)
+
+    def get_compound_component(self, config_dict):
+        param_set = tuple(config_dict[label] for label in self.subcomponent_comb_labels)
+        return self.__get_cc_from_param_set(param_set)
 
     def iter_compound_components(self):
         """
@@ -111,43 +157,4 @@ class MetaCompoundComponent:
         of the different changing parameters
         """
         for param_set in self.subcomponent_combs:
-            for p_index in range(len(param_set)):
-                param_info = self.subcomponent_var[p_index]
-                param_value = param_set[p_index]
-                if param_info[0]: # Is primitive component
-                    # Check if it is an instance or argument
-                    if param_info[1] == "instance":
-                        sc_name, sc_class = param_info[2], param_info[3]
-                        # Remove former instances
-                        key_removal = [k for k in self.base_cc.subcomponents if re.match(f"{sc_name}_[0-9*]", k)]
-                        removed = [self.base_cc.subcomponents.pop(k) for k in key_removal]
-                        # Initiate the instances
-                        for i in range(param_value):
-                            n = sc_name + "_" + str(i)
-                            self.base_cc.subcomponents[n] = PrimitiveComponent(n, sc_class)
-                    elif param_info[1] == "argument":
-                        sc_name = param_info[2]
-                        for k, v in self.base_cc.subcomponents.items():
-                            if re.match(f"{sc_name}_[0-9*]", k) and isinstance(v, PrimitiveComponent):
-                                v.comp_args[param_info[3]] = param_value
-                else:
-                    sc_name, mcc = param_info[2], param_info[3]
-                    # We have a compound component here.
-                    mcc_scc = tuple(mcc.subcomponent_combs)
-                    if param_info[1] == "subcomponents":
-                        curr_cc = next(mcc.iter_compound_components())
-                        self.base_cc.subcomponents[sc_name] = curr_cc
-                    elif param_info[1] == "instance":
-                        curr_cc = self.base_cc.subcomponents.pop(sc_name)
-                        # Remove former instances
-                        key_removal = [k for k in self.base_cc.subcomponents if re.match(f"{sc_name}_[0-9*]", k)]
-                        removed = [self.base_cc.subcomponents.pop(k) for k in key_removal]
-                        # Initiate the instances
-                        for i in range(param_value):
-                            n = sc_name + "_" + str(i)
-                            self.base_cc.subcomponents[n] = curr_cc
-                self.base_cc.config_label[self.subcomponent_comb_labels[p_index]] = param_value
-                pass
-            self.base_cc.clear_caches()
-            yield deepcopy(self.base_cc)
-
+            yield self.__get_cc_from_param_set(param_set)

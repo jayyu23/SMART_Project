@@ -30,10 +30,11 @@ class MetaArchitecture:
         self.base_arch.version = yaml_data['version']
         self.pc_arg_val = []  # (PC, arg, arg_array_vals)
         self.meta_cc_combs = []  # 2d array, each item is a list of meta-cc possibilities
-        self.meta_cc_name = [] # MCC name, MCC variables
+        self.meta_cc_name_vars = [] # MCC name, MCC variables
         self.argument_combs = None
         self.param_architecture_map = None
         self.param_set_labels = []  # String tuple
+
 
         flat_arch = flatten_architecture(yaml_data)
         meta_cc_combs = []
@@ -50,9 +51,11 @@ class MetaArchitecture:
                     self.param_set_labels += [f"hardware_{item_name}_{key}" for key in item_arguments]
             else:
                 mcc = deepcopy(meta_compound_component_library[item_class])
-                self.meta_cc_name.append(item_name)
+                self.meta_cc_name_vars.append((item_name, mcc))
                 meta_cc_combs.append(list(mcc.iter_compound_components()))
         self.meta_cc_combs = list(itertools.product(*meta_cc_combs))
+        print(self.meta_cc_name_vars)
+        print(self.param_set_labels)
 
     def load_argument_combinations(self):
         """
@@ -90,13 +93,28 @@ class MetaArchitecture:
             self.pc_arg_val[i][0].comp_args[self.pc_arg_val[i][1]] = param_set[i]
             self.pc_arg_val[i][0].clear_cache()
 
+    def get_architecture(self, arch_config_dict, meta_cc_config_data=None):
+        """
+        Get an architecture from a given Architecture dict and relevant meta_cc_config_data
+        :param arch_config_dict: Architecture dict: {config_label: config_data}
+        :param meta_cc_config_data: Nested dict: {MCC_Name: {mcc_config_label: mcc_config_data} }
+        :return: Architecture object: base_arch
+        """
+        param_set = tuple(arch_config_dict[label] for label in self.param_set_labels)
+        self.update_base_arch(param_set)
+        # Now update_cc_from_comb as specified in mcc_config_data
+        if meta_cc_config_data:
+            cc_comb = [mcc.get_compound_component(meta_cc_config_data[name]) for name, mcc in self.meta_cc_name_vars]
+            self.update_cc_from_comb(cc_comb)
+        return self.base_arch
+
     def update_cc_from_comb(self, cc_comb):
         """
         Update the compound components within the architecture given a compound component combination
-        :param cc_comb: Compound Component Parameter combination
+        :param cc_comb: Compound Component Parameter combination,list of <Compound Component> objects
         :return: None. Updates the compound components within the base_arch, in preparation for iter_architectures
         """
         for cc_index in range(len(cc_comb)):
-            name = self.meta_cc_name[cc_index]
+            name = self.meta_cc_name_vars[cc_index][0]
             self.base_arch.component_dict[name] = cc_comb[cc_index]
             self.base_arch.config_label.update(cc_comb[cc_index].config_label)
