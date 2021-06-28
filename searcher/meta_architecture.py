@@ -57,6 +57,19 @@ class MetaArchitecture:
         print(self.meta_cc_name_vars)
         print(self.param_set_labels)
 
+    def get_param_bounds(self):
+        # Used for Bayes Optim
+        out_dict = {}
+        for index, param_name in enumerate(self.param_set_labels):
+            minima = min([c[index] for c in self.argument_combs]) #* 0.9
+            maxima = max([c[index] for c in self.argument_combs]) #* 1.25
+            out_dict[param_name] = (minima, maxima)
+        return out_dict
+
+    def get_mcc_param_bounds(self):
+        out_dict = {name: mcc.get_param_bounds() for name, mcc in self.meta_cc_name_vars}
+        return out_dict
+
     def load_argument_combinations(self):
         """
         Loads the different argument combinations using itertools according to the different parameters specified in
@@ -64,7 +77,7 @@ class MetaArchitecture:
         :return: None. Updates the self.argument_combs field
         """
         argument_pools = (p[2] if isinstance(p[2], list) else [p[2]] for p in self.pc_arg_val)
-        self.argument_combs = itertools.product(*argument_pools)  # Cartesian product
+        self.argument_combs = tuple(itertools.product(*argument_pools))  # Cartesian product
 
     def iter_architectures(self):
         """

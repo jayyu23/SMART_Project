@@ -68,6 +68,10 @@ class Searcher:
         combinations searched
         :return: None. Will output search results in test_run folder, keeping track of search log details etc.
         """
+
+        print("meta_arh params", self.meta_arch.get_param_bounds())
+        print("meta_cc_params", self.meta_arch.get_mcc_param_bounds())
+        return
         start_time = time.time()
         algorithm_names = {'bayes': 'Bayesian Opt', 'linear': 'linear search'}
         # Outer loop: hardware architecture search
