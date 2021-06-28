@@ -1,0 +1,18 @@
+neural_network:
+  - name: cnn_1
+    nn_type: cnn
+    dimensions:
+      fmap_height: 256
+      fmap_width: 256
+      kernel_height: 3
+      kernel_width: 3
+      input_channel: 3
+      output_channel: 64
+      batch: 1
+    start:
+      input: sram_1
+      weights: sram_2
+    end:
+      output: sram_3
+
+

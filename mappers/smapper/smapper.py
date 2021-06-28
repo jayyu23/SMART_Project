@@ -124,6 +124,7 @@ class Smapper:
         for i in range(len(self.fw_param_labels)):
             dimension_i = [p[i] for p in fw_param_point_set]
             # Heuristic: generally large tiles are more efficient
+            print()
             max_i, min_i = max(dimension_i) * 1.25, min(dimension_i) * 0.9
             param_bounds[self.fw_param_labels[i]] = (min_i, max_i)
         # Now apply the Bayesian model

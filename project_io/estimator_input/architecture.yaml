@@ -10,7 +10,7 @@ architecture:
     components:
     - type: component
       name: npu_pe
-      class: processing_element
+      class: intmac # processing_element
     - type: component
       name: global_status_reg
       class: register

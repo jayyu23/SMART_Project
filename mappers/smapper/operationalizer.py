@@ -108,7 +108,7 @@ class Operationalizer:
             mac_info = self.architecture.get_component_class('intmac')
             mac_array_num, intmac_bits = len(mac_info), tuple(mac_info.items())[0][1].comp_args['datasize']
             pe_unit = tuple(mac_info.items())[0][0].split('.')[0]  # since the search result shows pe.mac_0
-            pe_mac_ops = mac_num / (mac_array_num * intmac_bits / 8)
+            pe_mac_ops = mac_num / (mac_array_num * int(intmac_bits) / 8)
 
             # Find the output destination
             out_write_times = out_num / (out_width)

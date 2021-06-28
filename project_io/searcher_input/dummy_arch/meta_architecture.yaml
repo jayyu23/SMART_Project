@@ -1,0 +1,32 @@
+meta_architecture:
+  name: sample_meta_architecture
+  version: 1.0
+  components:
+  - type: group
+    name: processing
+    components:
+    - type: component
+      name: mac_unit
+      class: intmac
+    - type: component
+      name: local_buffer
+      class: register
+  - type: group
+    name: storage
+    components:
+    - type: component
+      name: sram_1
+      class: sram
+      arguments:
+        size: [2000, 8000, 256000]
+        width: [32, 64]
+    - type: component
+      name: sram_2
+      class: sram
+      arguments:
+        size: [2000, 8000, 256000]
+    - type: component
+      name: sram_3
+      class: sram
+      arguments:
+        size: [2000, 8000, 256000]

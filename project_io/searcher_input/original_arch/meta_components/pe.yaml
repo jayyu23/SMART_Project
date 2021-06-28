@@ -12,4 +12,4 @@ meta_compound_component:
     definition:
     - type: parallel
       operations:
-      - mac*.mac() # All macs, mac[0:7] will do the mac
+      - mac*.mac() # All macs will do the mac

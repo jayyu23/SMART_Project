@@ -33,7 +33,7 @@ class MetaArchitecture:
         self.meta_cc_name = [] # MCC name, MCC variables
         self.argument_combs = None
         self.param_architecture_map = None
-        self.param_set_labels = [] # String tuple
+        self.param_set_labels = []  # String tuple
 
         flat_arch = flatten_architecture(yaml_data)
         meta_cc_combs = []
@@ -61,7 +61,7 @@ class MetaArchitecture:
         :return: None. Updates the self.argument_combs field
         """
         argument_pools = (p[2] if isinstance(p[2], list) else [p[2]] for p in self.pc_arg_val)
-        self.argument_combs = itertools.product(*argument_pools) # Cartesian product
+        self.argument_combs = itertools.product(*argument_pools)  # Cartesian product
 
     def iter_architectures(self):
         """
