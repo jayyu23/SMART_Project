@@ -62,11 +62,12 @@ class Searcher:
         self.meta_arch = MetaArchitecture(read_yaml_file(meta_arch_path), meta_cc_path)
         self.meta_arch.load_argument_combinations()
 
-
     def search_combinations(self, top_solutions_num=3, hw_algorithm="bayes", fw_algorithm="bayes", verbose=False):
         """
         Key algorithm to (1) search for different hardware-firmware combinations, (2) rank all these HW-FW combinations,
         and (3) output detailed component analysis for the top N architectures
+        :param hw_algorithm: Algorithm used to search for hardware. Currently supports Bayesian Optimization ('bayes'),
+        which is default, and linear-exhaustive search ('linear')
         :param top_solutions_num: Number of top solutions to be analyzed in detail
         :param fw_algorithm: Algorithm used to search for firmware. Currently supports Bayesian Optimization ('bayes'),
         which is default, and linear-exhaustive search ('linear')
@@ -75,7 +76,6 @@ class Searcher:
         :return: None. Will output search results in test_run folder, keeping track of search log details etc.
         """
 
-        # TODO: Accomodate the Bayes function with this segment of code
         start_time = time.time()
         self.algorithm_map[hw_algorithm](top_solutions_num, fw_algorithm, verbose)
         end_time = time.time()
@@ -127,7 +127,6 @@ class Searcher:
 
         seed_num = math.ceil(len(self.meta_arch.argument_combs) * len(self.meta_arch.meta_cc_combs) * 0.05)
         bayes_model.maximize(seed_num * 3, seed_num * 2, kappa=1)
-        max_params = bayes_model.max['params']
 
     def __search_architecture(self, architecture, top_solutions_num, fw_algorithm, verbose):
         algorithm_names = {'bayes': 'Bayesian Opt', 'linear': 'linear search'}

@@ -8,6 +8,7 @@ from searcher.meta_architecture import MetaArchitecture
 from searcher.searcher import yaml_searcher_factory
 from mappers.compiler.compiler import Compiler
 
+
 def run_estimator():
     est = estimator_factory("project_io/estimator_input/sample_architecture.yaml",
                             "project_io/estimator_input/operations2.yaml",
@@ -15,7 +16,7 @@ def run_estimator():
                             db_table="TH2Components")
 
     print(est.operation_list)
-    est.estimate(features=["cycle", "energy", "area"],analysis=True)
+    est.estimate(features=["cycle", "energy", "area"], analysis=True)
 
 
 def run_smapper():
@@ -57,9 +58,11 @@ def run_searcher():
     search.search_combinations(fw_algorithm="bayes", verbose=True)
     print("Execution time: ", time.time() - start_time, "seconds")
 
+
 def run_compiler():
     comp = Compiler(read_yaml_file("mappers/compiler/compiler_io/neural_network.yaml"))
     comp.compile()
+
 
 if __name__ == "__main__":
     run_searcher()
