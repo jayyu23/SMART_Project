@@ -109,8 +109,8 @@ class MetaCompoundComponent:
         # Used for Bayesian Optimization
         out_dict = {}
         for index, param_name in enumerate(self.subcomponent_comb_labels):
-            minima = min([c[index] for c in self.subcomponent_combs]) #* 0.9
-            maxima = max([c[index] for c in self.subcomponent_combs]) #* 1.25
+            minima = min([c[index] for c in self.subcomponent_combs]) * 0.9
+            maxima = max([c[index] for c in self.subcomponent_combs]) * 1.25
             out_dict[param_name] = (minima, maxima)
         return out_dict
 

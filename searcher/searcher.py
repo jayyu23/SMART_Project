@@ -8,7 +8,7 @@ from copy import deepcopy
 import time
 import os
 from bayes_opt import BayesianOptimization
-import random
+import math
 
 
 def yaml_searcher_factory(meta_arch_path, meta_cc_path, nn_path):
@@ -38,6 +38,8 @@ class Searcher:
         self.bayes_percentile = []
         self.logger = Logger()
         self.top_solutions = []
+        self.algorithm_map = {"linear": self.__linear_hardware_search,
+                              "bayes": self.__bayes_hardware_search}
 
     def set_nn(self, nn_path):
         """
@@ -60,77 +62,34 @@ class Searcher:
         self.meta_arch = MetaArchitecture(read_yaml_file(meta_arch_path), meta_cc_path)
         self.meta_arch.load_argument_combinations()
 
-    def search_hw_bayes(self):
-        def __bayes_trial(**kwargs):
-            param_set = locals()['kwargs']
-            print("paramsert", param_set)
-            a_params, mcc_params = self.meta_arch.create_arch_config_dicts(param_set)
-            print("aparam", a_params, mcc_params)
-            arch = self.meta_arch.get_architecture(a_params, mcc_params)
-            if isinstance(arch, Architecture):
-                print(arch.component_dict)
-            return random.randint(1, 100)
-        bayes_model = BayesianOptimization(f=__bayes_trial,
-                                           pbounds={**self.meta_arch.get_param_bounds(),
-                                                    **self.meta_arch.get_mcc_param_bounds(flatten=True)},
-                                           random_state=10)
-        bayes_model.maximize(3, 3, kappa=1)
-        max_params = bayes_model.max['params']
 
-    def search_combinations(self, top_solutions_num=3, algorithm="bayes", verbose=False):
+    def search_combinations(self, top_solutions_num=3, hw_algorithm="bayes", fw_algorithm="bayes", verbose=False):
         """
         Key algorithm to (1) search for different hardware-firmware combinations, (2) rank all these HW-FW combinations,
         and (3) output detailed component analysis for the top N architectures
         :param top_solutions_num: Number of top solutions to be analyzed in detail
-        :param algorithm: Algorithm used to search for firmware. Currently supports Bayesian Optimization ('bayes'),
+        :param fw_algorithm: Algorithm used to search for firmware. Currently supports Bayesian Optimization ('bayes'),
         which is default, and linear-exhaustive search ('linear')
         :param verbose: Whether the output log should include details of all the different hardware-firmware
         combinations searched
         :return: None. Will output search results in test_run folder, keeping track of search log details etc.
         """
 
-        # print("meta_arh params", self.meta_arch.get_param_bounds())
-        # print("meta_cc_params", self.meta_arch.get_mcc_param_bounds(flatten=True))
-        self.search_hw_bayes()
-        return
         # TODO: Accomodate the Bayes function with this segment of code
         start_time = time.time()
-        algorithm_names = {'bayes': 'Bayesian Opt', 'linear': 'linear search'}
-        # Outer loop: hardware architecture search
-        for architecture in self.meta_arch.iter_architectures():
-            # Inner loop: firmware operations search
-            self.firmware_mapper.architecture = architecture
-            self.firmware_mapper.run_operationalizer()
-            # Firmware operations search, using Bayesian Optimization algorithm
-            fw_input, score, eac = self.firmware_mapper.search_firmware(algorithm=algorithm)
-            search_space = len(self.firmware_mapper.param_op_map)
-            if verbose:
-                self.logger.add_line("=" * 50)
-                self.logger.add_line(f"Hardware param: {architecture.config_label}")
-                self.logger.add_line(f"Firmware param (Best from {algorithm_names[algorithm]}): {fw_input}")
-                self.logger.add_line(f"\t\tScore: {score}")
-                self.logger.add_line(f"\t\tEnergy (pJ), Area (um^2), Cycle: {eac}")
-                self.logger.add_line(f"Search space: {search_space} firmware possibilities")
-            self.combinations_searched += search_space
-            if len(self.top_solutions) < top_solutions_num:
-                self.top_solutions.append([score, fw_input, eac, deepcopy(architecture)])
-                self.top_solutions.sort(key=lambda x: x[0])
-            elif score < self.top_solutions[-1][0]:
-                self.top_solutions[-1] = [score, fw_input, eac, deepcopy(architecture)]
-                self.top_solutions.sort(key=lambda x: x[0])
-                # print("sorted", self.top_solutions)
+        self.algorithm_map[hw_algorithm](top_solutions_num, fw_algorithm, verbose)
         end_time = time.time()
         # Summarize the search, create output directory
         run_id = time.time_ns()
         out_dir = f"project_io/test_run/run_{run_id}"
         os.mkdir(out_dir)
-        self.logger.add_line("="*50)
+        self.logger.add_line("=" * 50)
         self.logger.add_line(f"Total: {self.combinations_searched} combinations searched")
-        self.logger.add_line("="*50)
+        self.logger.add_line("=" * 50)
         self.logger.add_line(f"Top solutions found:")
         for solution_i in range(top_solutions_num):
             solution = self.top_solutions[solution_i]
-            self.logger.add_line(f"#{solution_i + 1}\t\t{'*'*20}")
+            self.logger.add_line(f"#{solution_i + 1}\t\t{'*' * 20}")
             self.logger.add_line(f"\t\tScore: {solution[0]}")
             self.logger.add_line(f"\t\tEnergy (pJ), Area (um^2), Cycle: {solution[2]}")
             self.logger.add_line(f"\t\tHardware: {solution[3].config_label}")
@@ -152,3 +111,51 @@ class Searcher:
             analysis_op = self.firmware_mapper.param_op_map[param_op]
             analysis_estimator = Estimator(analysis_arch, analysis_op)
             analysis_estimator.estimate(["energy", "area", "cycle"], analysis=True, out_dir=solution_folder)
+
+    def __bayes_hardware_search(self, top_solutions_num=3, fw_algorithm="bayes", verbose=False):
+        def __bayes_trial(**kwargs):
+            param_set = locals()['kwargs']
+            a_params, mcc_params = self.meta_arch.create_arch_config_dicts(param_set)
+            architecture = self.meta_arch.get_architecture(a_params, mcc_params)
+            # Since we wish to maximize, we *-1
+            return -1 * self.__search_architecture(architecture, top_solutions_num, fw_algorithm, verbose)
+
+        bayes_model = BayesianOptimization(f=__bayes_trial,
+                                           pbounds={**self.meta_arch.get_param_bounds(),
+                                                    **self.meta_arch.get_mcc_param_bounds(flatten=True)},
+                                           random_state=10)
+
+        seed_num = math.ceil(len(self.meta_arch.argument_combs) * len(self.meta_arch.meta_cc_combs) * 0.05)
+        bayes_model.maximize(seed_num * 3, seed_num * 2, kappa=1)
+        max_params = bayes_model.max['params']
+
+    def __search_architecture(self, architecture, top_solutions_num, fw_algorithm, verbose):
+        algorithm_names = {'bayes': 'Bayesian Opt', 'linear': 'linear search'}
+        self.firmware_mapper.architecture = architecture
+        self.firmware_mapper.run_operationalizer()
+        # Firmware operations search, using Bayesian Optimization algorithm
+        fw_input, score, eac = self.firmware_mapper.search_firmware(algorithm=fw_algorithm)
+        search_space = len(self.firmware_mapper.param_op_map)
+        if verbose:
+            self.logger.add_line("=" * 50)
+            self.logger.add_line(f"Hardware param: {architecture.config_label}")
+            self.logger.add_line(f"Firmware param (Best from {algorithm_names[fw_algorithm]}): {fw_input}")
+            self.logger.add_line(f"\t\tScore: {score}")
+            self.logger.add_line(f"\t\tEnergy (pJ), Area (um^2), Cycle: {eac}")
+            self.logger.add_line(f"Search space: {search_space} firmware possibilities")
+        self.combinations_searched += search_space
+        if len(self.top_solutions) < top_solutions_num:
+            self.top_solutions.append([score, fw_input, eac, deepcopy(architecture)])
+            self.top_solutions.sort(key=lambda x: x[0])
+        elif score < self.top_solutions[-1][0]:
+            self.top_solutions[-1] = [score, fw_input, eac, deepcopy(architecture)]
+            self.top_solutions.sort(key=lambda x: x[0])
+        return score
+
+    def __linear_hardware_search(self, top_solutions_num=3, fw_algorithm="bayes", verbose=False):
+        start_time = time.time()
+        algorithm_names = {'bayes': 'Bayesian Opt', 'linear': 'linear search'}
+        # Outer loop: hardware architecture search
+        for architecture in self.meta_arch.iter_architectures():
+            # Inner loop: firmware operations search
+            self.__search_architecture(self, architecture, top_solutions_num, fw_algorithm, verbose)

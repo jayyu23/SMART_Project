@@ -54,7 +54,7 @@ def run_searcher():
     search = yaml_searcher_factory("project_io/searcher_input/original_arch/meta_architecture.yaml",
                                    "project_io/searcher_input/original_arch/meta_components",
                                    "project_io/searcher_input/neural_network.yaml")
-    search.search_combinations(verbose=True, algorithm="bayes")
+    search.search_combinations(fw_algorithm="bayes", verbose=True)
     print("Execution time: ", time.time() - start_time, "seconds")
 
 def run_compiler():
