@@ -62,8 +62,8 @@ def run_searcher():
 def run_compiler():
     comp = Compiler(read_yaml_file("mappers/compiler/compiler_io/neural_network.yaml"))
     comp.compile()
-    for c in comp.compiled_binary:
-        print(c[0], c[1])
+    for i, c in enumerate(comp.compiled_binary, start=1):
+        print(i, c)
 
 if __name__ == "__main__":
     run_compiler()

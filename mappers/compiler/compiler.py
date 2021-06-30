@@ -2,10 +2,31 @@ from collections import OrderedDict
 from bitstring import BitArray
 import numpy as np
 
+
 class Layer:
     def __init__(self, layer_yaml):
         self.__dict__.update(layer_yaml)
         self.__dict__.update({**layer_yaml['dimensions'], **layer_yaml['options']})
+
+
+class DescriptorLine:
+    """
+    Wrapper class around BitArray to make Descriptor lines better to edit
+    """
+
+    def __init__(self, annotation):
+        self.annotation = annotation
+        self.bit_array = BitArray(64)  # Since will always be 64
+
+    def __repr__(self):
+        return str(self.bit_array[::-1]) + " " + self.annotation
+
+    def write(self, bit_values, last_index):
+        if type(bit_values) == bool:
+            bit_values = int(bit_values)
+        bit_values = str(bit_values)
+        for i, n in enumerate(bit_values):
+            self.bit_array[last_index - i] = int(n)
 
 
 class Compiler:
@@ -26,39 +47,40 @@ class Compiler:
     def __compile_dnn(self, layer, is_last_layer):
         # Update for the DNN ReLU
         update_annotation = f"{layer.name}.update_relu"
-        update_code = BitArray(length=64)
+        update_code = DescriptorLine(update_annotation)
         # DSC_UP 0
-        update_code.overwrite('0b10', 0)  # For "other" operations
-        update_code.overwrite('0b00', 2)  # Because our ReLU is signed integer
-        update_code.overwrite('0b111', 4)  # We want to do DSC_Update
+        update_code.write('01', 1)  # For "other" operations
+        update_code.write('00', 3)  # Because our ReLU is signed integer
+        update_code.write('111', 6)  # We want to do DSC_Update
+
         relu_min, relu_max = np.binary_repr(layer.relu_min, 8), np.binary_repr(layer.relu_max, 8)
-        for i in range(len(relu_min)):
-            update_code[15 - i] = int(relu_min[i])
-            update_code[23 - i] = int(relu_max[i])
+        update_code.write(relu_min, 15)
+        update_code.write(relu_max, 23)
+
         # DSC_UP 1
         in_height = np.binary_repr(layer.in_height, 13)
-        for i in range(len(in_height)):
-            update_code[40 - i] = int(in_height[i])
+        update_code.write(in_height, 40)
+
         # DSC_UP 2
         out_height = np.binary_repr(layer.out_height, 13)
-        for i in range(len(in_height)):
-            update_code[60 - i] = int(out_height[i])
+        update_code.write(out_height, 60)
+
         # SGEMM for the DNN layer
         sgemm_annotation = f"{layer.name}.SGEMM"
-        sgemm_code = BitArray(length=64)
-        sgemm_code.overwrite('0b00', 0) # Because SGEMM, so '00'
-        sgemm_code[3] = layer.bias
-        sgemm_code[4] = layer.convert
-        sgemm_code[6] = layer.convert
-        sgemm_code[7] = layer.history
+        sgemm_code = DescriptorLine(sgemm_annotation)
+        sgemm_code.write('00', 1)  # Because SGEMM, so '00'
+        sgemm_code.write(layer.bias, 3)
+        sgemm_code.write(layer.convert, 4)
+        sgemm_code.write(layer.convert, 6)
+        sgemm_code.write(layer.history, 7)
+
         weight_bit_map = {8: '000', 4: '001', 2: '010', 1: '011'}
-        sgemm_code.overwrite(f"0b{weight_bit_map[layer.weight_bit][::-1]}", 8)
-        sgemm_code.overwrite('0b11', 12)  # Manual mode, continue
-        sgemm_code[15] = layer.history
+        sgemm_code.write(weight_bit_map[layer.weight_bit], 10)
+        sgemm_code.write('11', 13)  # Manual mode, continue
+        sgemm_code.write(layer.history, 15)
         # Check if last layer
         if is_last_layer:
-            sgemm_code[6] = 1  # FSMN Mode
-            sgemm_code[13] = 0  # Turn off continuous mode
-        self.compiled_binary.append((update_code[::-1], update_annotation))
-        self.compiled_binary.append((sgemm_code[::-1], sgemm_annotation))
-
+            sgemm_code.write(1, 6)  # FSMN Mode
+            sgemm_code.write(0, 13)  # Turn off continuous mode
+        self.compiled_binary.append(update_code)
+        self.compiled_binary.append(sgemm_code)
