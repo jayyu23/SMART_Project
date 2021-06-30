@@ -1,20 +1,18 @@
-C:\Users\chenjie.yu\AppData\Local\Programs\Python\Python39\python.exe "C:/Users/chenjie.yu/Documents/Shensilicon_Jay/^SMART Project/assembler/disassembler.py" vad_binary.txt
-*Initialized Operation Maker*
 === Instruction 0 ===
 desc bin: 1000111000000000000000100000000111011000000000000000000100000000
 desc hex reverse: 0x0080001b80400071
-UPDATE
+UPDATE - SGEMM ReLU
 Clamp range sgemm=(0, 64)
-UPDATE
+UPDATE - Matrix dim
 in=440, out=None
-UPDATE
+UPDATE - Matrix dim
 in=440, out=128
 === Instruction 1 ===
 desc bin: 1010111000000000111111100100101000000000000010000101000001010000
 desc hex reverse: 0x0a0a1000527f0075
 UPDATE
 Clamp range tdnn=(0, 127)
-UPDATE
+UPDATE - Drop Bits
 Drop bits (5, scale=0)
 === Instruction 2 ===
 desc bin: 1011111000000000000000001100000000011111111010101110000000000000
@@ -33,11 +31,11 @@ cycle: 3520.0, psram: 28160.0 Bytes
 === Instruction 4 ===
 desc bin: 1000111000000001111111100000000000010000000000000000010000000000
 desc hex reverse: 0x00200008007f8071
-UPDATE
+UPDATE - SGEMM ReLU
 Clamp range sgemm=(-128, 127)
-UPDATE
+UPDATE - Matrix dim
 in=128, out=128
-UPDATE
+UPDATE - Matrix dim
 in=128, out=32
 === Instruction 5 ===
 desc bin: 0000101110001101000100001001000000000000000000000000000000000000
@@ -58,11 +56,11 @@ cycle: 44.0, psram: 352 Bytes, layers: 11
 === Instruction 7 ===
 desc bin: 1000111000000000000000100000000001000000000000000000000100000000
 desc hex reverse: 0x0080000200400071
-UPDATE
+UPDATE - SGEMM ReLU
 Clamp range sgemm=(0, 64)
-UPDATE
+UPDATE - Matrix dim
 in=32, out=32
-UPDATE
+UPDATE - Matrix dim
 in=32, out=128
 === Instruction 8 ===
 desc bin: 0001101010001100000000000000000000000000000000000000000000000000
@@ -75,11 +73,11 @@ cycle: 256.0, psram: 2048.0 Bytes
 === Instruction 9 ===
 desc bin: 1000111000000001111111100000000000010000000000000000010000000000
 desc hex reverse: 0x00200008007f8071
-UPDATE
+UPDATE - SGEMM ReLU
 Clamp range sgemm=(-128, 127)
-UPDATE
+UPDATE - Matrix dim
 in=128, out=128
-UPDATE
+UPDATE - Matrix dim
 in=128, out=32
 === Instruction 10 ===
 desc bin: 0000101110001101001011001001000000000000000000000000000000000000
@@ -100,11 +98,11 @@ cycle: 44.0, psram: 352 Bytes, layers: 11
 === Instruction 12 ===
 desc bin: 1000111000000000000000100000000001000000000000000000000100000000
 desc hex reverse: 0x0080000200400071
-UPDATE
+UPDATE - SGEMM ReLU
 Clamp range sgemm=(0, 64)
-UPDATE
+UPDATE - Matrix dim
 in=32, out=32
-UPDATE
+UPDATE - Matrix dim
 in=32, out=128
 === Instruction 13 ===
 desc bin: 0001101010001100000000000000000000000000000000000000000000000000
@@ -117,11 +115,11 @@ cycle: 256.0, psram: 2048.0 Bytes
 === Instruction 14 ===
 desc bin: 1000111000000001111111100000000000010000000000000000010000000000
 desc hex reverse: 0x00200008007f8071
-UPDATE
+UPDATE - SGEMM ReLU
 Clamp range sgemm=(-128, 127)
-UPDATE
+UPDATE - Matrix dim
 in=128, out=128
-UPDATE
+UPDATE - Matrix dim
 in=128, out=32
 === Instruction 15 ===
 desc bin: 0000101110001101000001101001000000000000000000000000000000000000
@@ -142,11 +140,11 @@ cycle: 44.0, psram: 352 Bytes, layers: 11
 === Instruction 17 ===
 desc bin: 1000111000000000000000100000000001000000000000000000000100000000
 desc hex reverse: 0x0080000200400071
-UPDATE
+UPDATE - SGEMM ReLU
 Clamp range sgemm=(0, 64)
-UPDATE
+UPDATE - Matrix dim
 in=32, out=32
-UPDATE
+UPDATE - Matrix dim
 in=32, out=128
 === Instruction 18 ===
 desc bin: 0001101010001100000000000000000000000000000000000000000000000000
@@ -159,11 +157,11 @@ cycle: 256.0, psram: 2048.0 Bytes
 === Instruction 19 ===
 desc bin: 1000111000000001111111100000000000010000000000000000010000000000
 desc hex reverse: 0x00200008007f8071
-UPDATE
+UPDATE - SGEMM ReLU
 Clamp range sgemm=(-128, 127)
-UPDATE
+UPDATE - Matrix dim
 in=128, out=128
-UPDATE
+UPDATE - Matrix dim
 in=128, out=32
 === Instruction 20 ===
 desc bin: 0000101110001101001100011001000000000000000000000000000000000000
@@ -198,11 +196,11 @@ output@ 2272
 === Instruction 24 ===
 desc bin: 1000111000000000000000100000000001000000000000000001000000000000
 desc hex reverse: 0x0008000200400071
-UPDATE
+UPDATE - SGEMM ReLU
 Clamp range sgemm=(0, 64)
-UPDATE
+UPDATE - Matrix dim
 in=32, out=32
-UPDATE
+UPDATE - Matrix dim
 in=32, out=8
 === Instruction 25 ===
 desc bin: 0001001000001000000000000000000000000000000000000000000000000000
@@ -212,5 +210,3 @@ SGEMM: batch=False scale=False bias=True write_his=False weight=8bit
 input @ 0
 output@ 0
 cycle: 32.0, psram: 256.0 Bytes
-
-Process finished with exit code 0

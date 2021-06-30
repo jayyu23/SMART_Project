@@ -55,14 +55,15 @@ def run_searcher():
     search = yaml_searcher_factory("project_io/searcher_input/original_arch/meta_architecture.yaml",
                                    "project_io/searcher_input/original_arch/meta_components",
                                    "project_io/searcher_input/neural_network.yaml")
-    search.search_combinations(fw_algorithm="bayes", verbose=True)
+    search.search_combinations()
     print("Execution time: ", time.time() - start_time, "seconds")
 
 
 def run_compiler():
     comp = Compiler(read_yaml_file("mappers/compiler/compiler_io/neural_network.yaml"))
     comp.compile()
-
+    for c in comp.compiled_binary:
+        print(c[0], c[1])
 
 if __name__ == "__main__":
-    run_searcher()
+    run_compiler()

@@ -28,7 +28,7 @@ neural_network:
       convert: True # Converts from 32 bit to 8 bit
       convert_drop_bits: 5
       relu_max: 127
-      relu_min: -127
+      relu_min: -128
       history: True
 
   - name: vad_fsmn_02
@@ -40,5 +40,149 @@ neural_network:
       convert: True # Converts from 32 bit to 8 bit
       convert_drop_bits: 5
       relu_max: 127
-      relu_min: -127
+      relu_min: -128
 
+  - name: vad_dnn_10
+    nn_type: dnn
+    dimensions:
+      in_height: 32
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: vad_dnn_11
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 32
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: vad_fsmn_12
+    nn_type: fsmn # FSMN Operation does not include SGEMM
+    dimensions:
+      height: 32
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+
+  - name: vad_dnn_20
+    nn_type: dnn
+    dimensions:
+      in_height: 32
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: vad_dnn_21
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 32
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: vad_fsmn_22
+    nn_type: fsmn
+    dimensions:
+      height: 32
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+
+  - name: vad_dnn_30
+    nn_type: dnn
+    dimensions:
+      in_height: 32
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: vad_dnn_31
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 32
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: vad_fsmn_32
+    nn_type: fsmn
+    dimensions:
+      height: 32
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+
+  - name: vad_dnn_41
+    nn_type: dnn
+    dimensions:
+      in_height: 8
+      out_height: 32
+      weight_bit: 8
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: False # Converts from 32 bit to 8 bit
+      convert_drop_bits: None
+      relu_max: 64
+      relu_min: 0
+      history: False

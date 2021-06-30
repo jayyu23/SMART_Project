@@ -157,4 +157,4 @@ class Searcher:
         # Outer loop: hardware architecture search
         for architecture in self.meta_arch.iter_architectures():
             # Inner loop: firmware operations search
-            self.__search_architecture(self, architecture, top_solutions_num, fw_algorithm, verbose)
+            self.__search_architecture(architecture, top_solutions_num, fw_algorithm, verbose)

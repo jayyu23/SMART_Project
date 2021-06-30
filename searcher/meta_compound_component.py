@@ -103,7 +103,7 @@ class MetaCompoundComponent:
                     meta_combs.append(ins_num)
                     self.subcomponent_comb_labels.append(f"hardware_{sc_name}_instances")
                 self.subcomponent_combs = tuple(itertools.product(*meta_combs))
-        # print(self.subcomponent_comb_labels)
+                
 
     def get_param_bounds(self):
         # Used for Bayesian Optimization
