@@ -24,10 +24,8 @@ class DescriptorLine:
         return str(self.bit_array[::-1]) + " " + self.annotation
 
     def write(self, bit_values, last_index):
-        if type(bit_values) == bool:
-            bit_values = int(bit_values)
-        bit_values = str(bit_values)
-        for i, n in enumerate(bit_values):
+        bit_values = int(bit_values) if isinstance(bit_values, bool) else bit_values
+        for i, n in enumerate(str(bit_values)):
             self.bit_array[last_index - i] = int(n)
 
 
