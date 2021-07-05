@@ -1,12 +1,13 @@
 # read in YAML input files
-PyYAML
+PyYAML~=5.4.1
 # to load YAML input files as `OrderedDict()`
-yamlordereddictloader
+yamlordereddictloader~=0.4.0
 # to provide the Pandas Dataframe for the Component-Operation Matrix
-pandas
+pandas~=1.2.3
 # To output the pie chart visuals on energy consumption breakdown
-matplotlib
+matplotlib~=3.4.1
 # In algorithm calculating different possible firmware solutions
-numpy
+numpy~=1.20.2
 # For Bayesian Optimization
-bayesian-optimization
+bitstring~=3.1.7
+click~=7.1.2

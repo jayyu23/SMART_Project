@@ -1,4 +1,6 @@
 from collections import OrderedDict
+import time
+
 from bitstring import BitArray
 import numpy as np
 
@@ -34,15 +36,25 @@ class Compiler:
     def __init__(self, nn_yaml: OrderedDict):
         self.__dict__.update(nn_yaml)
         self.nn_layer_list = nn_yaml['neural_network']
-        self.compilable_types = {"dnn": lambda layer, is_last: self.__compile_dnn(layer, is_last)}
+        self.compilable_types = {"dnn": lambda layer, is_last: self.__compile_dnn(layer, is_last),
+                                 "fsmn": lambda layer, is_last: self.__compile_fsmn(layer)}
         self.compiled_binary = []
-        self.annotations = []
+
+        # Memory Address "Magic Constants" to be edited
+        self.his_addr = 0x908
+        self.his_length = 44
+        self.his_diff = 40
+        self.fsmn_his_addr = self.his_addr - self.his_diff
+        self.data_sram_start = 0
+        self.data_sram_end = 0
 
     def compile(self):
+        start_time = time.time()
         for layer_index, nn_layer in enumerate(self.nn_layer_list):
             layer = Layer(nn_layer)
             if layer.nn_type in self.compilable_types:
                 self.compilable_types[layer.nn_type](layer, (layer_index + 1 == len(self.nn_layer_list)))
+        print(f"Execution time: {time.time() - start_time: .6f} seconds")
 
     def __compile_dnn(self, layer, is_last_layer):
         # Update for the DNN ReLU
@@ -78,9 +90,36 @@ class Compiler:
         sgemm_code.write(weight_bit_map[layer.weight_bit], 10)
         sgemm_code.write('11', 13)  # Manual mode, continue
         sgemm_code.write(layer.history, 15)
+        # Deal with history
+        if layer.history:
+            his_binary = np.binary_repr(self.his_addr, 13)
+            sgemm_code.write(his_binary, 28)
+            self.fsmn_his_addr = self.his_addr - self.his_diff
+            self.his_addr += self.his_length
+        # Write memory addresses for data_sram
+        sgemm_code.write(np.binary_repr(self.data_sram_start, 12), 44)
+        sgemm_code.write(np.binary_repr(self.data_sram_end, 12), 60)
         # Check if last layer
         if is_last_layer:
             sgemm_code.write(1, 6)  # FSMN Mode
             sgemm_code.write(0, 13)  # Turn off continuous mode
         self.compiled_binary.append(update_code)
         self.compiled_binary.append(sgemm_code)
+
+    def __compile_fsmn(self, layer):
+        # Write FSMN
+        fsmn_annotation = f"{layer.name}.FSMN_his"
+        fsmn_code = DescriptorLine(fsmn_annotation)
+        fsmn_code.write('01', 1)
+        fsmn_code.write('001', 6)  # FSMN_his
+        fsmn_code.write('1', 7)   # History = 1
+        fsmn_code.write('11', 13)  # Work mode = 1, continuous mode = 1
+        # Write address
+        fsmn_code.write(np.binary_repr(self.fsmn_his_addr, 13), 44)
+        fsmn_code.write(np.binary_repr(self.data_sram_end, 13), 60)
+        self.compiled_binary.append(fsmn_code)
+
+    def write_out(self, path):
+        with open(path, 'w') as f:
+            for i, c in enumerate(self.compiled_binary, start=1):
+                f.write(f"{i} {c}\n")
