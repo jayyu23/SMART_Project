@@ -6,7 +6,8 @@ import time
 from estimator.utils import read_yaml_file
 from searcher.meta_architecture import MetaArchitecture
 from searcher.searcher import yaml_searcher_factory
-from mappers.compiler.compiler import Compiler
+from mappers.compiler.readable_compiler import ReadableCompiler
+from mappers.compiler.descriptor_compiler import DescriptorCompiler
 
 
 def run_estimator():
@@ -60,10 +61,10 @@ def run_searcher():
 
 
 def run_compiler():
-    comp = Compiler(read_yaml_file("mappers/compiler/compiler_io/neural_network.yaml"))
+    comp = DescriptorCompiler(read_yaml_file("mappers/compiler/compiler_io/neural_network.yaml"))
     comp.compile()
-    comp.write_out("mappers/compiler/compiler_io/compiled_descriptor.txt")
+    comp.write_out("mappers/compiler/compiler_io/compiled_descriptor.yaml")
 
 
 if __name__ == "__main__":
-    run_compiler()
+    run_estimator()

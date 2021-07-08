@@ -1,8 +1,7 @@
 from collections import OrderedDict
-import time
-
 from bitstring import BitArray
 import numpy as np
+import time
 
 
 class Layer:
@@ -16,9 +15,9 @@ class DescriptorLine:
     Wrapper class around BitArray to make Descriptor lines better to edit
     """
 
-    def __init__(self, annotation):
+    def __init__(self, annotation, line_size=64):  # Default line size 64 bits
         self.annotation = annotation
-        self.bit_array = BitArray(64)  # Since will always be 64
+        self.bit_array = BitArray(line_size)
 
     def __repr__(self):
         return str(self.bit_array[::-1]) + " " + self.annotation
@@ -29,14 +28,18 @@ class DescriptorLine:
             self.bit_array[last_index - i] = int(n)
 
 
-class Compiler:
+class DescriptorCompiler:
 
     def __init__(self, nn_yaml: OrderedDict):
         self.__dict__.update(nn_yaml)
-        self.nn_layer_list = nn_yaml['neural_network']
+        self.nn_layer_list = [Layer(l) for l in nn_yaml['neural_network']]
         self.compilable_types = {"dnn": lambda layer, is_last: self.__compile_dnn(layer, is_last),
                                  "fsmn": lambda layer, is_last: self.__compile_fsmn(layer)}
         self.compiled_binary = []
+
+        # Variables set upon init
+        self.tdnn_relu = tuple()
+        self.fsmn_layer_left_num = int()
 
         # Memory Address "Magic Constants" to be edited
         self.his_addr = 0x908
@@ -48,11 +51,26 @@ class Compiler:
 
     def compile(self):
         start_time = time.time()
-        for layer_index, nn_layer in enumerate(self.nn_layer_list):
-            layer = Layer(nn_layer)
+        for layer_index, layer in enumerate(self.nn_layer_list):
             if layer.nn_type in self.compilable_types:
                 self.compilable_types[layer.nn_type](layer, (layer_index + 1 == len(self.nn_layer_list)))
         print(f"Execution time: {time.time() - start_time: .6f} seconds")
+
+    def __compile_init(self):
+        # Initialize the registers at the very beginning
+        # Search for TDNN + FSMN amongst layers
+        tdnn_layers = [l for l in self.nn_layer_list if l.nn_type == "tdnn"]
+        fsmn_layers = [l for l in self.nn_layer_list if l.nn_type == "fsmn"]
+        tdnn_relu = (0, 127)  # This is the default
+        fsmn_layer_left_num = 0
+        if tdnn_layers:
+            raise NotImplementedError(f"TDNN Not implemented")
+        if fsmn_layers:
+            fsmn_layer_left_num = fsmn_layers[0].his_l_num
+        self.tdnn_relu = self.tdnn_relu
+        self.fsmn_layer_left_num = fsmn_layer_left_num
+        # Now write the compiled code
+        fsmn_tdnn
 
     def __compile_dnn(self, layer, is_last_layer):
         # Update for the DNN ReLU
@@ -62,15 +80,12 @@ class Compiler:
         update_code.write('01', 1)  # For "other" operations
         update_code.write('00', 3)  # Because our ReLU is signed integer
         update_code.write('111', 6)  # We want to do DSC_Update
-
         relu_min, relu_max = np.binary_repr(layer.relu_min, 8), np.binary_repr(layer.relu_max, 8)
         update_code.write(relu_min, 15)
         update_code.write(relu_max, 23)
-
         # DSC_UP 1
         in_height = np.binary_repr(layer.in_height, 13)
         update_code.write(in_height, 40)
-
         # DSC_UP 2
         out_height = np.binary_repr(layer.out_height, 13)
         update_code.write(out_height, 60)
@@ -95,8 +110,8 @@ class Compiler:
             self.fsmn_his_addr = self.his_addr - self.his_diff
             self.his_addr += self.his_length
         # Write memory addresses for data_sram
-        sgemm_code.write(np.binary_repr(self.data_sram_start, 12), 44)
-        sgemm_code.write(np.binary_repr(self.data_sram_end, 12), 60)
+        sgemm_code.write(np.binary_repr(self.data_sram_start, 13), 44)
+        sgemm_code.write(np.binary_repr(self.data_sram_end, 13), 60)
         # Check if last layer
         if is_last_layer:
             sgemm_code.write(1, 6)  # FSMN Mode

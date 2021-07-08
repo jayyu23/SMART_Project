@@ -40,5 +40,5 @@ class Pipeline:
 
 def write_yaml(data, out_path: str):
     file = open(out_path, "w")
-    yaml.dump(data, file, Dumper=yamlordereddictloader.Dumper, default_flow_style=False)
+    yaml.dump(data, file, Dumper=yamlordereddictloader.Dumper, default_flow_style=False, indent=4)
     file.close()

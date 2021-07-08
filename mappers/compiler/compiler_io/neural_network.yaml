@@ -38,9 +38,10 @@ neural_network:
       weight_bit: 8
     options:
       convert: True # Converts from 32 bit to 8 bit
-      convert_drop_bits: 5
+      convert_drop_bits: 7
       relu_max: 127
       relu_min: -128
+      his_l_num: 10
 
   - name: vad_dnn_10
     nn_type: dnn
@@ -81,9 +82,10 @@ neural_network:
       weight_bit: 8
     options:
       convert: True # Converts from 32 bit to 8 bit
-      convert_drop_bits: 5
+      convert_drop_bits: 7
       relu_max: 127
       relu_min: -128
+      his_l_num: 10
 
   - name: vad_dnn_20
     nn_type: dnn
@@ -124,9 +126,10 @@ neural_network:
       weight_bit: 8
     options:
       convert: True # Converts from 32 bit to 8 bit
-      convert_drop_bits: 5
+      convert_drop_bits: 7
       relu_max: 127
       relu_min: -128
+      his_l_num: 10
 
   - name: vad_dnn_30
     nn_type: dnn
@@ -167,9 +170,10 @@ neural_network:
       weight_bit: 8
     options:
       convert: True # Converts from 32 bit to 8 bit
-      convert_drop_bits: 5
+      convert_drop_bits: 7
       relu_max: 127
       relu_min: -128
+      his_l_num: 10
 
   - name: vad_dnn_41
     nn_type: dnn
@@ -186,3 +190,4 @@ neural_network:
       relu_max: 64
       relu_min: 0
       history: False
+      his_l_num: 10
