@@ -1,3 +1,4 @@
+from estimator.data_structures.architecture import yaml_arch_factory
 from estimator.estimator import Estimator, estimator_factory
 from estimator.input_handler import database_handler
 from estimator.data_structures.primitive_component import PrimitiveComponent
@@ -61,10 +62,11 @@ def run_searcher():
 
 
 def run_compiler():
-    comp = DescriptorCompiler(read_yaml_file("mappers/compiler/compiler_io/neural_network.yaml"))
+    comp = DescriptorCompiler(read_yaml_file("mappers/compiler/compiler_io/neural_network.yaml"),
+                              yaml_arch_factory(read_yaml_file('project_io/estimator_input/architecture.yaml')))
     comp.compile()
-    comp.write_out("mappers/compiler/compiler_io/compiled_descriptor.yaml")
+    comp.write_out("mappers/compiler/compiler_io/compiled_descriptor.txt")
 
 
 if __name__ == "__main__":
-    run_estimator()
+    run_compiler()

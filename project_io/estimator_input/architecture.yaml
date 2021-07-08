@@ -33,12 +33,13 @@ architecture:
       name: his_sram
       class: sram
       arguments:
-        size: 64
+        size: 65536
     - type: component
       name: his_sum_sram
       class: sram
       arguments:
-        KBsize: 8
+        size: 8192
+        width: 256
     - type: component
       name: model_sram
       class: sram
