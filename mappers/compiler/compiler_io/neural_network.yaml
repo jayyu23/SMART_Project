@@ -178,8 +178,8 @@ neural_network:
   - name: vad_dnn_41
     nn_type: dnn
     dimensions:
-      in_height: 8
-      out_height: 32
+      in_height: 32
+      out_height: 8
       weight_bit: 8
     options:
       bias: True

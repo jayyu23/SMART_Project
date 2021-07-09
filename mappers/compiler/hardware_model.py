@@ -19,7 +19,7 @@ def convert_to_bits(data: int, unit: str):
 
 class MemoryBlock:
     def __init__(self, start, stop, step=1, written=False):
-        self.range_repr = range(start, stop, step)
+        self.range_repr = range(start, stop, step)  # Since we can't inherit range object
         self.start = start
         self.stop = stop
         self.step = step
@@ -50,17 +50,19 @@ class MemoryBlock:
         right = MemoryBlock(partition_at, self.stop, self.step, self.written)
         return left, right
 
-    def merge(self, adjacent_block_left) -> list:
+    def merge(self, adjacent_block_left) -> tuple:
         assert type(adjacent_block_left) == type(self), "Can only merge with another MemoryBlock"
         # assert adjacent_block_left.stop == self.start, "MemoryBlocks not adjacent. Unable to merge"
         if self.written == adjacent_block_left.written:
-            return [MemoryBlock(adjacent_block_left.start, self.stop, self.step, self.written)]
+            print('merging', adjacent_block_left, self, MemoryBlock(adjacent_block_left.start, self.stop, self.step, self.written))
+            return True, MemoryBlock(adjacent_block_left.start, self.stop, self.step, self.written)
         else:
-            return [adjacent_block_left, self]
+            return False, None
 
 
 class MemoryModel:
-    def __init__(self, size_bits: int, width_bits: int = 64):
+    def __init__(self, name, size_bits: int, width_bits: int = 64):
+        self.name = name
         self.width = width_bits
         self.size_bits = size_bits
         self.max_address = int(size_bits / width_bits)
@@ -77,7 +79,7 @@ class MemoryModel:
         addresses = sum([len(k.range_repr) for k in self.address_map if k.written])
         return addresses * self.width
 
-    def __max_filled_addr(self):
+    def get_max_filled_addr(self):
         fill_parts = [max(k.range_repr) for k in self.address_map if k.written]
         out = max(fill_parts) if fill_parts else -1
         return out
@@ -86,6 +88,7 @@ class MemoryModel:
         # Implement a Binary Search of MemoryBlock containing Address start and Address end
         assert address_block in self.entire_block, "Address Memory Block is invalid for memory model"
         address_block.written = written
+
         start_left_i, start_right_i, start_target, found_start = 0, len(self.address_map), address_block.start, False
         stop_left_i, stop_right_i, stop_target, found_stop = 0, len(self.address_map), address_block.stop, False
         start_block_i, stop_block_i = None, None  # MemoryBlock index
@@ -93,6 +96,7 @@ class MemoryModel:
             if not found_start:
                 # Search MemoryBlock holding start
                 start_middle = int((start_left_i + start_right_i) / 2)
+                # print('im stuck', hex(start_target), self.address_map, start_middle)
                 if start_target in self.address_map[start_middle]:
                     start_block_i = start_middle
                     found_start = True
@@ -115,42 +119,59 @@ class MemoryModel:
         partition_start_left = [partition_start_left] if len(partition_start_left) > 0 else []
         partition_stop_right = self.address_map[stop_block_i].partition(stop_target)[1]
         partition_stop_right = [partition_stop_right] if len(partition_stop_right) > 0 else []
-
-        self.address_map = self.address_map[:start_left_i] + partition_start_left + [address_block] + \
-                           partition_stop_right + self.address_map[start_right_i:]
+        self.address_map = self.address_map[:start_block_i] + partition_start_left + [address_block] + \
+                           partition_stop_right + self.address_map[stop_block_i + 1:]
         self.__streamline()
 
     def __streamline(self):
         if len(self.address_map) > 1:
-            new_address_map = [MemoryBlock(0, 0)]  # Dummy Value
+            new_address_map = [self.address_map[0]]
             for i in range(1, len(self.address_map)):
-                new_address_map[-1:] = self.address_map[i].merge(self.address_map[i - 1])
+                current_block = self.address_map[i]
+                previous_block = new_address_map[-1]
+                # Determine if merge
+                if current_block.written == previous_block.written:
+                    new_address_map[-1] = MemoryBlock(previous_block.start, current_block.stop,
+                                                      written=current_block.written)
+                else:
+                    new_address_map.append(current_block)
             self.address_map = new_address_map
 
-    def get_address_nums(self, size, units):
+    def get_address_num(self, size, units):
+        """
+        Return how many addresses needed to represent the bit-data
+        :param size:
+        :param units:
+        :return:
+        """
         return math.ceil(convert_to_bits(size, units) / self.width)
+
+    def get_bits_num(self, num_addresses):
+        return self.width * num_addresses
 
     def allocate_new(self, size, units='bit'):
         # Allocates unused free memory
-        start_address = self.__max_filled_addr() + 1
-        address_num = self.get_address_nums(size, units)
+        start_address = self.get_max_filled_addr() + 1
+        address_num = self.get_address_num(size, units)
         stop_address = start_address + address_num
-        if stop_address >= self.max_address:
-            raise MemoryError(f"Entry exceeds max address: {self.max_address - 1}")
-        self.__edit_range(MemoryBlock(start_address, stop_address))
+        self.__edit_range(MemoryBlock(start_address, stop_address), True)
         return start_address, stop_address
 
-    def write_to_addr(self, start_address: int, size, units='bit'):
+    def write_to_addr_bits(self, start_address: int, size, units='bit'):
         # Writes to these addresses
-        address_num = self.get_address_nums(size, units)
+        address_num = self.get_address_num(size, units)
         stop_address = start_address + address_num
-        if stop_address >= self.max_address:
-            raise MemoryError(f"Entry exceeds max address: {self.max_address - 1}")
-        self.__edit_range(MemoryBlock(start_address, stop_address))
+        self.__edit_range(MemoryBlock(start_address, stop_address), True)
         return start_address, stop_address
+
+    def write_address_range(self, start_address: int, stop_address: int):
+        # Writes from start_address to stop_address (not including stop address)
+        self.__edit_range(MemoryBlock(start_address, stop_address))
+        written_bits = (stop_address - start_address) * self.width
+        return written_bits
 
     def delete(self, start_address: int, size, units='bit'):
-        address_num = self.get_address_nums(size, units)
+        address_num = self.get_address_num(size, units)
         stop_address = start_address + address_num
         self.__edit_range(MemoryBlock(start_address, stop_address), False)
 
@@ -167,7 +188,7 @@ class MemoryManager:
         # Init the different SRAMs
         srams = architecture.get_component_class('sram')
         for name, obj in srams.items():
-            self.memory_models[name] = MemoryModel(int(convert_to_bits(obj.comp_args['size'], 'bytes')))
+            self.memory_models[name] = MemoryModel(name, int(convert_to_bits(obj.comp_args['size'], 'bytes')))
             # self.memory_models[name].allocate_new(4, 'KB')
         # print(self)
 

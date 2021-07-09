@@ -54,10 +54,15 @@ class Compiler:
         self.after_scaler_drop_bits = 0
         self.fsmn_drop_bits = 0
 
+        # Connecting with the info from Memory Manager. These are both MemoryModel objects
+        self.his_sram = self.memory_manager.get('his_sram')
+        self.data_sram = self.memory_manager.get('data_sram')
+
         # Memory Address Information
-        self.his_addr = 0x908
-        self.prev_his_addr = None
+        self.sgemm_his_addr_start = 0x908
         self.data_sram_address = 0  # Since we replace the information each time
+        self.first_fsmn_start, self.first_fsmn_frame_stop = None, None  # Used for Copy His -> Data
+        self.data_copy_address = 0x1000
 
     def compile(self):
         start_time = time.time()
@@ -87,7 +92,7 @@ class Compiler:
         self.tdnn_relu = self.tdnn_relu
         # Now write the compiled code
         # Line 1
-        dsc_init_1 = DescriptorLine("init dsc_update: tdnn_relu sgemm_drop_bits fsmn_layer_num")
+        dsc_init_1 = DescriptorLine("init dsc_update tdnn_relu sgemm_drop_bits fsmn_layer_num")
         dsc_init_1.write('01', 1)
         dsc_init_1.write('01', 3)
         dsc_init_1.write('111', 6)
@@ -100,7 +105,7 @@ class Compiler:
         dsc_init_1.write(np.binary_repr(self.fsmn_layer_left_num, 6), 61)  # His_num His_L_num
 
         # Line 2
-        dsc_init_2 = DescriptorLine("init dsc_update: bypass fsmn_relu fsmn_drop_bits")
+        dsc_init_2 = DescriptorLine("init dsc_update bypass fsmn_relu fsmn_drop_bits")
         dsc_init_2.write('01', 1)
         dsc_init_2.write('11', 3)
         dsc_init_2.write('111', 6)
@@ -147,10 +152,10 @@ class Compiler:
         sgemm_code.write(layer.history, 15)
         # Deal with history
         if layer.history:
-            his_binary = np.binary_repr(self.his_addr, 13)
+            his_binary = np.binary_repr(self.sgemm_his_addr_start, 13)
             his_data_bits = self.matrix_out * 8 * (self.fsmn_layer_left_num + 1)  # Times by 8 bit int datapoint
-            self.prev_his_addr, self.his_addr = self.memory_manager.get('his_sram')\
-                                                    .write_to_addr(self.his_addr, his_data_bits, 'bit')
+            self.prev_his_addr, self.sgemm_his_addr_start = self.memory_manager.get('his_sram') \
+                .write_to_addr_bits(self.sgemm_his_addr_start, his_data_bits, 'bit')
             sgemm_code.write(his_binary, 28)
         # Write memory addresses for data_sram
         sgemm_code.write(np.binary_repr(self.data_sram_address, 13), 44)
@@ -163,20 +168,57 @@ class Compiler:
         self.compiled_binary.append(sgemm_code)
 
     def __compile_fsmn(self, layer):
-        # Write FSMN
+        # Calculate FSMN Address
+        single_layer_bits = self.matrix_out * 8
+        fsmn_bits = convert_to_bits(single_layer_bits * self.fsmn_layer_left_num, 'bit')
+        his_fsmn_diff = self.his_sram.get_address_num(fsmn_bits, 'bit')  # = 40
+        fsmn_address = self.prev_his_addr - his_fsmn_diff
+        start_address, stop_address = self.his_sram.write_to_addr_bits(fsmn_address, fsmn_bits)
+        if self.first_fsmn_start is None:
+            # print(start_address, stop_address)
+            self.first_fsmn_start = start_address
+            self.first_fsmn_frame_stop = start_address + self.his_sram.get_address_num(single_layer_bits, 'bit')
+        # Write FSMN Binary
         fsmn_annotation = f"{layer.name}.FSMN_his"
         fsmn_code = DescriptorLine(fsmn_annotation)
         fsmn_code.write('01', 1)
         fsmn_code.write('001', 6)  # FSMN_his
         fsmn_code.write('1', 7)   # History = 1
         fsmn_code.write('11', 13)  # Work mode = 1, continuous mode = 1
-        # Write address
-        fsmn_address = self.prev_his_addr - self.memory_manager.get('his_sram').get_address_nums(self.matrix_out * 8 *
-                                                                            self.fsmn_layer_left_num, 'bit')
 
         fsmn_code.write(np.binary_repr(fsmn_address, 13), 44)
         fsmn_code.write(np.binary_repr(self.data_sram_address, 13), 60)
         self.compiled_binary.append(fsmn_code)
+        # Check if is the last FSMN layer
+        if layer.name == [l for l in self.nn_layer_list if l.nn_type == "fsmn"][-1].name:
+            # Do the Data Move his -> data in MemoryModel
+            last_his_address = self.his_sram.get_max_filled_addr() + 1
+            move_length = last_his_address - self.first_fsmn_frame_stop - his_fsmn_diff  # num of addresses need to move
+            move_fsmn_bits = self.his_sram.get_bits_num(move_length)
+            # print(last_his_address, self.first_fsmn_frame_stop, move_length)
+            self.data_sram.write_to_addr_bits(self.data_copy_address, move_fsmn_bits)
+            # Data Move data -> his
+            self.his_sram.write_to_addr_bits(self.first_fsmn_start, move_fsmn_bits)
+
+            # Now Write Binary
+            copy_code_1 = DescriptorLine("Copy His -> Data")
+            copy_code_1.write('01', 1)
+            copy_code_1.write('110', 6)
+            copy_code_1.write('0', 8)
+            copy_code_1.write('1', 13)
+            copy_code_1.write(np.binary_repr(move_length, 13), 28)
+            copy_code_1.write(np.binary_repr(self.data_copy_address, 13), 44)
+            copy_code_1.write(np.binary_repr(self.first_fsmn_frame_stop, 13), 60)
+
+            copy_code_2 = DescriptorLine("Copy Data -> His")
+            copy_code_2.write('01', 1)
+            copy_code_2.write('110', 6)
+            copy_code_2.write('1', 8)
+            copy_code_2.write('1', 13)
+            copy_code_2.write(np.binary_repr(move_length, 13), 28)
+            copy_code_2.write(np.binary_repr(self.data_copy_address, 13), 44)
+            copy_code_2.write(np.binary_repr(self.first_fsmn_start, 13), 60)
+            self.compiled_binary += [copy_code_1, copy_code_2]
 
     def write_out(self, path, comment=False):
         print(self.memory_manager)

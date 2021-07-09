@@ -57,7 +57,7 @@ class ReadableCompiler:
         sgemm_dict['history'] = layer.history
         # Deal with history
         if layer.history:
-            sgemm_dict['his_addr'] = self.his_addr
+            sgemm_dict['sgemm_his_addr_start'] = self.his_addr
             self.fsmn_his_addr = self.his_addr - self.his_diff
             self.his_addr += self.his_length
         # Write memory addresses for data_sram
