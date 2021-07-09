@@ -30,8 +30,11 @@ class DescriptorLine:
         for i, n in enumerate(str(bit_values)):
             self.bit_array[last_index - i] = int(n)
 
+    def get_hex_only(self):
+        return str(self.bit_array[::-1]).replace('0x', '', 1)
 
-class DescriptorCompiler:
+
+class Compiler:
 
     def __init__(self, nn_yaml: OrderedDict, architecture: Architecture):
         self.__dict__.update(nn_yaml)
@@ -175,8 +178,13 @@ class DescriptorCompiler:
         fsmn_code.write(np.binary_repr(self.data_sram_address, 13), 60)
         self.compiled_binary.append(fsmn_code)
 
-    def write_out(self, path):
+    def write_out(self, path, comment=False):
         print(self.memory_manager)
+        # Write the Annotated
         with open(path, 'w') as f:
-            for i, c in enumerate(self.compiled_binary, start=1):
-                f.write(f"{i} {c}\n")
+            if comment:
+                for i, c in enumerate(self.compiled_binary, start=1):
+                    f.write(f"{i} {c}\n")
+            else:
+                for line in self.compiled_binary:
+                    f.write(line.get_hex_only() + "\n")

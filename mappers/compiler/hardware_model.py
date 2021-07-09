@@ -83,7 +83,7 @@ class MemoryModel:
         return out
 
     def __edit_range(self, address_block: MemoryBlock, written=True):
-        # Implement a Binary Search of Address start and Address end
+        # Implement a Binary Search of MemoryBlock containing Address start and Address end
         assert address_block in self.entire_block, "Address Memory Block is invalid for memory model"
         address_block.written = written
         start_left_i, start_right_i, start_target, found_start = 0, len(self.address_map), address_block.start, False
@@ -122,7 +122,7 @@ class MemoryModel:
 
     def __streamline(self):
         if len(self.address_map) > 1:
-            new_address_map = [0]
+            new_address_map = [MemoryBlock(0, 0)]  # Dummy Value
             for i in range(1, len(self.address_map)):
                 new_address_map[-1:] = self.address_map[i].merge(self.address_map[i - 1])
             self.address_map = new_address_map
