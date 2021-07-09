@@ -34,6 +34,7 @@ architecture:
       class: sram
       arguments:
         size: 65536
+        width: 64
     - type: component
       name: his_sum_sram
       class: sram

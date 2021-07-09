@@ -50,15 +50,6 @@ class MemoryBlock:
         right = MemoryBlock(partition_at, self.stop, self.step, self.written)
         return left, right
 
-    def merge(self, adjacent_block_left) -> tuple:
-        assert type(adjacent_block_left) == type(self), "Can only merge with another MemoryBlock"
-        # assert adjacent_block_left.stop == self.start, "MemoryBlocks not adjacent. Unable to merge"
-        if self.written == adjacent_block_left.written:
-            print('merging', adjacent_block_left, self, MemoryBlock(adjacent_block_left.start, self.stop, self.step, self.written))
-            return True, MemoryBlock(adjacent_block_left.start, self.stop, self.step, self.written)
-        else:
-            return False, None
-
 
 class MemoryModel:
     def __init__(self, name, size_bits: int, width_bits: int = 64):
@@ -188,7 +179,8 @@ class MemoryManager:
         # Init the different SRAMs
         srams = architecture.get_component_class('sram')
         for name, obj in srams.items():
-            self.memory_models[name] = MemoryModel(name, int(convert_to_bits(obj.comp_args['size'], 'bytes')))
+            self.memory_models[name] = MemoryModel(name, int(convert_to_bits(obj.comp_args['size'], 'bytes')),
+                                                             obj.comp_args['width'])
             # self.memory_models[name].allocate_new(4, 'KB')
         # print(self)
 
