@@ -155,7 +155,7 @@ class Compiler:
             his_binary = np.binary_repr(self.sgemm_his_addr_start, 13)
             his_data_bits = self.matrix_out * 8 * (self.fsmn_layer_left_num + 1)  # Times by 8 bit int datapoint
             self.prev_his_addr, self.sgemm_his_addr_start = self.memory_manager.get('his_sram') \
-                .write_to_addr_bits(self.sgemm_his_addr_start, his_data_bits, 'bit')
+                .write_to_address_bits(self.sgemm_his_addr_start, his_data_bits, 'bit')
             sgemm_code.write(his_binary, 28)
         # Write memory addresses for data_sram
         sgemm_code.write(np.binary_repr(self.data_sram_address, 13), 44)
@@ -171,13 +171,13 @@ class Compiler:
         # Calculate FSMN Address
         single_layer_bits = self.matrix_out * 8
         fsmn_bits = convert_to_bits(single_layer_bits * self.fsmn_layer_left_num, 'bit')
-        his_fsmn_diff = self.his_sram.get_address_num(fsmn_bits, 'bit')  # = 40
+        his_fsmn_diff = self.his_sram.get_num_address(fsmn_bits, 'bit')  # = 40
         fsmn_address = self.prev_his_addr - his_fsmn_diff
-        start_address, stop_address = self.his_sram.write_to_addr_bits(fsmn_address, fsmn_bits)
+        start_address, stop_address = self.his_sram.write_to_address_bits(fsmn_address, fsmn_bits)
         if self.first_fsmn_start is None:
             # print(start_address, stop_address)
             self.first_fsmn_start = start_address
-            self.first_fsmn_frame_stop = start_address + self.his_sram.get_address_num(single_layer_bits, 'bit')
+            self.first_fsmn_frame_stop = start_address + self.his_sram.get_num_address(single_layer_bits, 'bit')
         # Write FSMN Binary
         fsmn_annotation = f"{layer.name}.FSMN_his"
         fsmn_code = DescriptorLine(fsmn_annotation)
@@ -194,11 +194,11 @@ class Compiler:
             # Do the Data Move his -> data in MemoryModel
             last_his_address = self.his_sram.get_max_filled_addr() + 1
             move_length = last_his_address - self.first_fsmn_frame_stop - his_fsmn_diff  # num of addresses need to move
-            move_fsmn_bits = self.his_sram.get_bits_num(move_length)
+            move_fsmn_bits = self.his_sram.get_num_bits(move_length)
             # print(last_his_address, self.first_fsmn_frame_stop, move_length)
-            self.data_sram.write_to_addr_bits(self.data_copy_address, move_fsmn_bits)
+            self.data_sram.write_to_address_bits(self.data_copy_address, move_fsmn_bits)
             # Data Move data -> his
-            self.his_sram.write_to_addr_bits(self.first_fsmn_start, move_fsmn_bits)
+            self.his_sram.write_to_address_bits(self.first_fsmn_start, move_fsmn_bits)
 
             # Now Write Binary
             copy_code_1 = DescriptorLine("Copy His -> Data")
