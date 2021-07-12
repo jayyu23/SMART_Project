@@ -61,7 +61,7 @@ def run_searcher():
 
 
 def run_compiler():
-    comp = Compiler(read_yaml_file("mappers/compiler/compiler_io/neural_network.yaml"),
+    comp = Compiler(read_yaml_file("mappers/compiler/compiler_io/neural_network_asr.yaml"),
                               yaml_arch_factory(read_yaml_file('project_io/estimator_input/architecture.yaml')))
     comp.compile()
     comp.write_out("mappers/compiler/compiler_io/pure_compiled_descriptor.txt", comment=False)

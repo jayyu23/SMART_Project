@@ -41,19 +41,19 @@ class MemoryBlock:
         elif isinstance(item, MemoryBlock):
             return item.start >= self.start and item.stop < self.stop
         else:
-            raise ValueError
+            raise TypeError
 
     def __gt__(self, other):
         if isinstance(other, int):
             return self.start > other
         else:
-            raise ValueError
+            raise TypeError
 
     def __lt__(self, other):
         if isinstance(other, int):
             return self.stop <= other
         else:
-            raise ValueError
+            raise TypeError
 
     def __len__(self):
         return len(self.range_repr)

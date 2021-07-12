@@ -1,0 +1,371 @@
+neural_network:
+  - name: asr_dnn_00
+    nn_type: dnn
+    dimensions:
+      in_height: 440
+      out_height: 512
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: asr_dnn_01
+    nn_type: dnn
+    dimensions:
+      in_height: 512
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: asr_fsmn_02
+    nn_type: fsmn
+    dimensions:
+      height: 128
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 7
+      relu_max: 127
+      relu_min: -128
+      his_l_num: 10
+
+  - name: asr_dnn_10
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 512
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: asr_dnn_11
+    nn_type: dnn
+    dimensions:
+      in_height: 512
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: asr_fsmn_12
+    nn_type: fsmn
+    dimensions:
+      height: 128
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 7
+      relu_max: 127
+      relu_min: -128
+      his_l_num: 10
+
+  - name: asr_dnn_20
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 512
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: asr_dnn_21
+    nn_type: dnn
+    dimensions:
+      in_height: 512
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: asr_fsmn_22
+    nn_type: fsmn
+    dimensions:
+      height: 128
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 7
+      relu_max: 127
+      relu_min: -128
+      his_l_num: 10
+
+  - name: asr_dnn_30
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 512
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: asr_dnn_31
+    nn_type: dnn
+    dimensions:
+      in_height: 512
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: asr_fsmn_32
+    nn_type: fsmn
+    dimensions:
+      height: 128
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 7
+      relu_max: 127
+      relu_min: -128
+      his_l_num: 10
+
+  - name: asr_dnn_40
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 512
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: asr_dnn_41
+    nn_type: dnn
+    dimensions:
+      in_height: 512
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: asr_fsmn_42
+    nn_type: fsmn
+    dimensions:
+      height: 128
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 7
+      relu_max: 127
+      relu_min: -128
+      his_l_num: 10
+
+  - name: asr_dnn_50
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 512
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: asr_dnn_51
+    nn_type: dnn
+    dimensions:
+      in_height: 512
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: asr_fsmn_52
+    nn_type: fsmn
+    dimensions:
+      height: 128
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 7
+      relu_max: 127
+      relu_min: -128
+      his_l_num: 10
+
+  - name: asr_dnn_60
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 512
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: asr_dnn_61
+    nn_type: dnn
+    dimensions:
+      in_height: 512
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: asr_fsmn_62
+    nn_type: fsmn
+    dimensions:
+      height: 128
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 7
+      relu_max: 127
+      relu_min: -128
+      his_l_num: 10
+
+  - name: asr_dnn_70
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 512
+      weight_bit: 4
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 64
+      relu_min: 0
+      history: False
+
+  - name: asr_dnn_71
+    nn_type: dnn
+    dimensions:
+      in_height: 512
+      out_height: 128
+      weight_bit: 4
+    options:
+      bias: False
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 5
+      relu_max: 127
+      relu_min: -128
+      history: True
+
+  - name: asr_fsmn_72
+    nn_type: fsmn
+    dimensions:
+      height: 128
+      weight_bit: 8
+    options:
+      convert: True # Converts from 32 bit to 8 bit
+      convert_drop_bits: 7
+      relu_max: 127
+      relu_min: -128
+      his_l_num: 10
+
+  - name: asr_dnn_81
+    nn_type: dnn
+    dimensions:
+      in_height: 128
+      out_height: 416
+      weight_bit: 8
+    options:
+      bias: True
+      scaler: False
+      after_scaler_drop_bits: -1
+      convert: False # Converts from 32 bit to 8 bit
+      convert_drop_bits: None
+      relu_max: 64
+      relu_min: 0
+      history: False
+      his_l_num: 10
+
+

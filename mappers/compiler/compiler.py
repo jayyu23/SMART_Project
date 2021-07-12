@@ -59,7 +59,7 @@ class Compiler:
         self.data_sram = self.memory_manager.get('data_sram')
 
         # Memory Address Information
-        self.sgemm_his_addr_start = 0x908
+        self.sgemm_his_addr_start = 0x400
         self.data_sram_address = 0  # Since we replace the information each time
         self.first_fsmn_start, self.first_fsmn_frame_stop = None, None  # Used for Copy His -> Data
         self.data_copy_address = 0x1000
