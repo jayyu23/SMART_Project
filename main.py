@@ -1,13 +1,17 @@
 from estimator.data_structures.architecture import yaml_arch_factory
 from estimator.estimator import Estimator, estimator_factory
 from estimator.input_handler import database_handler
-from estimator.data_structures.primitive_component import PrimitiveComponent
+
 from mappers.smapper.smapper import Smapper
 import time
 from estimator.utils import read_yaml_file
 from searcher.meta_architecture import MetaArchitecture
 from searcher.searcher import yaml_searcher_factory
 from mappers.compiler.compiler import Compiler
+
+"""
+Collection of scripts to run functionality for different parts of the project
+"""
 
 
 def run_estimator():
@@ -30,7 +34,6 @@ def run_smapper():
     sm.run_operationalizer()
     sm.search_firmware()
     sm.graph_energy_cycle()
-    # sm.print_rankings() # Legacy code
     end_time = time.time()
     # print(sm.get_operations_from_param((16, 440, 128, 1))) # Get operation set for this param
     print("Execution time: ", end_time - start_time, "seconds")

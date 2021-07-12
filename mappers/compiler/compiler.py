@@ -4,7 +4,7 @@ import numpy as np
 import time
 
 from estimator.data_structures.architecture import Architecture
-from mappers.compiler.hardware_model import *
+from mappers.compiler.memory_manager import *
 
 
 class Layer:
