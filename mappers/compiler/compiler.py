@@ -18,7 +18,7 @@ class DescriptorLine:
     Wrapper class around BitArray to make Descriptor lines better to edit
     """
 
-    def __init__(self, annotation, line_size=64):  # Default line size 64 bits
+    def __init__(self, annotation="", line_size=64):  # Default line size 64 bits
         self.annotation = annotation
         self.bit_array = BitArray(line_size)
 
@@ -32,6 +32,62 @@ class DescriptorLine:
 
     def get_hex_only(self):
         return str(self.bit_array[::-1]).replace('0x', '', 1)
+
+
+class Instruction(DescriptorLine):
+    """
+    Higher level class than the Descriptor line so that we do not need to write bit-binary in the Compiler Class itself
+    """
+    def __init__(self, annotation="", line_size=64):
+        super().__init__(annotation, line_size)
+
+    def set_annotation(self, annotation):
+        self.annotation = annotation
+
+    def update_dnn_relu(self, relu_min, relu_max, in_height, out_height):
+        self.write('01', 1)
+        self.write('00', 3)  # Because our ReLU is signed integer
+        self.write('111', 6)  # We want to do DSC_Update
+        # DSC_UP 0
+        self.write(np.binary_repr(relu_min, 8), 15)
+        self.write( np.binary_repr(relu_max, 8), 23)
+        # DSC_UP 1
+        self.write(np.binary_repr(in_height, 13), 40)
+        # DSC_UP 2
+        self.write(np.binary_repr(out_height, 13), 60)
+
+    def dnn_sgemm(self, history, bias, convert, weight_bit, his_sram_addr=None, data_sram_addr=0):
+        weight_bit_map = {8: '000', 4: '001', 2: '010', 1: '011'}
+        self.write('00', 1)  # Because SGEMM, so '00'
+        self.write(bias, 3)
+        self.write(convert, 4)
+        self.write(convert, 6)
+        self.write(history, 7)
+        self.write(weight_bit_map[weight_bit], 10)
+        self.write('11', 13)  # Manual mode, continue
+        self.write(history, 15)
+        if history and his_sram_addr:
+            self.write(np.binary_repr(his_sram_addr, 13), 28)
+        self.write(np.binary_repr(data_sram_addr, 13), 44)
+        self.write(np.binary_repr(data_sram_addr, 13), 60)
+
+    def fsmn_his(self, fsmn_address, data_sram_address):
+        self.write('01', 1)
+        self.write('001', 6)  # FSMN_his
+        self.write('1', 7)   # History = 1
+        self.write('11', 13)  # Work mode = 1, continuous mode = 1
+        self.write(np.binary_repr(fsmn_address, 13), 44)
+        self.write(np.binary_repr(data_sram_address, 13), 60)
+
+    def copy_data_his(self, data_to_his: bool, data_sram_address, his_sram_address, data_length):
+        self.write('01', 1)
+        self.write('110', 6)
+        self.write(data_to_his, 8)
+        self.write('1', 13)
+        self.write(np.binary_repr(data_length, 13), 28)
+        self.write(np.binary_repr(data_sram_address, 13), 44)
+        self.write(np.binary_repr(his_sram_address, 13), 60)
+
 
 
 class Compiler:
@@ -119,47 +175,25 @@ class Compiler:
 
     def __compile_dnn(self, layer, is_last_layer):
         # Update for the DNN ReLU
-        update_annotation = f"{layer.name}.update_relu"
-        update_code = DescriptorLine(update_annotation)
-        # DSC_UP 0
-        update_code.write('01', 1)  # For "other" operations
-        update_code.write('00', 3)  # Because our ReLU is signed integer
-        update_code.write('111', 6)  # We want to do DSC_Update
-        relu_min, relu_max = np.binary_repr(layer.relu_min, 8), np.binary_repr(layer.relu_max, 8)
-        update_code.write(relu_min, 15)
-        update_code.write(relu_max, 23)
-        # DSC_UP 1
         self.matrix_in = layer.in_height
-        in_height = np.binary_repr(layer.in_height, 13)
-        update_code.write(in_height, 40)
-        # DSC_UP 2
         self.matrix_out = layer.out_height
-        out_height = np.binary_repr(layer.out_height, 13)
-        update_code.write(out_height, 60)
+        update_annotation = f"{layer.name}.update_relu"
+        update_code = Instruction(update_annotation)
+        update_code.update_dnn_relu(layer.relu_min, layer.relu_max, layer.in_height, layer.out_height)
 
         # SGEMM for the DNN layer
         sgemm_annotation = f"{layer.name}.SGEMM"
-        sgemm_code = DescriptorLine(sgemm_annotation)
-        sgemm_code.write('00', 1)  # Because SGEMM, so '00'
-        sgemm_code.write(layer.bias, 3)
-        sgemm_code.write(layer.convert, 4)
-        sgemm_code.write(layer.convert, 6)
-        sgemm_code.write(layer.history, 7)
-
-        weight_bit_map = {8: '000', 4: '001', 2: '010', 1: '011'}
-        sgemm_code.write(weight_bit_map[layer.weight_bit], 10)
-        sgemm_code.write('11', 13)  # Manual mode, continue
-        sgemm_code.write(layer.history, 15)
+        sgemm_code = Instruction(sgemm_annotation)
         # Deal with history
         if layer.history:
-            his_binary = np.binary_repr(self.sgemm_his_addr_start, 13)
             his_data_bits = self.matrix_out * 8 * (self.fsmn_layer_left_num + 1)  # Times by 8 bit int datapoint
             self.prev_his_addr, self.sgemm_his_addr_start = self.memory_manager.get('his_sram') \
                 .write_to_address_bits(self.sgemm_his_addr_start, his_data_bits, 'bit')
-            sgemm_code.write(his_binary, 28)
-        # Write memory addresses for data_sram
-        sgemm_code.write(np.binary_repr(self.data_sram_address, 13), 44)
-        sgemm_code.write(np.binary_repr(self.data_sram_address, 13), 60)
+            sgemm_code.dnn_sgemm(layer.history, layer.bias, layer.convert, layer.weight_bit,
+                                 self.sgemm_his_addr_start, self.data_sram_address)
+        else:
+            sgemm_code.dnn_sgemm(layer.history, layer.bias, layer.convert, layer.weight_bit,
+                                 data_sram_addr=self.data_sram_address)
         # Check if last layer
         if is_last_layer:
             sgemm_code.write(1, 6)  # FSMN Mode
@@ -175,49 +209,29 @@ class Compiler:
         fsmn_address = self.prev_his_addr - his_fsmn_diff
         start_address, stop_address = self.his_sram.write_to_address_bits(fsmn_address, fsmn_bits)
         if self.first_fsmn_start is None:
-            # print(start_address, stop_address)
             self.first_fsmn_start = start_address
             self.first_fsmn_frame_stop = start_address + self.his_sram.get_num_address(single_layer_bits, 'bit')
         # Write FSMN Binary
         fsmn_annotation = f"{layer.name}.FSMN_his"
-        fsmn_code = DescriptorLine(fsmn_annotation)
-        fsmn_code.write('01', 1)
-        fsmn_code.write('001', 6)  # FSMN_his
-        fsmn_code.write('1', 7)   # History = 1
-        fsmn_code.write('11', 13)  # Work mode = 1, continuous mode = 1
-
-        fsmn_code.write(np.binary_repr(fsmn_address, 13), 44)
-        fsmn_code.write(np.binary_repr(self.data_sram_address, 13), 60)
+        fsmn_code = Instruction(fsmn_annotation)
+        fsmn_code.fsmn_his(fsmn_address, self.data_sram_address)
         self.compiled_binary.append(fsmn_code)
+
         # Check if is the last FSMN layer
         if layer.name == [l for l in self.nn_layer_list if l.nn_type == "fsmn"][-1].name:
             # Do the Data Move his -> data in MemoryModel
             last_his_address = self.his_sram.get_max_filled_addr() + 1
             move_length = last_his_address - self.first_fsmn_frame_stop - his_fsmn_diff  # num of addresses need to move
             move_fsmn_bits = self.his_sram.get_num_bits(move_length)
-            # print(last_his_address, self.first_fsmn_frame_stop, move_length)
             self.data_sram.write_to_address_bits(self.data_copy_address, move_fsmn_bits)
             # Data Move data -> his
             self.his_sram.write_to_address_bits(self.first_fsmn_start, move_fsmn_bits)
 
             # Now Write Binary
-            copy_code_1 = DescriptorLine("Copy His -> Data")
-            copy_code_1.write('01', 1)
-            copy_code_1.write('110', 6)
-            copy_code_1.write('0', 8)
-            copy_code_1.write('1', 13)
-            copy_code_1.write(np.binary_repr(move_length, 13), 28)
-            copy_code_1.write(np.binary_repr(self.data_copy_address, 13), 44)
-            copy_code_1.write(np.binary_repr(self.first_fsmn_frame_stop, 13), 60)
-
-            copy_code_2 = DescriptorLine("Copy Data -> His")
-            copy_code_2.write('01', 1)
-            copy_code_2.write('110', 6)
-            copy_code_2.write('1', 8)
-            copy_code_2.write('1', 13)
-            copy_code_2.write(np.binary_repr(move_length, 13), 28)
-            copy_code_2.write(np.binary_repr(self.data_copy_address, 13), 44)
-            copy_code_2.write(np.binary_repr(self.first_fsmn_start, 13), 60)
+            copy_code_1 = Instruction("Copy His -> Data")
+            copy_code_1.copy_data_his(False, self.data_copy_address, self.first_fsmn_frame_stop, move_length)
+            copy_code_2 = Instruction("Copy Data -> His")
+            copy_code_2.copy_data_his(True, self.data_copy_address, self.first_fsmn_start, move_length)
             self.compiled_binary += [copy_code_1, copy_code_2]
 
     def write_out(self, path, comment=False):

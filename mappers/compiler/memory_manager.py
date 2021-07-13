@@ -80,7 +80,7 @@ class MemoryModel:
     the address range is written, sorted in ascending order (from Address 0 to max_address)
     """
 
-    def __init__(self, name, size_bits: int, width_bits: int = 64):
+    def __init__(self, name, size_bits: int, width_bits: int = 64, offset=0x0000):
         self.name = name
         self.width = width_bits
         self.size_bits = size_bits
