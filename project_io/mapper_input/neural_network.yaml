@@ -3,7 +3,7 @@ neural_network:
     nn_type: cnn
     dimensions:
       fmap_height: 1526
-      fmap_width: 44
+      fmap_width: 45
       kernel_height: 3
       kernel_width: 4
       input_channel: 4
@@ -14,3 +14,4 @@ neural_network:
       weights: model_sram
     end:
       output: sgemm_sram
+

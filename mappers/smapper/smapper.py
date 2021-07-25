@@ -43,6 +43,7 @@ class Smapper:
         self.fw_param_labels = None
         self.algorithm_map = {"bayes": self.__bayesian_optimization_search,
                               "linear": self.__linear_search}
+        self.best_ops = None
 
     def set_architecture(self, arch_path, components_folder, database_table):
         """
@@ -138,6 +139,7 @@ class Smapper:
         bayes_p = __make_discrete_param(bayes_model.max['params'])
         bayes_sol = {self.fw_param_labels[i]: bayes_p[i] for i in range(len(bayes_p))}
         e = Estimator(self.architecture, self.param_op_map[bayes_p])
+        self.best_ops = self.param_op_map[bayes_p]
         bayes_eac = e.estimate(['energy', 'area', 'cycle'], analysis=False)
         # print("Bayes Firmware Estimate:", bayes_sol, "Score of:", bayes_score)
         # print("Bayesian Time:", time.time() - b_start)
@@ -167,6 +169,9 @@ class Smapper:
         plt.xlabel('Energy (pJ) (log10)')
         plt.ylabel('Cycles (log10)')
         plt.show()
+
+    def write_best_ops(self, write_path):
+        write_yaml(self.best_ops, write_path)
 
     def get_operations_from_param(self, param: tuple):
         return self.param_op_map[param]

@@ -89,12 +89,11 @@ class Instruction(DescriptorLine):
         self.write(np.binary_repr(his_sram_address, 13), 60)
 
 
-
 class Compiler:
 
-    def __init__(self, nn_yaml: OrderedDict, architecture: Architecture):
+    def __init__(self, nn_yaml: OrderedDict):
         self.__dict__.update(nn_yaml)
-        self.memory_manager = MemoryManager(architecture)
+        self.memory_manager = MemoryManager()
         self.nn_layer_list = [Layer(l) for l in nn_yaml['neural_network']]
         self.compilable_types = {"dnn": lambda layer, is_last: self.__compile_dnn(layer, is_last),
                                  "fsmn": lambda layer, is_last: self.__compile_fsmn(layer)}

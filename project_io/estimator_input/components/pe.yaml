@@ -3,7 +3,7 @@ compound_component:
   subcomponents:
   - name: mac
     class: intmac
-    instances: 16
+    instances: 8
     arguments:
       datasize: 8
   operations:

@@ -266,15 +266,19 @@ class MemoryModel:
 class MemoryManager:
     """
     MemoryManager represents the memory management system for an entire hardware Architecture.
-    It takes a SMART Architecture as input, and will retrieve all of the SRAMs and map them each to a MemoryModel object
+    Currently hard codes three storage units by default: data_sram, his_sram, model_sram
     """
 
-    def __init__(self, architecture):
-        self.name = architecture.name
-        self.architecture = architecture
-        self.memory_models = {}
+    def __init__(self, name="TH2_NPU_Compiler"):
+        self.name = name
+        self.architecture = None
+        self.memory_models = {'his_sram': MemoryModel('his_sram', size_bits=convert_to_bits(64, 'KB'), width_bits=64),
+                              'data_sram': MemoryModel('data_sram', size_bits=convert_to_bits(64, 'KB'), width_bits=64),
+                              'model_sram': MemoryModel('model_sram', size_bits=convert_to_bits(256, 'KB'), width_bits= 64)}
 
-        # Init the different SRAMs
+    def load_from_architecture(self, architecture):
+        # Init the different SRAMs From Architecture Legacy Code
+        self.architecture = architecture
         srams = architecture.get_component_class('sram')
         for name, obj in srams.items():
             self.memory_models[name] = MemoryModel(name, int(convert_to_bits(obj.comp_args['size'], 'bytes')),

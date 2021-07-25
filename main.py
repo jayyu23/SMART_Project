@@ -32,8 +32,10 @@ def run_smapper():
     sm.set_nn("project_io/mapper_input/neural_network.yaml")
     start_time = time.time()
     sm.run_operationalizer()
-    sm.search_firmware()
-    sm.graph_energy_cycle()
+    fw_input, score, eac = sm.search_firmware()
+    print(f"\n\n========\nScore: {score}\nTile Size: {fw_input}\nEnergy, Area, Cycle: {eac}")
+    sm.write_best_ops('project_io/ops_yaml.yaml')
+
     end_time = time.time()
     # print(sm.get_operations_from_param((16, 440, 128, 1))) # Get operation set for this param
     print("Execution time: ", end_time - start_time, "seconds")
@@ -64,12 +66,11 @@ def run_searcher():
 
 
 def run_compiler():
-    comp = Compiler(read_yaml_file("mappers/compiler/compiler_io/neural_network_asr.yaml"),
-                              yaml_arch_factory(read_yaml_file('project_io/estimator_input/architecture.yaml')))
+    comp = Compiler(read_yaml_file("mappers/compiler/compiler_io/neural_network_asr.yaml"))
     comp.compile()
     comp.write_out("mappers/compiler/compiler_io/pure_compiled_descriptor.txt", comment=False)
     comp.write_out("mappers/compiler/compiler_io/comment_compiled_descriptor.txt", comment=True)
 
 
 if __name__ == "__main__":
-    run_compiler()
+    run_smapper()
