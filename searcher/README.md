@@ -14,7 +14,8 @@ The **SMART Searcher** is a hardware searcher that will search for optimal hardw
 
   - Meta-Architecture YAML: describing the range of hardware options to be searched
   - Neural Network YAML: describing the neural network to be mapped (currently supports DNN and CNN shapes)
-  - Algorithm: `bayes` or `linear` algorithm to search firmware (defined in Smapper)
+  - Firmware Algorithm: `bayes` or `linear` algorithm to search firmware (defined in Smapper)
+  - Hardware Algorithm: `bayes` or `linear` algorithm to search hardware
   - Verbose: `boolean` whether the output log should include data of all the architectures trialed
 
   

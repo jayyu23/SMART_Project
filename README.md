@@ -1,8 +1,8 @@
 # Shensilicon Microchip Architectural Reference Tool
 
-### Version 1.0
+### Version 1.1
 
-*Updated 2021-06-04 by Jay Yu*
+*Updated 2021-07-25 by Jay Yu*
 
 *Shensilicon Semiconductors*
 
@@ -100,12 +100,12 @@ As of 2021-05-20, SMART has completed the following requirements for Part 2. It 
 
 ### Part 3: Searching Phase
 
-As of 2021-06-04, SMART has completed the following requirements for Part 3. It is able to:
+As of 2021-07-25, SMART has completed the following requirements for Part 3. It is able to:
 
 - [x] Define Meta-Architecture YAML template, which is based on the Architecture YAML template but allows the user to use a list to define the different hardware parameters they wish to be searched along
 - [x] Define Meta-Compound-Component YAML, which is based on the Compound Component YAML, but allows the user to use a list to define the different hardware parameters they wish to be searched along
 - [x] Allow the user to define multiple instances of the same component inside the Meta-Compound-Component, and vary the amount of instances like a search parameter
-- [x] Create a searching algorithm that can iterate over the different hardware architectures possible as constrained by the Meta-Architecture YAML, and connect this to the Smapper API
+- [x] **(New in Version 1.1) Use multiple searching algorithms (bayes and linear) that can iterate over the different hardware architectures possible as constrained by the Meta-Architecture YAML, and connect this to the Smapper API**
 - [x] Add in a logger module to record the different hardware-firmware combinations searched, as well as keep track of how many combinations have been searched
 - [x] Rank the different hardware architectures according to their best-performing firmware results.
 - [x] For the top N architecture solutions (with N defined by the user), output the detailed analysis as a folder, consisting of pie charts, TXT analysis, and the relevant component-operation matrix.
